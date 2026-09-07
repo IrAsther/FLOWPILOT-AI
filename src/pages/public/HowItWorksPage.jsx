@@ -1,672 +1,430 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import {
-  Zap,
-  Send,
-  Bot,
-  ShieldCheck,
+  ArrowRight,
+  Bolt,
+  CheckCircle2,
   ChevronDown,
-} from 'lucide-react';
+  Send,
+  ShieldCheck,
+  Sparkles,
+  Bot,
+  Mail,
+  MessageCircle,
+  CalendarCheck,
+} from "lucide-react";
 
-/* ── STITCH EXACT COLOR PALETTE ── */
-const C = {
-  background: '#fdf9f4',
-  surface: '#fdf9f4',
-  surfaceCream: '#F4F5F7',
-  surfaceContainerLowest: '#ffffff',
-  surfaceContainerLow: '#f3f3f5',
-  surfaceContainer: '#edeef0',
-  surfaceContainerHigh: '#e8e8ea',
-  deepTealText: '#0A2540',
-  primary: '#004642',
-  primaryContainer: '#01605a',
-  onPrimary: '#ffffff',
-  primaryFixed: '#a5f0e8',
-  onPrimaryFixed: '#00201e',
-  primaryFixedDim: '#8ad4cc',
-  secondary: '#994700',
-  secondaryContainer: '#fe852c',
-  onSecondaryContainer: '#632c00',
-  secondaryFixed: '#ffdbc8',
-  secondaryFixedDim: '#ffb68a',
-  tertiary: '#55371a',
-  tertiaryContainer: '#704e2f',
-  onTertiary: '#ffffff',
-  onSurface: '#1a1c1d',
-  onSurfaceVariant: '#3f4947',
-  outline: '#6f7977',
-  outlineVariant: '#bec9c6',
-  error: '#ba1a1a',
-};
+import "../../styles/how-it-works.css";
 
-/* ── STITCH EXACT TYPOGRAPHY ── */
-const T = {
-  headlineXl: {
-    fontFamily: "'Inter', sans-serif",
-    fontSize: '48px',
-    lineHeight: '56px',
-    letterSpacing: '-0.02em',
-    fontWeight: 600,
+const faqItems = [
+  {
+    question: "How secure is my company data?",
+    answer:
+      "FlowPilot is designed around strict security and privacy principles. Business data is protected during transmission and storage, and private business records are not used to train public AI models.",
   },
-  headlineLg: {
-    fontFamily: "'Inter', sans-serif",
-    fontSize: '36px',
-    lineHeight: '44px',
-    letterSpacing: '-0.01em',
-    fontWeight: 600,
+  {
+    question: "Can I override automated actions?",
+    answer:
+      "Yes. Every workflow can include human-in-the-loop approval gates. Important actions can pause until you explicitly approve them through WhatsApp or the FlowPilot dashboard.",
   },
-  headlineMd: {
-    fontFamily: "'Inter', sans-serif",
-    fontSize: '24px',
-    lineHeight: '32px',
-    fontWeight: 500,
+  {
+    question: "How long does integration take?",
+    answer:
+      "Most standard integrations can be connected quickly through secure authentication. The exact implementation time depends on the systems, workflows, and approval rules your business needs.",
   },
-  headlineSm: {
-    fontFamily: "'Inter', sans-serif",
-    fontSize: '18px',
-    lineHeight: '26px',
-    fontWeight: 500,
-  },
-  labelMd: {
-    fontFamily: "'Inter', sans-serif",
-    fontSize: '12px',
-    lineHeight: '16px',
-    letterSpacing: '0.02em',
-    fontWeight: 500,
-  },
-  labelSm: {
-    fontFamily: "'Inter', sans-serif",
-    fontSize: '11px',
-    lineHeight: '14px',
-    letterSpacing: '0.04em',
-    fontWeight: 500,
-  },
-  bodyLg: {
-    fontFamily: "'Inter', sans-serif",
-    fontSize: '16px',
-    lineHeight: '24px',
-    fontWeight: 400,
-  },
-  bodyMd: {
-    fontFamily: "'Inter', sans-serif",
-    fontSize: '14px',
-    lineHeight: '20px',
-    fontWeight: 400,
-  },
-  bodySm: {
-    fontFamily: "'Inter', sans-serif",
-    fontSize: '13px',
-    lineHeight: '18px',
-    fontWeight: 400,
-  },
-};
+];
 
-/* ── 1. HERO SECTION (Stitch 1:1) ── */
-function HowItWorksHero() {
-  return (
-    <section className="px-6 md:px-16 py-20 max-w-[1280px] mx-auto text-center">
-      <div
-        className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full mb-6"
-        style={{
-          backgroundColor: C.surfaceContainerHigh,
-          color: C.primary,
-          ...T.labelMd,
-        }}
-      >
-        <Zap className="w-3.5 h-3.5 fill-current" />
-        Transparent Operations Engine
-      </div>
-      <h1
-        className="mb-6 max-w-4xl mx-auto tracking-tight uppercase"
-        style={{ ...T.headlineXl, color: C.deepTealText }}
-      >
-        HOW FLOWPILOT MAKES YOUR BUSINESS RUN.
-      </h1>
-      <p
-        className="max-w-2xl mx-auto mb-10 leading-relaxed"
-        style={{ ...T.bodyLg, color: C.onSurfaceVariant }}
-      >
-        A simple, transparent look at how AI and human judgment work together to automate your core operations.
-      </p>
-      <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
-        <a
-          href="#workflow"
-          className="w-full sm:w-auto px-8 py-4 rounded-xl text-center font-medium shadow-md hover:opacity-95 transition-all"
-          style={{
-            backgroundColor: C.primaryContainer,
-            color: C.onPrimary,
-            ...T.bodyMd,
-          }}
-        >
-          Plan a Demo
-        </a>
-        <a
-          href="#architecture"
-          className="w-full sm:w-auto px-8 py-4 rounded-xl text-center font-medium hover:bg-neutral-100 transition-all border"
-          style={{
-            backgroundColor: C.surfaceContainerLowest,
-            borderColor: `${C.outlineVariant}80`,
-            color: C.onSurface,
-            ...T.bodyMd,
-          }}
-        >
-          Explore Solutions
-        </a>
-      </div>
-    </section>
-  );
+function StepBadge({ children }) {
+  return <div className="fp-step-badge">{children}</div>;
 }
 
-/* ── 2. STEP-BY-STEP VISUAL WORKFLOW DEMONSTRATION (Stitch 1:1) ── */
-function WorkflowSteps() {
+function EmailCard() {
   return (
-    <section className="px-6 md:px-16 py-16 max-w-[1280px] mx-auto" id="workflow">
-      <div className="text-center mb-16">
-        <h2
-          className="mb-4"
-          style={{ ...T.headlineLg, color: C.deepTealText }}
-        >
-          The 6-Step Automated Workflow
-        </h2>
-        <p
-          className="max-w-xl mx-auto"
-          style={{ ...T.bodyLg, color: C.onSurfaceVariant }}
-        >
-          Watch how an incoming client request moves seamlessly through automated processing and executive sign-off.
+    <div className="fp-product-card fp-email-card">
+      <div className="fp-email-header">
+        <div className="fp-email-person">
+          <div className="fp-avatar">AC</div>
+
+          <div>
+            <h4>Acme Corp Procurement</h4>
+            <p>To: alex@yourcompany.com</p>
+          </div>
+        </div>
+
+        <span className="fp-time">10:42 AM</span>
+      </div>
+
+      <div className="fp-email-content">
+        <h5>Urgent RFP: Q3 Logistics Automation Suite</h5>
+
+        <p>
+          Hello team, we are looking to onboard an intelligent workflow
+          solution for our regional distribution centers. Please review the
+          attached specs and provide an estimate by Friday...
         </p>
       </div>
-
-      <div className="space-y-24">
-        {/* Step 01 */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          <div className="space-y-6">
-            <div
-              className="inline-flex items-center gap-2 font-bold px-3 py-1 rounded"
-              style={{
-                backgroundColor: `${C.secondaryFixed}4d`,
-                color: C.secondary,
-                ...T.labelMd,
-              }}
-            >
-              STEP 01
-            </div>
-            <h3 style={{ ...T.headlineMd, color: C.deepTealText }}>
-              Email arrives in your inbox
-            </h3>
-            <p
-              className="leading-relaxed"
-              style={{ ...T.bodyMd, color: C.onSurfaceVariant }}
-            >
-              A high-value enterprise client sends a comprehensive Request For Proposal (RFP) directly to your corporate inbox. FlowPilot instantly connects to your mail server without altering your existing workflow.
-            </p>
-          </div>
-
-          <div
-            className="p-6 rounded-xl border shadow-sm relative overflow-hidden"
-            style={{
-              backgroundColor: C.surfaceContainerLowest,
-              borderColor: `${C.outlineVariant}4d`,
-            }}
-          >
-            <div
-              className="flex items-center justify-between border-b pb-4 mb-4"
-              style={{ borderColor: `${C.outlineVariant}30` }}
-            >
-              <div className="flex items-center gap-3">
-                <div
-                  className="w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm"
-                  style={{ backgroundColor: C.primaryContainer, color: C.onPrimary }}
-                >
-                  AC
-                </div>
-                <div>
-                  <h4 style={{ ...T.bodyMd, fontWeight: 500, color: C.onSurface }}>
-                    Acme Corp Procurement
-                  </h4>
-                  <p style={{ ...T.bodySm, color: C.outline }}>To: alex@yourcompany.com</p>
-                </div>
-              </div>
-              <span style={{ ...T.bodySm, color: C.outline }}>10:42 AM</span>
-            </div>
-            <div className="space-y-3">
-              <h5
-                style={{ ...T.bodyMd, fontWeight: 600, color: C.deepTealText }}
-              >
-                Urgent RFP: Q3 Logistics Automation Suite
-              </h5>
-              <p style={{ ...T.bodySm, color: C.onSurfaceVariant, lineHeight: '1.6' }}>
-                Hello team, we are looking to onboard an intelligent workflow solution for our regional distribution centers. Please review the attached specs and provide an estimate by Friday...
-              </p>
-            </div>
-          </div>
-        </div>
-
-        {/* Step 02 */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          <div
-            className="order-2 lg:order-1 p-6 rounded-xl border shadow-sm relative"
-            style={{
-              backgroundColor: C.surfaceContainerLowest,
-              borderColor: `${C.outlineVariant}4d`,
-            }}
-          >
-            <div
-              className="flex items-center justify-between mb-4 border-b pb-3"
-              style={{ borderColor: `${C.outlineVariant}30` }}
-            >
-              <span style={{ ...T.bodyMd, fontWeight: 700, color: C.primary }}>
-                FlowPilot Neural Core
-              </span>
-              <span
-                className="px-2.5 py-0.5 rounded"
-                style={{
-                  backgroundColor: C.primaryFixed,
-                  color: C.onPrimaryFixed,
-                  ...T.labelSm,
-                }}
-              >
-                High Priority
-              </span>
-            </div>
-            <div className="space-y-3" style={{ ...T.bodyMd }}>
-              <div
-                className="flex justify-between p-2 rounded"
-                style={{ backgroundColor: C.surfaceContainerLow }}
-              >
-                <span style={{ color: C.outline }}>Intent Recognized:</span>
-                <span style={{ fontWeight: 500, color: C.onSurface }}>Enterprise RFP (Inbound)</span>
-              </div>
-              <div
-                className="flex justify-between p-2 rounded"
-                style={{ backgroundColor: C.surfaceContainerLow }}
-              >
-                <span style={{ color: C.outline }}>Sentiment Score:</span>
-                <span className="font-medium text-green-700">Positive (0.92)</span>
-              </div>
-              <div
-                className="flex justify-between p-2 rounded"
-                style={{ backgroundColor: C.surfaceContainerLow }}
-              >
-                <span style={{ color: C.outline }}>Required Action:</span>
-                <span style={{ fontWeight: 500, color: C.secondary }}>Draft proposal &amp; alert Alex</span>
-              </div>
-            </div>
-          </div>
-
-          <div className="order-1 lg:order-2 space-y-6">
-            <div
-              className="inline-flex items-center gap-2 font-bold px-3 py-1 rounded"
-              style={{
-                backgroundColor: `${C.secondaryFixed}4d`,
-                color: C.secondary,
-                ...T.labelMd,
-              }}
-            >
-              STEP 02
-            </div>
-            <h3 style={{ ...T.headlineMd, color: C.deepTealText }}>
-              AI analyzes request parameters
-            </h3>
-            <p
-              className="leading-relaxed"
-              style={{ ...T.bodyMd, color: C.onSurfaceVariant }}
-            >
-              FlowPilot reads the incoming payload, extracts key project parameters, evaluates historical deal sizing, and calculates optimal routing priority instantly.
-            </p>
-          </div>
-        </div>
-
-        {/* Step 03 & 04 */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          <div className="space-y-6">
-            <div
-              className="inline-flex items-center gap-2 font-bold px-3 py-1 rounded"
-              style={{
-                backgroundColor: `${C.secondaryFixed}4d`,
-                color: C.secondary,
-                ...T.labelMd,
-              }}
-            >
-              STEP 03 &amp; 04
-            </div>
-            <h3 style={{ ...T.headlineMd, color: C.deepTealText }}>
-              Instant notification &amp; human approval
-            </h3>
-            <p
-              className="leading-relaxed"
-              style={{ ...T.bodyMd, color: C.onSurfaceVariant }}
-            >
-              An encrypted mobile alert reaches your WhatsApp or secure app dashboard. With a single tap, you authorize the proposed response strategy without opening complex applications.
-            </p>
-          </div>
-
-          <div
-            className="p-6 rounded-xl border shadow-sm flex flex-col sm:flex-row gap-4 items-center justify-center"
-            style={{
-              backgroundColor: C.surfaceContainerLowest,
-              borderColor: `${C.outlineVariant}4d`,
-            }}
-          >
-            {/* Mobile Mockup */}
-            <div className="w-full sm:w-72 bg-neutral-900 text-white p-4 rounded-2xl shadow-lg border-4 border-neutral-800">
-              <div className="flex items-center justify-between pb-3 border-b border-neutral-700 mb-3 text-xs text-neutral-400">
-                <span>WhatsApp</span>
-                <span>10:43 AM</span>
-              </div>
-              <div className="bg-neutral-800 p-3 rounded-lg text-xs space-y-2">
-                <p className="font-semibold" style={{ color: C.secondaryFixedDim }}>
-                  FlowPilot AI Bot
-                </p>
-                <p>
-                  New high-value RFP from Acme Corp detected. Estimated value: $45,000. Draft proposal ready for review.
-                </p>
-                <div className="pt-2 flex gap-2">
-                  <span
-                    className="text-white px-3 py-1 rounded text-center flex-1 font-medium cursor-pointer"
-                    style={{ backgroundColor: C.primary }}
-                  >
-                    Approve &amp; Send
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Step 05 & 06 */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          <div
-            className="order-2 lg:order-1 p-6 rounded-xl border shadow-sm"
-            style={{
-              backgroundColor: C.surfaceContainerLowest,
-              borderColor: `${C.outlineVariant}4d`,
-            }}
-          >
-            <div className="space-y-4">
-              <div className="flex items-center gap-3" style={{ color: C.primary }}>
-                <Send className="w-5 h-5" />
-                <h4 style={{ ...T.bodyMd, fontWeight: 600 }}>Automated Dispatch &amp; Sync</h4>
-              </div>
-              <p style={{ ...T.bodySm, color: C.onSurfaceVariant, lineHeight: '1.6' }}>
-                Proposal document transmitted securely via email with customized terms. QuickBooks ledger automatically updated with provisional pipeline entry.
-              </p>
-              <div
-                className="p-3 rounded text-xs font-mono"
-                style={{
-                  backgroundColor: C.surfaceContainerLow,
-                  color: C.outline,
-                }}
-              >
-                [SUCCESS] Email dispatched to procurement@acmecorp.com<br />
-                [SUCCESS] Ledger ID #QB-8921 synchronized
-              </div>
-            </div>
-          </div>
-
-          <div className="order-1 lg:order-2 space-y-6">
-            <div
-              className="inline-flex items-center gap-2 font-bold px-3 py-1 rounded"
-              style={{
-                backgroundColor: `${C.secondaryFixed}4d`,
-                color: C.secondary,
-                ...T.labelMd,
-              }}
-            >
-              STEP 05 &amp; 06
-            </div>
-            <h3 style={{ ...T.headlineMd, color: C.deepTealText }}>
-              Autonomous execution &amp; ledger update
-            </h3>
-            <p
-              className="leading-relaxed"
-              style={{ ...T.bodyMd, color: C.onSurfaceVariant }}
-            >
-              Upon your approval, FlowPilot generates the exact deliverable files, sends the outgoing email confirmation, and logs financial projections into your accounting suite.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ── 3. INTERACTIVE ARCHITECTURE PREVIEW (Stitch 1:1) ── */
-function ArchitecturePreview() {
-  return (
-    <section
-      className="py-20 px-6 md:px-16"
-      style={{ backgroundColor: C.surfaceContainerLow }}
-      id="architecture"
-    >
-      <div className="max-w-[1280px] mx-auto text-center mb-12">
-        <h2
-          className="mb-4"
-          style={{ ...T.headlineLg, color: C.deepTealText }}
-        >
-          Real-Time Architecture Preview
-        </h2>
-        <p
-          className="max-w-xl mx-auto"
-          style={{ ...T.bodyLg, color: C.onSurfaceVariant }}
-        >
-          Explore how triggers, custom AI actions, and human-in-the-loop validation gates connect together.
-        </p>
-      </div>
-
-      <div className="max-w-[1280px] mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div
-          className="p-8 rounded-xl border shadow-sm relative"
-          style={{
-            backgroundColor: C.surfaceContainerLowest,
-            borderColor: `${C.outlineVariant}4d`,
-          }}
-        >
-          <div
-            className="w-10 h-10 rounded-lg flex items-center justify-center mb-6"
-            style={{ backgroundColor: C.primaryContainer, color: C.onPrimary }}
-          >
-            <Zap className="w-5 h-5 fill-current" />
-          </div>
-          <h3
-            className="mb-2"
-            style={{ ...T.headlineSm, color: C.deepTealText }}
-          >
-            1. Triggers
-          </h3>
-          <p style={{ ...T.bodyMd, color: C.onSurfaceVariant, lineHeight: '1.6' }}>
-            Inbound emails, webhooks, form submissions, or scheduled cron jobs instantly activate the workflow sequence.
-          </p>
-        </div>
-
-        <div
-          className="p-8 rounded-xl border shadow-sm relative"
-          style={{
-            backgroundColor: C.surfaceContainerLowest,
-            borderColor: `${C.outlineVariant}4d`,
-          }}
-        >
-          <div
-            className="w-10 h-10 rounded-lg flex items-center justify-center mb-6"
-            style={{ backgroundColor: C.secondaryContainer, color: C.onSecondaryContainer }}
-          >
-            <Bot className="w-5 h-5" />
-          </div>
-          <h3
-            className="mb-2"
-            style={{ ...T.headlineSm, color: C.deepTealText }}
-          >
-            2. AI Actions
-          </h3>
-          <p style={{ ...T.bodyMd, color: C.onSurfaceVariant, lineHeight: '1.6' }}>
-            Large language models process data, draft documents, categorize entries, and query enterprise databases.
-          </p>
-        </div>
-
-        <div
-          className="p-8 rounded-xl border shadow-sm relative"
-          style={{
-            backgroundColor: C.surfaceContainerLowest,
-            borderColor: `${C.outlineVariant}4d`,
-          }}
-        >
-          <div
-            className="w-10 h-10 rounded-lg flex items-center justify-center mb-6"
-            style={{ backgroundColor: C.tertiaryContainer, color: C.onTertiary }}
-          >
-            <ShieldCheck className="w-5 h-5" />
-          </div>
-          <h3
-            className="mb-2"
-            style={{ ...T.headlineSm, color: C.deepTealText }}
-          >
-            3. Approval Gates
-          </h3>
-          <p style={{ ...T.bodyMd, color: C.onSurfaceVariant, lineHeight: '1.6' }}>
-            High-stakes actions pause execution safely until authorized via mobile push, WhatsApp, or dashboard prompt.
-          </p>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ── 4. FAQ ACCORDION (Stitch 1:1) ── */
-function HowItWorksFaq() {
-  return (
-    <section className="px-6 md:px-16 py-20 max-w-4xl mx-auto">
-      <div className="text-center mb-16">
-        <h2
-          className="mb-4"
-          style={{ ...T.headlineLg, color: C.deepTealText }}
-        >
-          Frequently Asked Questions
-        </h2>
-        <p style={{ ...T.bodyLg, color: C.onSurfaceVariant }}>
-          Everything you need to know about security, setup, and control.
-        </p>
-      </div>
-
-      <div className="space-y-4">
-        <details
-          className="p-6 rounded-xl border shadow-sm group"
-          style={{
-            backgroundColor: C.surfaceContainerLowest,
-            borderColor: `${C.outlineVariant}4d`,
-          }}
-        >
-          <summary
-            className="cursor-pointer flex justify-between items-center list-none"
-            style={{ ...T.headlineSm, color: C.deepTealText }}
-          >
-            <span>How secure is my company data?</span>
-            <ChevronDown className="w-5 h-5 transition-transform group-open:rotate-180" style={{ color: C.outline }} />
-          </summary>
-          <p
-            className="mt-4 leading-relaxed"
-            style={{ ...T.bodyMd, color: C.onSurfaceVariant }}
-          >
-            FlowPilot operates under strict enterprise compliance standards. All data is encrypted in transit and at rest using AES-256 standards. We never use your private business records to train public AI models.
-          </p>
-        </details>
-
-        <details
-          className="p-6 rounded-xl border shadow-sm group"
-          style={{
-            backgroundColor: C.surfaceContainerLowest,
-            borderColor: `${C.outlineVariant}4d`,
-          }}
-        >
-          <summary
-            className="cursor-pointer flex justify-between items-center list-none"
-            style={{ ...T.headlineSm, color: C.deepTealText }}
-          >
-            <span>Can I override automated actions?</span>
-            <ChevronDown className="w-5 h-5 transition-transform group-open:rotate-180" style={{ color: C.outline }} />
-          </summary>
-          <p
-            className="mt-4 leading-relaxed"
-            style={{ ...T.bodyMd, color: C.onSurfaceVariant }}
-          >
-            Yes. Every workflow can be configured with human-in-the-loop approval gates. Nothing important goes out without your explicit sign-off.
-          </p>
-        </details>
-
-        <details
-          className="p-6 rounded-xl border shadow-sm group"
-          style={{
-            backgroundColor: C.surfaceContainerLowest,
-            borderColor: `${C.outlineVariant}4d`,
-          }}
-        >
-          <summary
-            className="cursor-pointer flex justify-between items-center list-none"
-            style={{ ...T.headlineSm, color: C.deepTealText }}
-          >
-            <span>How long does integration take?</span>
-            <ChevronDown className="w-5 h-5 transition-transform group-open:rotate-180" style={{ color: C.outline }} />
-          </summary>
-          <p
-            className="mt-4 leading-relaxed"
-            style={{ ...T.bodyMd, color: C.onSurfaceVariant }}
-          >
-            Most core integrations with email, WhatsApp, and standard CRMs are completed in under 30 minutes via secure OAuth connections.
-          </p>
-        </details>
-      </div>
-    </section>
-  );
-}
-
-/* ── 5. FINAL CTA BANNER (Stitch 1:1) ── */
-function HowItWorksCta() {
-  return (
-    <section
-      className="py-20 px-6 text-center"
-      style={{
-        backgroundColor: C.primaryContainer,
-        color: C.onPrimary,
-      }}
-    >
-      <div className="max-w-3xl mx-auto space-y-6">
-        <h2
-          className="uppercase tracking-tight"
-          style={{ ...T.headlineLg, color: '#ffffff' }}
-        >
-          READY TO MAKE YOUR BUSINESS FLOW?
-        </h2>
-        <p
-          className="max-w-xl mx-auto"
-          style={{ ...T.bodyLg, color: C.primaryFixedDim }}
-        >
-          Join high-performing operations teams saving 20+ hours every week with FlowPilot.
-        </p>
-        <div className="pt-4">
-          <Link
-            to="/book-a-demo"
-            className="px-8 py-4 rounded-xl font-medium shadow-md hover:opacity-95 transition-all inline-block"
-            style={{
-              backgroundColor: C.secondaryContainer,
-              color: C.onSecondaryContainer,
-              ...T.bodyMd,
-            }}
-          >
-            Plan a Demo
-          </Link>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ── MAIN PAGE EXPORT ── */
-export function HowItWorksPage() {
-  return (
-    <div style={{ backgroundColor: C.background, minHeight: '100%' }}>
-      <HowItWorksHero />
-      <WorkflowSteps />
-      <ArchitecturePreview />
-      <HowItWorksFaq />
-      <HowItWorksCta />
     </div>
   );
 }
+
+function AIAnalysisCard() {
+  return (
+    <div className="fp-product-card fp-analysis-card">
+      <div className="fp-analysis-header">
+        <span className="fp-analysis-title">FlowPilot Neural Core</span>
+
+        <span className="fp-priority">High Priority</span>
+      </div>
+
+      <div className="fp-analysis-list">
+        <div className="fp-analysis-row">
+          <span>Intent Recognized:</span>
+          <strong>Enterprise RFP (Inbound)</strong>
+        </div>
+
+        <div className="fp-analysis-row">
+          <span>Sentiment Score:</span>
+          <strong className="fp-positive">Positive (0.92)</strong>
+        </div>
+
+        <div className="fp-analysis-row">
+          <span>Required Action:</span>
+          <strong className="fp-orange">
+            Draft proposal &amp; alert Alex
+          </strong>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function WhatsAppCard() {
+  return (
+    <div className="fp-whatsapp-wrapper">
+      <div className="fp-phone">
+        <div className="fp-phone-header">
+          <span>WhatsApp</span>
+          <span>10:43 AM</span>
+        </div>
+
+        <div className="fp-message">
+          <p className="fp-bot-name">FlowPilot AI Bot</p>
+
+          <p>
+            New high-value RFP from Acme Corp detected. Estimated value:
+            $45,000. Draft proposal ready for review.
+          </p>
+
+          <button type="button" className="fp-approve-button">
+            Approve &amp; Send
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function DispatchCard() {
+  return (
+    <div className="fp-product-card fp-dispatch-card">
+      <div className="fp-dispatch-heading">
+        <div className="fp-icon-box fp-icon-teal">
+          <Send size={18} />
+        </div>
+
+        <h4>Automated Dispatch &amp; Sync</h4>
+      </div>
+
+      <p>
+        Proposal document transmitted securely via email with customized
+        terms. QuickBooks ledger automatically updated with provisional
+        pipeline entry.
+      </p>
+
+      <div className="fp-terminal">
+        <div>[SUCCESS] Email dispatched to procurement@acmecorp.com</div>
+        <div>[SUCCESS] Ledger ID #QB-8921 synchronized</div>
+      </div>
+    </div>
+  );
+}
+
+function ArchitectureCard({
+  icon,
+  number,
+  title,
+  description,
+  variant = "teal",
+}) {
+  return (
+    <div className="fp-architecture-card">
+      <div className={`fp-architecture-icon ${variant}`}>{icon}</div>
+
+      <h3>
+        {number}. {title}
+      </h3>
+
+      <p>{description}</p>
+    </div>
+  );
+}
+
+function FAQItem({ item, isOpen, onToggle }) {
+  return (
+    <div className={`fp-faq-item ${isOpen ? "open" : ""}`}>
+      <button
+        type="button"
+        className="fp-faq-question"
+        onClick={onToggle}
+        aria-expanded={isOpen}
+      >
+        <span>{item.question}</span>
+
+        <ChevronDown
+          size={20}
+          className={`fp-faq-chevron ${isOpen ? "rotate" : ""}`}
+        />
+      </button>
+
+      {isOpen && (
+        <div className="fp-faq-answer">
+          <p>{item.answer}</p>
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default function HowItWorksPage() {
+  const [openFaq, setOpenFaq] = useState(null);
+
+  const toggleFaq = (index) => {
+    setOpenFaq((current) => (current === index ? null : index));
+  };
+
+  return (
+    <div className="fp-how-page">
+      {/* =========================================================
+          HERO
+      ========================================================= */}
+
+      <main>
+        <section className="fp-hero">
+          <div className="fp-container fp-hero-inner">
+            <div className="fp-hero-badge">
+              <Bolt size={15} fill="currentColor" />
+              <span>Transparent Operations Engine</span>
+            </div>
+
+            <h1>HOW FLOWPILOT MAKES YOUR BUSINESS RUN.</h1>
+
+            <p>
+              A simple, transparent look at how AI and human judgment work
+              together to automate your core operations.
+            </p>
+
+            <div className="fp-hero-actions">
+              <Link to="/contact" className="fp-button fp-button-primary">
+                Plan a Demo
+                <ArrowRight size={17} />
+              </Link>
+
+              <a
+                href="#architecture"
+                className="fp-button fp-button-secondary"
+              >
+                Explore Solutions
+              </a>
+            </div>
+          </div>
+        </section>
+
+        {/* =========================================================
+            WORKFLOW
+        ========================================================= */}
+
+        <section className="fp-workflow" id="workflow">
+          <div className="fp-container">
+            <div className="fp-section-heading">
+              <h2>The 6-Step Automated Workflow</h2>
+
+              <p>
+                Watch how an incoming client request moves seamlessly through
+                automated processing and executive sign-off.
+              </p>
+            </div>
+
+            <div className="fp-workflow-list">
+              {/* STEP 01 */}
+
+              <div className="fp-workflow-row">
+                <div className="fp-workflow-copy">
+                  <StepBadge>STEP 01</StepBadge>
+
+                  <h3>Email arrives in your inbox</h3>
+
+                  <p>
+                    A high-value enterprise client sends a comprehensive
+                    Request For Proposal (RFP) directly to your corporate
+                    inbox. FlowPilot instantly connects to your mail server
+                    without altering your existing workflow.
+                  </p>
+                </div>
+
+                <EmailCard />
+              </div>
+
+              {/* STEP 02 */}
+
+              <div className="fp-workflow-row reverse">
+                <AIAnalysisCard />
+
+                <div className="fp-workflow-copy">
+                  <StepBadge>STEP 02</StepBadge>
+
+                  <h3>AI analyzes request parameters</h3>
+
+                  <p>
+                    FlowPilot reads the incoming payload, extracts key project
+                    parameters, evaluates historical deal sizing, and
+                    calculates optimal routing priority instantly.
+                  </p>
+                </div>
+              </div>
+
+              {/* STEP 03 & 04 */}
+
+              <div className="fp-workflow-row">
+                <div className="fp-workflow-copy">
+                  <StepBadge>STEP 03 &amp; 04</StepBadge>
+
+                  <h3>Instant notification &amp; human approval</h3>
+
+                  <p>
+                    An encrypted mobile alert reaches your WhatsApp or secure
+                    app dashboard. With a single tap, you authorize the
+                    proposed response strategy without opening complex
+                    applications.
+                  </p>
+                </div>
+
+                <WhatsAppCard />
+              </div>
+
+              {/* STEP 05 & 06 */}
+
+              <div className="fp-workflow-row reverse">
+                <DispatchCard />
+
+                <div className="fp-workflow-copy">
+                  <StepBadge>STEP 05 &amp; 06</StepBadge>
+
+                  <h3>Autonomous execution &amp; ledger update</h3>
+
+                  <p>
+                    Upon your approval, FlowPilot generates the exact
+                    deliverable files, sends the outgoing email confirmation,
+                    and logs financial projections into your accounting suite.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* =========================================================
+            ARCHITECTURE
+        ========================================================= */}
+
+        <section className="fp-architecture" id="architecture">
+          <div className="fp-container">
+            <div className="fp-section-heading">
+              <h2>Real-Time Architecture Preview</h2>
+
+              <p>
+                Explore how triggers, custom AI actions, and human-in-the-loop
+                validation gates connect together.
+              </p>
+            </div>
+
+            <div className="fp-architecture-grid">
+              <ArchitectureCard
+                number="1"
+                title="Triggers"
+                variant="teal"
+                icon={<Bolt size={19} />}
+                description="Inbound emails, webhooks, form submissions, or scheduled cron jobs instantly activate the workflow sequence."
+              />
+
+              <ArchitectureCard
+                number="2"
+                title="AI Actions"
+                variant="orange"
+                icon={<Bot size={19} />}
+                description="Large language models process data, draft documents, categorize entries, and query enterprise databases."
+              />
+
+              <ArchitectureCard
+                number="3"
+                title="Approval Gates"
+                variant="brown"
+                icon={<ShieldCheck size={19} />}
+                description="High-stakes actions pause execution safely until authorized via mobile push, WhatsApp, or dashboard prompt."
+              />
+            </div>
+          </div>
+        </section>
+
+        {/* =========================================================
+            FAQ
+        ========================================================= */}
+
+        <section className="fp-faq-section">
+          <div className="fp-faq-container">
+            <div className="fp-section-heading">
+              <h2>Frequently Asked Questions</h2>
+
+              <p>
+                Everything you need to know about security, setup, and control.
+              </p>
+            </div>
+
+            <div className="fp-faq-list">
+              {faqItems.map((item, index) => (
+                <FAQItem
+                  key={item.question}
+                  item={item}
+                  isOpen={openFaq === index}
+                  onToggle={() => toggleFaq(index)}
+                />
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* =========================================================
+            FINAL CTA
+        ========================================================= */}
+
+        <section className="fp-final-cta">
+          <div className="fp-final-cta-inner">
+            <h2>READY TO MAKE YOUR BUSINESS FLOW?</h2>
+
+            <p>
+              Join high-performing operations teams saving 20+ hours every
+              week with FlowPilot.
+            </p>
+
+            <Link to="/contact" className="fp-button fp-button-orange">
+              Plan a Demo
+              <ArrowRight size={17} />
+            </Link>
+          </div>
+        </section>
+      </main>
+    </div>
+  );
+}
+
+// Named re-export for router: import { HowItWorksPage } from './HowItWorksPage'
+export { HowItWorksPage };

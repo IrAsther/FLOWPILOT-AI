@@ -1,0 +1,714 @@
+/* =============================================================
+   HOW IT WORKS — page-scoped CSS
+   All class names are prefixed with fp- to avoid global bleed.
+   ============================================================= */
+
+/* ─── TOKENS ──────────────────────────────────────────────── */
+.fp-how-page {
+  --cream: #fdf9f4;
+  --white: #ffffff;
+  --surface-low: #f3f3f5;
+  --surface: #edeef0;
+  --surface-high: #e8e8ea;
+  --border: rgba(190, 201, 198, 0.45);
+  --border-solid: #bec9c6;
+  --outline: #6f7977;
+  --ink: #1a1c1d;
+  --ink-variant: #3f4947;
+  --deep-teal: #0a2540;
+  --teal: #004642;
+  --primary: #01605a;
+  --orange: #fe852c;
+  --orange-dark: #994700;
+  --peach: #ffdbc8;
+
+  background-color: var(--cream);
+  color: var(--ink);
+  font-family: "Inter", sans-serif;
+}
+
+/* ─── LAYOUT UTILITIES ─────────────────────────────────────── */
+.fp-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 64px;
+}
+
+@media (max-width: 1024px) {
+  .fp-container {
+    padding: 0 32px;
+  }
+}
+
+@media (max-width: 640px) {
+  .fp-container {
+    padding: 0 16px;
+  }
+}
+
+/* ─── SECTION HEADING ──────────────────────────────────────── */
+.fp-section-heading {
+  text-align: center;
+  max-width: 680px;
+  margin: 0 auto 64px auto;
+}
+
+.fp-section-heading h2 {
+  font-size: 36px;
+  line-height: 44px;
+  letter-spacing: -0.01em;
+  font-weight: 600;
+  color: var(--deep-teal);
+  margin: 0 0 16px 0;
+}
+
+.fp-section-heading p {
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--ink-variant);
+  margin: 0;
+}
+
+/* ─── HERO ─────────────────────────────────────────────────── */
+.fp-hero {
+  padding: 80px 0;
+  text-align: center;
+}
+
+.fp-hero-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+
+.fp-hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 9999px;
+  background-color: var(--surface-high);
+  color: var(--teal);
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 0.02em;
+  font-weight: 500;
+  margin-bottom: 24px;
+}
+
+.fp-hero h1 {
+  font-size: 48px;
+  line-height: 56px;
+  letter-spacing: -0.02em;
+  font-weight: 600;
+  color: var(--deep-teal);
+  max-width: 800px;
+  margin: 0 0 24px 0;
+}
+
+.fp-hero > .fp-container > p,
+.fp-hero-inner > p {
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--ink-variant);
+  max-width: 600px;
+  margin: 0 0 40px 0;
+}
+
+.fp-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: center;
+}
+
+@media (max-width: 480px) {
+  .fp-hero h1 {
+    font-size: 32px;
+    line-height: 40px;
+  }
+
+  .fp-hero-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .fp-hero-actions a {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* ─── BUTTONS ──────────────────────────────────────────────── */
+.fp-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 28px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: opacity 0.15s ease;
+  cursor: pointer;
+  border: none;
+}
+
+.fp-button:hover {
+  opacity: 0.9;
+}
+
+.fp-button-primary {
+  background-color: var(--primary);
+  color: var(--white);
+  box-shadow: 0 2px 8px rgba(1, 96, 90, 0.18);
+}
+
+.fp-button-secondary {
+  background-color: var(--white);
+  color: var(--ink);
+  border: 1px solid var(--border-solid);
+}
+
+.fp-button-secondary:hover {
+  background-color: var(--surface-low);
+}
+
+.fp-button-orange {
+  background-color: var(--orange);
+  color: var(--white);
+  box-shadow: 0 2px 8px rgba(254, 133, 44, 0.25);
+}
+
+/* ─── WORKFLOW SECTION ─────────────────────────────────────── */
+.fp-workflow {
+  padding: 64px 0;
+}
+
+.fp-workflow-list {
+  display: flex;
+  flex-direction: column;
+  gap: 96px;
+}
+
+.fp-workflow-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: center;
+}
+
+.fp-workflow-row.reverse {
+  direction: rtl;
+}
+
+.fp-workflow-row.reverse > * {
+  direction: ltr;
+}
+
+.fp-workflow-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.fp-workflow-copy h3 {
+  font-size: 24px;
+  line-height: 32px;
+  font-weight: 500;
+  color: var(--deep-teal);
+  margin: 0;
+}
+
+.fp-workflow-copy p {
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--ink-variant);
+  margin: 0;
+}
+
+@media (max-width: 1024px) {
+  .fp-workflow-row,
+  .fp-workflow-row.reverse {
+    grid-template-columns: 1fr;
+    direction: ltr;
+    gap: 32px;
+  }
+
+  .fp-workflow-row.reverse > * {
+    direction: ltr;
+  }
+}
+
+/* ─── STEP BADGE ────────────────────────────────────────────── */
+.fp-step-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 12px;
+  border-radius: 4px;
+  background-color: rgba(255, 219, 200, 0.30);
+  color: var(--orange-dark);
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 0.02em;
+  font-weight: 700;
+  width: fit-content;
+}
+
+/* ─── PRODUCT CARDS ─────────────────────────────────────────── */
+.fp-product-card {
+  background-color: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.04);
+}
+
+/* Email Card */
+.fp-email-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 16px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.fp-email-person {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.fp-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 9999px;
+  background-color: var(--primary);
+  color: var(--white);
+  display: grid;
+  place-items: center;
+  font-size: 12px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.fp-email-person h4 {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink);
+  margin: 0 0 2px 0;
+}
+
+.fp-email-person p {
+  font-size: 13px;
+  color: var(--outline);
+  margin: 0;
+}
+
+.fp-time {
+  font-size: 13px;
+  color: var(--outline);
+  flex-shrink: 0;
+}
+
+.fp-email-content h5 {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--deep-teal);
+  margin: 0 0 8px 0;
+}
+
+.fp-email-content p {
+  font-size: 13px;
+  line-height: 18px;
+  color: var(--ink-variant);
+  margin: 0;
+}
+
+/* AI Analysis Card */
+.fp-analysis-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 12px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.fp-analysis-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--teal);
+}
+
+.fp-priority {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background-color: #a5f0e8;
+  color: #00201e;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+}
+
+.fp-analysis-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.fp-analysis-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 10px;
+  background-color: var(--surface-low);
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.fp-analysis-row span {
+  color: var(--outline);
+}
+
+.fp-analysis-row strong {
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.fp-positive {
+  color: #166534 !important;
+}
+
+.fp-orange {
+  color: var(--orange-dark) !important;
+}
+
+/* WhatsApp Card */
+.fp-whatsapp-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 24px;
+  background-color: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.04);
+}
+
+.fp-phone {
+  width: 280px;
+  background-color: #1c1c1c;
+  color: var(--white);
+  padding: 16px;
+  border-radius: 20px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
+  border: 3px solid #2a2a2a;
+}
+
+.fp-phone-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 12px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid #333;
+  font-size: 12px;
+  color: #999;
+}
+
+.fp-message {
+  background-color: #2a2a2a;
+  padding: 12px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 12px;
+}
+
+.fp-bot-name {
+  font-weight: 600;
+  color: #ffb68a;
+  margin: 0;
+}
+
+.fp-message p {
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.fp-approve-button {
+  margin-top: 4px;
+  width: 100%;
+  padding: 8px;
+  border-radius: 6px;
+  background-color: var(--teal);
+  color: var(--white);
+  font-size: 12px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  text-align: center;
+  transition: opacity 0.15s;
+}
+
+.fp-approve-button:hover {
+  opacity: 0.9;
+}
+
+/* Dispatch Card */
+.fp-dispatch-heading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.fp-dispatch-heading h4 {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  margin: 0;
+}
+
+.fp-dispatch-card p {
+  font-size: 13px;
+  line-height: 18px;
+  color: var(--ink-variant);
+  margin: 0 0 16px 0;
+}
+
+.fp-terminal {
+  padding: 12px;
+  background-color: var(--surface-low);
+  border-radius: 6px;
+  font-family: "Courier New", monospace;
+  font-size: 11px;
+  color: var(--outline);
+  line-height: 1.7;
+}
+
+/* Icon box */
+.fp-icon-box {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+
+.fp-icon-teal {
+  background-color: rgba(0, 70, 66, 0.1);
+  color: var(--teal);
+}
+
+/* ─── ARCHITECTURE SECTION ──────────────────────────────────── */
+.fp-architecture {
+  background-color: var(--surface-low);
+  padding: 80px 0;
+}
+
+.fp-architecture-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+@media (max-width: 768px) {
+  .fp-architecture-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.fp-architecture-card {
+  background-color: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 32px;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.04);
+}
+
+.fp-architecture-card h3 {
+  font-size: 18px;
+  line-height: 26px;
+  font-weight: 500;
+  color: var(--deep-teal);
+  margin: 0 0 8px 0;
+}
+
+.fp-architecture-card p {
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--ink-variant);
+  margin: 0;
+}
+
+.fp-architecture-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 24px;
+}
+
+.fp-architecture-icon.teal {
+  background-color: var(--primary);
+  color: var(--white);
+}
+
+.fp-architecture-icon.orange {
+  background-color: var(--orange);
+  color: var(--white);
+}
+
+.fp-architecture-icon.brown {
+  background-color: #704e2f;
+  color: var(--white);
+}
+
+/* ─── FAQ ───────────────────────────────────────────────────── */
+.fp-faq-section {
+  padding: 80px 0;
+}
+
+.fp-faq-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 64px;
+}
+
+@media (max-width: 1024px) {
+  .fp-faq-container {
+    padding: 0 32px;
+  }
+}
+
+@media (max-width: 640px) {
+  .fp-faq-container {
+    padding: 0 16px;
+  }
+}
+
+.fp-faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.fp-faq-item {
+  background-color: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  transition: border-color 0.15s;
+}
+
+.fp-faq-item.open {
+  border-color: rgba(1, 96, 90, 0.35);
+}
+
+.fp-faq-question {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+  padding: 20px 24px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  font-family: "Inter", sans-serif;
+  font-size: 18px;
+  line-height: 26px;
+  font-weight: 500;
+  color: var(--deep-teal);
+  transition: color 0.15s;
+}
+
+.fp-faq-question:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: -2px;
+  border-radius: 12px;
+}
+
+.fp-faq-item.open .fp-faq-question {
+  color: var(--teal);
+}
+
+.fp-faq-chevron {
+  flex-shrink: 0;
+  color: var(--outline);
+  transition: transform 0.2s ease;
+}
+
+.fp-faq-chevron.rotate {
+  transform: rotate(180deg);
+}
+
+.fp-faq-answer {
+  padding: 0 24px 20px;
+  border-top: 1px solid var(--border);
+}
+
+.fp-faq-answer p {
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--ink-variant);
+  margin: 16px 0 0 0;
+}
+
+/* ─── FINAL CTA ─────────────────────────────────────────────── */
+.fp-final-cta {
+  background-color: var(--primary);
+  color: var(--white);
+  padding: 80px 24px;
+  text-align: center;
+}
+
+.fp-final-cta-inner {
+  max-width: 640px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.fp-final-cta h2 {
+  font-size: 36px;
+  line-height: 44px;
+  letter-spacing: -0.01em;
+  font-weight: 600;
+  color: var(--white);
+  margin: 0;
+}
+
+.fp-final-cta p {
+  font-size: 16px;
+  line-height: 24px;
+  color: rgba(165, 240, 232, 0.85);
+  margin: 0;
+  max-width: 480px;
+}
+
+@media (max-width: 480px) {
+  .fp-final-cta h2 {
+    font-size: 28px;
+    line-height: 36px;
+  }
+
+  .fp-final-cta .fp-button {
+    width: 100%;
+    justify-content: center;
+  }
+}
