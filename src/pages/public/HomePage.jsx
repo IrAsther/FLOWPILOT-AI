@@ -1,6 +1,19 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
+// Local curated assets from src/styles/Images
+import heroDeskImg from '../../styles/Images/A Revolução do WhatsApp nas Vendas Você já parou para pensar na importância do WhatsApp no seu dia a dia_ Quase todo mundo usa, e para as empresas, ele se tornou um ca.com_zap-suite-otimize-seu-whatsapp-para-vender___?url';
+import phoneAlertImg from '../../styles/Images/Notification alert concept, Unread messages or email notifications Businessman using smartphone with new messages Stock Illustration _ Adobe Stock.jfif';
+import emailStepImg from '../../styles/Images/E-mail.jfif';
+import whatsappStepImg from '../../styles/Images/WhatsApp has been working on a new feature that will allow users to lock specific chats using their fingerprint or … Read More ».jfif';
+import userRepliesImg from '../../styles/Images/With the most recent version of WhatsApp for iOS, users can now utilise the WhatsApp camera to. With the latest upgrade, WhatsApp has added features that make it more useful and entertaining, particularly for users___?url';
+import showcaseDualImg from '../../styles/Images/WhatsApp web tarayıcısı için grup görüntülü arama özelliği geliştiriyor.jfif';
+import supportSolImg from '../../styles/Images/download (3).jfif';
+import salesSolImg from '../../styles/Images/The Importance Of Creating Monthly Content Calendars http___bit_ly_1iyMwZg.jfif';
+import opsSolImg from '../../styles/Images/Business Office Decor, Corporate Office Interior Design 🧾.jfif';
+import testimonialImg1 from '../../styles/Images/ND Agencia de Marketing Digital Quito Ecuador Guayaquil.jfif';
+import testimonialImg2 from '../../styles/Images/download (2).jfif';
+
 /* ─────────────────────────────────────────────────────────────────────────────
    SHARED TOKENS (mirroring Stitch Tailwind config exactly)
    primary-container  = #01605a   (deep teal)
@@ -54,6 +67,7 @@ const T = {
 
 /* ─────────────────────────────────────────────────────────────────────────────
    SECTION 1: HERO
+   Refined with multi-device product composition inspired by reference
 ───────────────────────────────────────────────────────────────────────────── */
 function HeroSection() {
   return (
@@ -63,33 +77,35 @@ function HeroSection() {
         overflow: 'hidden',
         paddingTop: '64px',
         paddingBottom: '96px',
-        paddingLeft: '48px',
-        paddingRight: '48px',
-        maxWidth: '1280px',
+        paddingLeft: '24px',
+        paddingRight: '24px',
+        maxWidth: '1320px',
         margin: '0 auto',
       }}
+      className="hero-section"
     >
       <div
         style={{
           display: 'grid',
-          gridTemplateColumns: '7fr 5fr',
-          gap: '48px',
+          gridTemplateColumns: '1.05fr 1fr',
+          gap: '56px',
           alignItems: 'center',
         }}
         className="hero-grid"
       >
-        {/* Left Column */}
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '24px' }}>
+        {/* Left Column — Pure unchanged copy */}
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '24px', zIndex: 2 }}>
           {/* Pill Badge */}
           <div
             style={{
               display: 'inline-flex',
               alignItems: 'center',
               gap: '8px',
-              padding: '6px 12px',
+              padding: '8px 16px',
               borderRadius: '9999px',
               backgroundColor: C.surfaceContainerHigh,
               color: C.primary,
+              border: `1px solid ${C.outlineVariant}40`,
               ...T.labelSm,
             }}
           >
@@ -98,13 +114,13 @@ function HeroSection() {
           </div>
 
           {/* H1 */}
-          <h1 style={{ ...T.headlineXl, color: C.onSurface }}>
+          <h1 style={{ ...T.headlineXl, color: C.onSurface, margin: 0 }}>
             STOP MANAGING YOUR INBOX.{' '}
             <span style={{ color: C.primaryContainer }}>START RUNNING YOUR BUSINESS.</span>
           </h1>
 
           {/* Subheading */}
-          <p style={{ ...T.bodyLg, color: C.onSurfaceVariant, maxWidth: '672px' }}>
+          <p style={{ ...T.bodyLg, color: C.onSurfaceVariant, maxWidth: '672px', margin: 0 }}>
             FlowPilot AI intercepts, parses, and resolves complex operational requests across Gmail and WhatsApp instantly, orchestrating your tools without human friction.
           </p>
 
@@ -115,9 +131,11 @@ function HeroSection() {
               flexDirection: 'row',
               alignItems: 'center',
               gap: '16px',
-              paddingTop: '16px',
+              paddingTop: '8px',
               flexWrap: 'wrap',
+              width: '100%',
             }}
+            className="hero-cta-group"
           >
             <Link
               to="/book-a-demo"
@@ -132,9 +150,11 @@ function HeroSection() {
                 borderRadius: '12px',
                 ...T.labelMd,
                 fontWeight: 700,
-                boxShadow: '0 4px 12px rgba(254,133,44,0.25)',
+                boxShadow: '0 8px 20px rgba(254,133,44,0.3)',
                 textDecoration: 'none',
+                transition: 'transform 0.15s ease, box-shadow 0.15s ease',
               }}
+              className="btn-primary"
             >
               Start Free Workflow
               <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>arrow_forward</span>
@@ -152,17 +172,18 @@ function HeroSection() {
                 borderRadius: '12px',
                 ...T.labelMd,
                 fontWeight: 500,
-                backgroundColor: 'transparent',
+                backgroundColor: C.surfaceContainerLowest,
                 textDecoration: 'none',
+                boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
               }}
             >
-              <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>play_circle</span>
+              <span className="material-symbols-outlined" style={{ fontSize: '18px', color: C.primary }}>play_circle</span>
               Watch Product Tour
             </Link>
           </div>
 
           {/* Trust Checks */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '24px', paddingTop: '24px', ...T.bodySm, color: C.outline }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '24px', paddingTop: '16px', ...T.bodySm, color: C.outline, flexWrap: 'wrap' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               <span className="material-symbols-outlined" style={{ fontSize: '18px', color: C.primary }}>check_circle</span>
               <span>Zero configuration required</span>
@@ -174,63 +195,131 @@ function HeroSection() {
           </div>
         </div>
 
-        {/* Right Column — Product UI Mockup */}
-        <div>
+        {/* Right Column — Multi-Device Tangible Product Showcase */}
+        <div style={{ position: 'relative', width: '100%' }} className="hero-mockup-wrapper">
+          {/* Main Desktop / Laptop Frame with Real Desk Backdrop */}
           <div
             style={{
               backgroundColor: C.surfaceContainerLowest,
-              padding: '24px',
-              borderRadius: '16px',
-              border: `1px solid ${C.outlineVariant}30`,
-              boxShadow: '0 20px 60px rgba(0,0,0,0.10)',
+              borderRadius: '20px',
+              border: `1px solid ${C.outlineVariant}40`,
+              boxShadow: '0 24px 64px rgba(0,70,66,0.12), 0 4px 16px rgba(0,0,0,0.04)',
+              overflow: 'hidden',
               position: 'relative',
+              zIndex: 1,
             }}
           >
-            {/* Browser Chrome */}
+            {/* Device Window Chrome */}
             <div
               style={{
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-between',
-                paddingBottom: '16px',
-                borderBottom: `1px solid ${C.outlineVariant}20`,
-                marginBottom: '16px',
+                padding: '12px 18px',
+                backgroundColor: '#f6f3ee',
+                borderBottom: `1px solid ${C.outlineVariant}30`,
               }}
             >
               <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <div style={{ width: '12px', height: '12px', borderRadius: '50%', backgroundColor: `${C.error}80` }} />
-                <div style={{ width: '12px', height: '12px', borderRadius: '50%', backgroundColor: `${C.tertiary}60` }} />
-                <div style={{ width: '12px', height: '12px', borderRadius: '50%', backgroundColor: `${C.primary}60` }} />
+                <div style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: `${C.error}90` }} />
+                <div style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: `${C.secondaryContainer}` }} />
+                <div style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: `${C.primary}90` }} />
               </div>
-              <span style={{ ...T.bodySm, fontFamily: 'monospace', color: C.outline }}>flowpilot-active-session.ai</span>
+              <div
+                style={{
+                  ...T.bodySm,
+                  fontSize: '12px',
+                  fontFamily: 'monospace',
+                  color: C.onSurfaceVariant,
+                  backgroundColor: C.surfaceContainerLowest,
+                  padding: '3px 14px',
+                  borderRadius: '6px',
+                  border: `1px solid ${C.outlineVariant}25`,
+                }}
+              >
+                flowpilot-active-session.ai
+              </div>
+              <div style={{ width: '36px' }} />
             </div>
 
-            {/* Content Cards */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+            {/* Desktop Workstation Real Visual Header */}
+            <div
+              style={{
+                position: 'relative',
+                height: '140px',
+                width: '100%',
+                overflow: 'hidden',
+                backgroundColor: C.surfaceContainerLow,
+              }}
+            >
+              <img
+                src={heroDeskImg}
+                alt="Executive desk with laptop and WhatsApp operations"
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  objectPosition: 'center 40%',
+                  filter: 'brightness(0.92) contrast(1.05)',
+                }}
+              />
+              <div
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  background: 'linear-gradient(180deg, rgba(1,96,90,0.2) 0%, rgba(253,249,244,0.95) 95%)',
+                }}
+              />
+              <div
+                style={{
+                  position: 'absolute',
+                  bottom: '12px',
+                  left: '16px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  backgroundColor: 'rgba(255,255,255,0.92)',
+                  backdropFilter: 'blur(8px)',
+                  padding: '4px 12px',
+                  borderRadius: '9999px',
+                  border: `1px solid ${C.outlineVariant}40`,
+                  ...T.labelSm,
+                  fontWeight: 600,
+                  color: C.primary,
+                }}
+              >
+                <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#22c55e' }} />
+                <span>Live Orchestration Stream</span>
+              </div>
+            </div>
+
+            {/* Content Cards Inside Main Device */}
+            <div style={{ padding: '20px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
               {/* Incoming Email Card */}
               <div
                 style={{
                   backgroundColor: C.surfaceContainerLow,
                   padding: '16px',
                   borderRadius: '12px',
-                  border: `1px solid ${C.outlineVariant}20`,
+                  border: `1px solid ${C.outlineVariant}30`,
                 }}
               >
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
                   <span style={{ ...T.labelSm, fontWeight: 700, color: C.onSurface }}>Incoming Email #4092</span>
                   <span
                     style={{
-                      padding: '2px 8px',
+                      padding: '3px 10px',
                       backgroundColor: C.primaryFixed,
                       color: C.onPrimaryFixed,
-                      borderRadius: '4px',
+                      borderRadius: '6px',
                       ...T.bodySm,
+                      fontWeight: 600,
                     }}
                   >
                     AI Handled
                   </span>
                 </div>
-                <p style={{ ...T.bodySm, color: C.onSurfaceVariant }}>
+                <p style={{ ...T.bodySm, color: C.onSurfaceVariant, margin: 0, lineHeight: '20px' }}>
                   "Can we upgrade our enterprise seat license to 250 users by Friday? Need custom invoicing."
                 </p>
               </div>
@@ -245,6 +334,7 @@ function HeroSection() {
                   display: 'flex',
                   flexDirection: 'column',
                   gap: '8px',
+                  boxShadow: '0 8px 24px rgba(1,96,90,0.2)',
                 }}
               >
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -254,15 +344,16 @@ function HeroSection() {
                       fontWeight: 700,
                       display: 'flex',
                       alignItems: 'center',
-                      gap: '4px',
+                      gap: '6px',
+                      color: '#ffffff',
                     }}
                   >
-                    <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>smart_toy</span>
+                    <span className="material-symbols-outlined" style={{ fontSize: '18px', color: C.secondaryContainer }}>smart_toy</span>
                     FlowPilot Autonomous Action
                   </span>
-                  <span style={{ ...T.bodySm, opacity: 0.8 }}>Just now</span>
+                  <span style={{ ...T.bodySm, opacity: 0.85, color: '#ffffff' }}>Just now</span>
                 </div>
-                <p style={{ ...T.bodySm }}>
+                <p style={{ ...T.bodySm, margin: 0, color: '#e8f7f5', lineHeight: '20px' }}>
                   Generated custom quote #INV-8892, updated Stripe subscription tier, and sent WhatsApp confirmation to CFO.
                 </p>
               </div>
@@ -273,15 +364,89 @@ function HeroSection() {
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'space-between',
-                  paddingTop: '8px',
+                  paddingTop: '6px',
                   paddingLeft: '4px',
                   paddingRight: '4px',
                   ...T.bodySm,
                   color: C.outline,
                 }}
               >
-                <span>Execution speed: 1.2s</span>
-                <span style={{ color: C.secondary, fontWeight: 600 }}>100% Automated</span>
+                <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                  <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>speed</span>
+                  Execution speed: 1.2s
+                </span>
+                <span style={{ color: C.secondary, fontWeight: 700, display: 'flex', alignItems: 'center', gap: '4px' }}>
+                  <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>verified</span>
+                  100% Automated
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* Floating Mobile Phone Preview (Multi-Device presentation) */}
+          <div
+            style={{
+              position: 'absolute',
+              bottom: '-32px',
+              right: '-24px',
+              width: '180px',
+              backgroundColor: C.surfaceContainerLowest,
+              borderRadius: '24px',
+              padding: '8px',
+              border: `2px solid ${C.outlineVariant}60`,
+              boxShadow: '0 20px 48px rgba(0,0,0,0.18)',
+              zIndex: 3,
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '6px',
+            }}
+            className="hero-floating-phone"
+          >
+            {/* Phone Speaker Notch */}
+            <div style={{ width: '40px', height: '4px', backgroundColor: '#bec9c6', borderRadius: '9999px', margin: '4px auto 2px' }} />
+            <div
+              style={{
+                borderRadius: '16px',
+                overflow: 'hidden',
+                position: 'relative',
+                height: '110px',
+                backgroundColor: '#01605a',
+              }}
+            >
+              <img
+                src={phoneAlertImg}
+                alt="WhatsApp mobile operational alert"
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  objectPosition: 'center',
+                }}
+              />
+              <div
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  background: 'linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,70,66,0.75) 100%)',
+                }}
+              />
+              <div
+                style={{
+                  position: 'absolute',
+                  bottom: '6px',
+                  left: '8px',
+                  right: '8px',
+                  color: '#ffffff',
+                  fontSize: '11px',
+                  fontWeight: 600,
+                  fontFamily: "'Plus Jakarta Sans'",
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '4px',
+                }}
+              >
+                <span className="material-symbols-outlined" style={{ fontSize: '14px', color: '#25D366' }}>chat</span>
+                <span>WhatsApp Brief</span>
               </div>
             </div>
           </div>
@@ -293,13 +458,14 @@ function HeroSection() {
 
 /* ─────────────────────────────────────────────────────────────────────────────
    SECTION 2: METRICS BAR
+   Enhanced with subtle card containers and soft elevation
 ───────────────────────────────────────────────────────────────────────────── */
 function MetricsBar() {
   const metrics = [
-    { value: '99.4%', label: 'Inbox Zero Achievement', color: C.primaryContainer },
-    { value: '14.2 hrs', label: 'Saved Per User / Week', color: C.secondary },
-    { value: '< 1.5s', label: 'Average Response Latency', color: C.primaryContainer },
-    { value: '$42M+', label: 'Transactions Automated', color: C.secondary },
+    { value: '99.4%', label: 'Inbox Zero Achievement', color: C.primaryContainer, icon: 'mark_email_read' },
+    { value: '14.2 hrs', label: 'Saved Per User / Week', color: C.secondary, icon: 'schedule' },
+    { value: '< 1.5s', label: 'Average Response Latency', color: C.primaryContainer, icon: 'bolt' },
+    { value: '$42M+', label: 'Transactions Automated', color: C.secondary, icon: 'payments' },
   ];
 
   return (
@@ -308,8 +474,8 @@ function MetricsBar() {
         borderTop: `1px solid ${C.outlineVariant}30`,
         borderBottom: `1px solid ${C.outlineVariant}30`,
         backgroundColor: C.surfaceContainerLowest,
-        paddingTop: '48px',
-        paddingBottom: '48px',
+        paddingTop: '40px',
+        paddingBottom: '40px',
       }}
     >
       <div
@@ -320,15 +486,28 @@ function MetricsBar() {
           paddingRight: '24px',
           display: 'grid',
           gridTemplateColumns: 'repeat(4, 1fr)',
-          gap: '32px',
+          gap: '24px',
           textAlign: 'center',
         }}
         className="metrics-grid"
       >
         {metrics.map((m) => (
-          <div key={m.label}>
-            <div style={{ ...T.headlineLg, color: m.color, marginBottom: '4px' }}>{m.value}</div>
-            <div style={{ ...T.bodySm, color: C.onSurfaceVariant }}>{m.label}</div>
+          <div
+            key={m.label}
+            style={{
+              padding: '20px 16px',
+              borderRadius: '16px',
+              backgroundColor: C.surfaceBright,
+              border: `1px solid ${C.outlineVariant}25`,
+              boxShadow: '0 2px 8px rgba(0,0,0,0.02)',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            <div style={{ ...T.headlineLg, color: m.color, marginBottom: '6px', fontWeight: 800 }}>{m.value}</div>
+            <div style={{ ...T.bodySm, color: C.onSurfaceVariant, fontWeight: 500 }}>{m.label}</div>
           </div>
         ))}
       </div>
@@ -338,6 +517,7 @@ function MetricsBar() {
 
 /* ─────────────────────────────────────────────────────────────────────────────
    SECTION 3: 5-STEP WORKFLOW
+   Enhanced with image treatments for tangible visual comprehension
 ───────────────────────────────────────────────────────────────────────────── */
 const WORKFLOW_STEPS = [
   {
@@ -346,6 +526,8 @@ const WORKFLOW_STEPS = [
     desc: 'Client drops a complex multi-part request into your primary support or sales inbox.',
     icon: 'mail',
     source: 'Gmail / Outlook',
+    img: emailStepImg,
+    imgAlt: 'Client email landing in company inbox',
   },
   {
     step: 'STEP 02',
@@ -353,6 +535,7 @@ const WORKFLOW_STEPS = [
     desc: 'Deep semantic parsing extracts intent, sentiment, entity data, and priority levels.',
     icon: 'psychology',
     source: 'FlowPilot Core',
+    isTelemetry: true,
   },
   {
     step: 'STEP 03',
@@ -360,6 +543,8 @@ const WORKFLOW_STEPS = [
     desc: 'A concise operational brief is dispatched instantly to your team\'s secure WhatsApp group.',
     icon: 'chat',
     source: 'WhatsApp API',
+    img: whatsappStepImg,
+    imgAlt: 'WhatsApp operational brief security and message view',
   },
   {
     step: 'STEP 04',
@@ -367,6 +552,8 @@ const WORKFLOW_STEPS = [
     desc: 'Approve suggested actions with a single click or reply with voice notes or simple text.',
     icon: 'thumb_up',
     source: 'Instant Command',
+    img: userRepliesImg,
+    imgAlt: 'User actively replying to operational prompt via WhatsApp',
   },
   {
     step: 'STEP 05',
@@ -374,6 +561,7 @@ const WORKFLOW_STEPS = [
     desc: 'Polished, context-aware correspondence and backend updates execute autonomously.',
     icon: 'done_all',
     source: 'Fully Resolved',
+    isSuccess: true,
   },
 ];
 
@@ -386,7 +574,7 @@ function WorkflowSection() {
         paddingBottom: '96px',
         paddingLeft: '24px',
         paddingRight: '24px',
-        maxWidth: '1280px',
+        maxWidth: '1320px',
         margin: '0 auto',
       }}
     >
@@ -403,7 +591,7 @@ function WorkflowSection() {
         style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(5, 1fr)',
-          gap: '24px',
+          gap: '20px',
         }}
         className="steps-grid"
       >
@@ -415,7 +603,7 @@ function WorkflowSection() {
   );
 }
 
-function StepCard({ step, title, desc, icon, source }) {
+function StepCard({ step, title, desc, icon, source, img, imgAlt, isTelemetry, isSuccess }) {
   const [hovered, setHovered] = useState(false);
   return (
     <div
@@ -423,37 +611,140 @@ function StepCard({ step, title, desc, icon, source }) {
       onMouseLeave={() => setHovered(false)}
       style={{
         backgroundColor: C.surfaceContainerLowest,
-        padding: '24px',
         borderRadius: '16px',
-        border: `1px solid ${hovered ? C.primary : `${C.outlineVariant}30`}`,
+        border: `1px solid ${hovered ? C.primary : `${C.outlineVariant}35`}`,
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',
         position: 'relative',
-        transition: 'border-color 200ms',
+        transition: 'all 200ms ease',
+        transform: hovered ? 'translateY(-4px)' : 'translateY(0)',
+        boxShadow: hovered ? '0 12px 32px rgba(0,70,66,0.08)' : '0 2px 8px rgba(0,0,0,0.02)',
+        overflow: 'hidden',
         cursor: 'default',
       }}
     >
-      <div>
-        <span style={{ ...T.labelMd, color: C.secondary, fontWeight: 700, display: 'block', marginBottom: '8px' }}>
-          {step}
-        </span>
-        <h3 style={{ ...T.headlineSm, color: C.onSurface, marginBottom: '8px' }}>{title}</h3>
-        <p style={{ ...T.bodySm, color: C.onSurfaceVariant }}>{desc}</p>
-      </div>
+      {/* Step Visual Header (Intent-matched local imagery or telemetry display) */}
       <div
         style={{
-          marginTop: '24px',
-          paddingTop: '16px',
-          borderTop: `1px solid ${C.outlineVariant}20`,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          color: C.outline,
+          height: '110px',
+          width: '100%',
+          position: 'relative',
+          backgroundColor: C.surfaceContainerLow,
+          overflow: 'hidden',
+          borderBottom: `1px solid ${C.outlineVariant}20`,
         }}
       >
-        <span className="material-symbols-outlined">{icon}</span>
-        <span style={{ ...T.bodySm, fontFamily: 'monospace' }}>{source}</span>
+        {img ? (
+          <img
+            src={img}
+            alt={imgAlt || title}
+            style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              objectPosition: 'center',
+            }}
+          />
+        ) : isTelemetry ? (
+          <div
+            style={{
+              padding: '12px 14px',
+              height: '100%',
+              backgroundColor: '#013835',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              gap: '6px',
+              fontFamily: 'monospace',
+              fontSize: '11px',
+              color: '#8ed8d0',
+              lineHeight: '1.4',
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#a5f0e8', fontWeight: 700 }}>
+              <span className="material-symbols-outlined" style={{ fontSize: '14px' }}>psychology</span>
+              PARSING ENGINE
+            </div>
+            <div style={{ color: '#fed0a8' }}>&gt; intent: quote_upgrade</div>
+            <div style={{ color: '#ffffff', opacity: 0.85 }}>&gt; confidence: 99.8%</div>
+          </div>
+        ) : isSuccess ? (
+          <div
+            style={{
+              padding: '12px 14px',
+              height: '100%',
+              background: 'linear-gradient(135deg, #01605a 0%, #004642 100%)',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '6px',
+              color: '#ffffff',
+              textAlign: 'center',
+            }}
+          >
+            <div
+              style={{
+                width: '36px',
+                height: '36px',
+                borderRadius: '50%',
+                backgroundColor: 'rgba(255,255,255,0.15)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <span className="material-symbols-outlined" style={{ fontSize: '22px', color: '#8ed8d0' }}>task_alt</span>
+            </div>
+            <span style={{ fontSize: '11px', fontFamily: 'monospace', color: '#8ed8d0', fontWeight: 600 }}>
+              EXECUTION VERIFIED
+            </span>
+          </div>
+        ) : null}
+
+        {/* Step Badge Overlaid */}
+        <span
+          style={{
+            position: 'absolute',
+            top: '8px',
+            left: '8px',
+            ...T.labelSm,
+            fontSize: '11px',
+            color: C.onSecondaryContainer,
+            backgroundColor: 'rgba(254,133,44,0.92)',
+            backdropFilter: 'blur(4px)',
+            fontWeight: 700,
+            padding: '2px 8px',
+            borderRadius: '9999px',
+          }}
+        >
+          {step}
+        </span>
+      </div>
+
+      {/* Step Text Body */}
+      <div style={{ padding: '20px', display: 'flex', flexDirection: 'column', flexGrow: 1, justifyContent: 'space-between' }}>
+        <div>
+          <h3 style={{ ...T.headlineSm, color: C.onSurface, marginBottom: '8px', fontSize: '17px' }}>{title}</h3>
+          <p style={{ ...T.bodySm, color: C.onSurfaceVariant, margin: 0, lineHeight: '20px' }}>{desc}</p>
+        </div>
+
+        {/* Step Footer with Channel Source */}
+        <div
+          style={{
+            marginTop: '20px',
+            paddingTop: '12px',
+            borderTop: `1px solid ${C.outlineVariant}20`,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            color: C.outline,
+          }}
+        >
+          <span className="material-symbols-outlined" style={{ fontSize: '18px', color: C.primaryContainer }}>{icon}</span>
+          <span style={{ ...T.bodySm, fontSize: '11px', fontFamily: 'monospace', fontWeight: 600, color: C.onSurfaceVariant }}>{source}</span>
+        </div>
       </div>
     </div>
   );
@@ -461,6 +752,7 @@ function StepCard({ step, title, desc, icon, source }) {
 
 /* ─────────────────────────────────────────────────────────────────────────────
    SECTION 4: PRODUCT DEMONSTRATION SHOWCASE
+   Multi-device preview inspired by reference composition
 ───────────────────────────────────────────────────────────────────────────── */
 function ProductShowcase() {
   return (
@@ -478,7 +770,7 @@ function ProductShowcase() {
           maxWidth: '1280px',
           margin: '0 auto',
           display: 'grid',
-          gridTemplateColumns: '6fr 6fr',
+          gridTemplateColumns: '5.5fr 6.5fr',
           gap: '48px',
           alignItems: 'center',
         }}
@@ -489,81 +781,98 @@ function ProductShowcase() {
           <span style={{ ...T.labelMd, color: C.primary, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em' }}>
             Live Software Preview
           </span>
-          <h2 style={{ ...T.headlineLg, color: C.onSurface }}>
+          <h2 style={{ ...T.headlineLg, color: C.onSurface, margin: 0 }}>
             Integrated AI Command Center for Modern Teams
           </h2>
-          <p style={{ ...T.bodyLg, color: C.onSurfaceVariant }}>
+          <p style={{ ...T.bodyLg, color: C.onSurfaceVariant, margin: 0 }}>
             Switch effortlessly between full Gmail threat management, live WhatsApp thread monitoring, and our visual workflow automation canvas.
           </p>
-          <ul style={{ display: 'flex', flexDirection: 'column', gap: '16px', paddingTop: '8px' }}>
+          <ul style={{ display: 'flex', flexDirection: 'column', gap: '16px', paddingTop: '8px', listStyle: 'none', paddingLeft: 0, margin: 0 }}>
             {[
               'Automatic context merging across disparate communication channels',
               'Customizable guardrails and tone settings for every brand voice',
               'Enterprise-grade encryption protecting every message and payload',
             ].map((item) => (
               <li key={item} style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
-                <span className="material-symbols-outlined" style={{ color: C.primary, marginTop: '2px' }}>check_circle</span>
+                <span className="material-symbols-outlined" style={{ color: C.primary, marginTop: '2px', fontSize: '20px' }}>check_circle</span>
                 <span style={{ ...T.bodyMd, color: C.onSurface, fontWeight: 500 }}>{item}</span>
               </li>
             ))}
           </ul>
         </div>
 
-        {/* Right — Active Automations Card */}
-        <div>
+        {/* Right — Tangible Dual-Device & Active Automations Card */}
+        <div style={{ position: 'relative' }} className="showcase-card-wrapper">
+          {/* Hardware & Software Display Card */}
           <div
             style={{
               backgroundColor: C.surfaceContainerLowest,
-              borderRadius: '16px',
-              border: `1px solid ${C.outlineVariant}30`,
-              padding: '24px',
-              boxShadow: '0 20px 60px rgba(0,0,0,0.08)',
+              borderRadius: '20px',
+              border: `1px solid ${C.outlineVariant}35`,
+              boxShadow: '0 24px 64px rgba(0,0,0,0.08)',
+              overflow: 'hidden',
             }}
           >
-            {/* Card Header */}
+            {/* Visual Header Window: Multi-device display image */}
             <div
               style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                paddingBottom: '24px',
-                borderBottom: `1px solid ${C.outlineVariant}20`,
-                marginBottom: '24px',
+                position: 'relative',
+                height: '180px',
+                width: '100%',
+                overflow: 'hidden',
+                backgroundColor: '#0f172a',
               }}
             >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                <span className="material-symbols-outlined" style={{ color: C.primary, fontSize: '28px' }}>dashboard</span>
-                <div>
-                  <h4 style={{ ...T.headlineSm, color: C.onSurface }}>Active Automations</h4>
-                  <p style={{ ...T.bodySm, color: C.outline }}>Real-time telemetry</p>
-                </div>
-              </div>
-              <span
+              <img
+                src={showcaseDualImg}
+                alt="FlowPilot integrated WhatsApp and Web multi-device telemetry"
                 style={{
-                  padding: '4px 12px',
-                  backgroundColor: C.primaryContainer,
-                  color: C.onPrimaryContainer,
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  objectPosition: 'center',
+                }}
+              />
+              <div
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  background: 'linear-gradient(180deg, rgba(0,0,0,0.2) 0%, rgba(255,255,255,0.95) 100%)',
+                }}
+              />
+              <div
+                style={{
+                  position: 'absolute',
+                  top: '12px',
+                  right: '12px',
+                  backgroundColor: 'rgba(1,96,90,0.9)',
+                  backdropFilter: 'blur(6px)',
+                  color: '#ffffff',
+                  padding: '4px 10px',
                   borderRadius: '9999px',
                   ...T.labelSm,
-                  fontWeight: 600,
+                  fontSize: '11px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px',
                 }}
               >
-                Running 24/7
-              </span>
+                <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#4ade80' }} />
+                <span>Multi-Channel Sync</span>
+              </div>
             </div>
 
-            {/* Automation Rows */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-              {/* Row 1 */}
+            {/* Active Automations Content */}
+            <div style={{ padding: '24px' }}>
+              {/* Card Header */}
               <div
                 style={{
-                  padding: '16px',
-                  borderRadius: '12px',
-                  backgroundColor: C.surfaceContainerLow,
-                  border: `1px solid ${C.outlineVariant}20`,
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'space-between',
+                  paddingBottom: '20px',
+                  borderBottom: `1px solid ${C.outlineVariant}25`,
+                  marginBottom: '20px',
                 }}
               >
                 <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
@@ -571,61 +880,137 @@ function ProductShowcase() {
                     style={{
                       width: '40px',
                       height: '40px',
-                      borderRadius: '8px',
-                      backgroundColor: C.secondaryContainer,
-                      color: C.onSecondaryContainer,
+                      borderRadius: '10px',
+                      backgroundColor: `${C.primaryContainer}15`,
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      fontWeight: 700,
-                      ...T.labelMd,
                     }}
                   >
-                    W
+                    <span className="material-symbols-outlined" style={{ color: C.primary, fontSize: '24px' }}>dashboard</span>
                   </div>
                   <div>
-                    <div style={{ ...T.labelMd, fontWeight: 700, color: C.onSurface }}>VIP Client Lead Capture</div>
-                    <div style={{ ...T.bodySm, color: C.outline }}>WhatsApp → CRM Sync → Calendar Invite</div>
+                    <h4 style={{ ...T.headlineSm, color: C.onSurface, margin: 0 }}>Active Automations</h4>
+                    <p style={{ ...T.bodySm, color: C.outline, margin: 0 }}>Real-time telemetry</p>
                   </div>
                 </div>
-                <span style={{ ...T.bodySm, color: C.primary, fontWeight: 700 }}>Active</span>
+                <span
+                  style={{
+                    padding: '4px 12px',
+                    backgroundColor: C.primaryContainer,
+                    color: C.onPrimaryContainer,
+                    borderRadius: '9999px',
+                    ...T.labelSm,
+                    fontWeight: 600,
+                  }}
+                >
+                  Running 24/7
+                </span>
               </div>
 
-              {/* Row 2 */}
-              <div
-                style={{
-                  padding: '16px',
-                  borderRadius: '12px',
-                  backgroundColor: C.surfaceContainerLow,
-                  border: `1px solid ${C.outlineVariant}20`,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                }}
-              >
-                <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                  <div
+              {/* Automation Rows */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+                {/* Row 1 */}
+                <div
+                  style={{
+                    padding: '16px',
+                    borderRadius: '12px',
+                    backgroundColor: C.surfaceContainerLow,
+                    border: `1px solid ${C.outlineVariant}25`,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    gap: '12px',
+                  }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+                    <div
+                      style={{
+                        width: '40px',
+                        height: '40px',
+                        borderRadius: '10px',
+                        backgroundColor: '#25D366',
+                        color: '#ffffff',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        fontWeight: 700,
+                        ...T.labelMd,
+                        flexShrink: 0,
+                      }}
+                    >
+                      W
+                    </div>
+                    <div>
+                      <div style={{ ...T.labelMd, fontWeight: 700, color: C.onSurface }}>VIP Client Lead Capture</div>
+                      <div style={{ ...T.bodySm, color: C.outline }}>WhatsApp → CRM Sync → Calendar Invite</div>
+                    </div>
+                  </div>
+                  <span
                     style={{
-                      width: '40px',
-                      height: '40px',
-                      borderRadius: '8px',
-                      backgroundColor: C.primaryContainer,
-                      color: C.onPrimaryContainer,
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
+                      ...T.bodySm,
+                      color: C.primary,
                       fontWeight: 700,
-                      ...T.labelMd,
+                      backgroundColor: `${C.primaryContainer}15`,
+                      padding: '4px 10px',
+                      borderRadius: '6px',
+                      flexShrink: 0,
                     }}
                   >
-                    G
-                  </div>
-                  <div>
-                    <div style={{ ...T.labelMd, fontWeight: 700, color: C.onSurface }}>Invoice Discrepancy Resolution</div>
-                    <div style={{ ...T.bodySm, color: C.outline }}>Gmail Parser → Stripe API → Slack Notify</div>
-                  </div>
+                    Active
+                  </span>
                 </div>
-                <span style={{ ...T.bodySm, color: C.primary, fontWeight: 700 }}>Active</span>
+
+                {/* Row 2 */}
+                <div
+                  style={{
+                    padding: '16px',
+                    borderRadius: '12px',
+                    backgroundColor: C.surfaceContainerLow,
+                    border: `1px solid ${C.outlineVariant}25`,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    gap: '12px',
+                  }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+                    <div
+                      style={{
+                        width: '40px',
+                        height: '40px',
+                        borderRadius: '10px',
+                        backgroundColor: C.primaryContainer,
+                        color: C.onPrimaryContainer,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        fontWeight: 700,
+                        ...T.labelMd,
+                        flexShrink: 0,
+                      }}
+                    >
+                      G
+                    </div>
+                    <div>
+                      <div style={{ ...T.labelMd, fontWeight: 700, color: C.onSurface }}>Invoice Discrepancy Resolution</div>
+                      <div style={{ ...T.bodySm, color: C.outline }}>Gmail Parser → Stripe API → Slack Notify</div>
+                    </div>
+                  </div>
+                  <span
+                    style={{
+                      ...T.bodySm,
+                      color: C.primary,
+                      fontWeight: 700,
+                      backgroundColor: `${C.primaryContainer}15`,
+                      padding: '4px 10px',
+                      borderRadius: '6px',
+                      flexShrink: 0,
+                    }}
+                  >
+                    Active
+                  </span>
+                </div>
               </div>
             </div>
           </div>
@@ -637,6 +1022,7 @@ function ProductShowcase() {
 
 /* ─────────────────────────────────────────────────────────────────────────────
    SECTION 5: SERVICES & SOLUTIONS GRID
+   Image-led cards inspired by reference's "Our Collections" presentation
 ───────────────────────────────────────────────────────────────────────────── */
 const SOLUTIONS = [
   {
@@ -647,6 +1033,8 @@ const SOLUTIONS = [
     linkText: 'Explore Support Module',
     linkColor: C.primary,
     href: '/services',
+    img: supportSolImg,
+    imgAlt: 'Support headset with 3D customer satisfaction rating and chat bubbles',
   },
   {
     icon: 'payments',
@@ -656,6 +1044,8 @@ const SOLUTIONS = [
     linkText: 'Explore Sales Module',
     linkColor: C.secondary,
     href: '/services',
+    img: salesSolImg,
+    imgAlt: 'Executive workspace laptop showing calendar scheduler',
   },
   {
     icon: 'hub',
@@ -665,6 +1055,8 @@ const SOLUTIONS = [
     linkText: 'Explore Ops Module',
     linkColor: C.primary,
     href: '/services',
+    img: opsSolImg,
+    imgAlt: 'Enterprise modern office operations and logistics headquarters',
   },
 ];
 
@@ -706,7 +1098,7 @@ function SolutionsSection() {
   );
 }
 
-function SolutionCard({ icon, iconColor, title, desc, linkText, linkColor, href }) {
+function SolutionCard({ icon, iconColor, title, desc, linkText, linkColor, href, img, imgAlt }) {
   const [hovered, setHovered] = useState(false);
   return (
     <div
@@ -714,38 +1106,99 @@ function SolutionCard({ icon, iconColor, title, desc, linkText, linkColor, href 
       onMouseLeave={() => setHovered(false)}
       style={{
         backgroundColor: C.surfaceContainerLowest,
-        padding: '32px',
-        borderRadius: '16px',
-        border: `1px solid ${hovered ? C.primary : `${C.outlineVariant}30`}`,
-        transition: 'border-color 200ms',
+        borderRadius: '20px',
+        border: `1px solid ${hovered ? C.primary : `${C.outlineVariant}35`}`,
+        overflow: 'hidden',
+        display: 'flex',
+        flexDirection: 'column',
+        transition: 'all 200ms ease',
+        transform: hovered ? 'translateY(-6px)' : 'translateY(0)',
+        boxShadow: hovered ? '0 16px 40px rgba(0,70,66,0.1)' : '0 4px 16px rgba(0,0,0,0.03)',
       }}
     >
-      <span className="material-symbols-outlined" style={{ fontSize: '36px', color: iconColor, display: 'block', marginBottom: '16px' }}>
-        {icon}
-      </span>
-      <h3 style={{ ...T.headlineMd, color: C.onSurface, marginBottom: '12px' }}>{title}</h3>
-      <p style={{ ...T.bodyMd, color: C.onSurfaceVariant, marginBottom: '24px' }}>{desc}</p>
-      <Link
-        to={href}
+      {/* Top Image Banner (Image-led card treatment inspired by reference) */}
+      <div
         style={{
-          ...T.labelMd,
-          color: linkColor,
-          fontWeight: 700,
-          display: 'inline-flex',
-          alignItems: 'center',
-          gap: '4px',
-          textDecoration: 'none',
+          position: 'relative',
+          height: '160px',
+          width: '100%',
+          overflow: 'hidden',
+          backgroundColor: C.surfaceContainerLow,
         }}
       >
-        {linkText}
-        <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>arrow_forward</span>
-      </Link>
+        <img
+          src={img}
+          alt={imgAlt}
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            objectPosition: 'center',
+            transition: 'transform 300ms ease',
+            transform: hovered ? 'scale(1.04)' : 'scale(1)',
+          }}
+        />
+        <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            background: 'linear-gradient(180deg, rgba(0,0,0,0.05) 0%, rgba(253,249,244,0.4) 100%)',
+          }}
+        />
+        {/* Floating Category Icon Badge */}
+        <div
+          style={{
+            position: 'absolute',
+            bottom: '12px',
+            left: '16px',
+            width: '44px',
+            height: '44px',
+            borderRadius: '12px',
+            backgroundColor: 'rgba(255,255,255,0.95)',
+            backdropFilter: 'blur(8px)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+            border: `1px solid ${C.outlineVariant}30`,
+          }}
+        >
+          <span className="material-symbols-outlined" style={{ fontSize: '26px', color: iconColor }}>
+            {icon}
+          </span>
+        </div>
+      </div>
+
+      {/* Card Content */}
+      <div style={{ padding: '28px', display: 'flex', flexDirection: 'column', flexGrow: 1, justifyContent: 'space-between' }}>
+        <div>
+          <h3 style={{ ...T.headlineMd, color: C.onSurface, marginBottom: '12px' }}>{title}</h3>
+          <p style={{ ...T.bodyMd, color: C.onSurfaceVariant, marginBottom: '24px', lineHeight: '24px' }}>{desc}</p>
+        </div>
+        <Link
+          to={href}
+          style={{
+            ...T.labelMd,
+            color: linkColor,
+            fontWeight: 700,
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '6px',
+            textDecoration: 'none',
+            paddingTop: '8px',
+          }}
+        >
+          {linkText}
+          <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>arrow_forward</span>
+        </Link>
+      </div>
     </div>
   );
 }
 
 /* ─────────────────────────────────────────────────────────────────────────────
    SECTION 6: TESTIMONIALS
+   Executive portrait presentation preserving verbatim quotes
 ───────────────────────────────────────────────────────────────────────────── */
 const TESTIMONIALS = [
   {
@@ -753,6 +1206,7 @@ const TESTIMONIALS = [
     initials: 'JS',
     avatarBg: C.secondaryContainer,
     avatarColor: C.onSecondaryContainer,
+    avatarImg: testimonialImg1,
     name: 'Jonathan Sterling',
     role: 'Chief Operating Officer, Veloce Global',
   },
@@ -761,6 +1215,7 @@ const TESTIMONIALS = [
     initials: 'AM',
     avatarBg: C.primaryContainer,
     avatarColor: C.onPrimaryContainer,
+    avatarImg: testimonialImg2,
     name: 'Aria Montgomery',
     role: 'Managing Director, Nexus Capital',
   },
@@ -801,33 +1256,58 @@ function TestimonialsSection() {
               key={t.name}
               style={{
                 backgroundColor: C.surfaceContainerLowest,
-                padding: '32px',
-                borderRadius: '16px',
-                border: `1px solid ${C.outlineVariant}30`,
+                padding: '36px',
+                borderRadius: '20px',
+                border: `1px solid ${C.outlineVariant}35`,
+                boxShadow: '0 8px 24px rgba(0,0,0,0.03)',
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'space-between',
                 gap: '24px',
               }}
             >
-              <p style={{ ...T.bodyLg, color: C.onSurface, fontStyle: 'italic' }}>{t.quote}</p>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+              <div>
+                {/* 5-Star Rating Row */}
+                <div style={{ display: 'flex', gap: '4px', marginBottom: '16px', color: '#f59e0b' }}>
+                  {[...Array(5)].map((_, i) => (
+                    <span key={i} className="material-symbols-outlined" style={{ fontSize: '18px', fontVariationSettings: "'FILL' 1" }}>
+                      star
+                    </span>
+                  ))}
+                </div>
+                <p style={{ ...T.bodyLg, color: C.onSurface, fontStyle: 'italic', lineHeight: '26px', margin: 0 }}>
+                  {t.quote}
+                </p>
+              </div>
+
+              {/* Author Row with Executive Avatar */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: '16px', paddingTop: '12px', borderTop: `1px solid ${C.outlineVariant}20` }}>
                 <div
                   style={{
-                    width: '48px',
-                    height: '48px',
+                    width: '52px',
+                    height: '52px',
                     borderRadius: '50%',
+                    overflow: 'hidden',
+                    border: `2px solid ${C.primaryContainer}`,
+                    flexShrink: 0,
                     backgroundColor: t.avatarBg,
-                    color: t.avatarColor,
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    fontWeight: 700,
-                    ...T.labelMd,
-                    flexShrink: 0,
+                    boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
                   }}
                 >
-                  {t.initials}
+                  {t.avatarImg ? (
+                    <img
+                      src={t.avatarImg}
+                      alt={t.name}
+                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                    />
+                  ) : (
+                    <span style={{ fontWeight: 700, color: t.avatarColor, ...T.labelMd }}>
+                      {t.initials}
+                    </span>
+                  )}
                 </div>
                 <div>
                   <div style={{ ...T.bodyMd, fontWeight: 700, color: C.onSurface }}>{t.name}</div>
@@ -844,6 +1324,7 @@ function TestimonialsSection() {
 
 /* ─────────────────────────────────────────────────────────────────────────────
    SECTION 7: FAQ
+   Preserved 100% verbatim with clean card styling
 ───────────────────────────────────────────────────────────────────────────── */
 const FAQ_ITEMS = [
   {
@@ -869,7 +1350,7 @@ function FAQSection() {
         paddingBottom: '96px',
         paddingLeft: '24px',
         paddingRight: '24px',
-        maxWidth: '768px',
+        maxWidth: '840px',
         margin: '0 auto',
       }}
     >
@@ -882,19 +1363,20 @@ function FAQSection() {
         </p>
       </div>
 
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
         {FAQ_ITEMS.map((item) => (
           <div
             key={item.q}
             style={{
               backgroundColor: C.surfaceContainerLowest,
-              padding: '24px',
+              padding: '28px',
               borderRadius: '16px',
-              border: `1px solid ${C.outlineVariant}30`,
+              border: `1px solid ${C.outlineVariant}35`,
+              boxShadow: '0 2px 8px rgba(0,0,0,0.02)',
             }}
           >
-            <h3 style={{ ...T.headlineSm, color: C.onSurface, marginBottom: '8px' }}>{item.q}</h3>
-            <p style={{ ...T.bodyMd, color: C.onSurfaceVariant }}>{item.a}</p>
+            <h3 style={{ ...T.headlineSm, color: C.onSurface, marginBottom: '10px', fontSize: '18px' }}>{item.q}</h3>
+            <p style={{ ...T.bodyMd, color: C.onSurfaceVariant, margin: 0, lineHeight: '24px' }}>{item.a}</p>
           </div>
         ))}
       </div>
@@ -904,6 +1386,7 @@ function FAQSection() {
 
 /* ─────────────────────────────────────────────────────────────────────────────
    SECTION 8: FINAL CTA
+   Preserved 100% verbatim with rich enterprise styling
 ───────────────────────────────────────────────────────────────────────────── */
 function FinalCTA() {
   return (
@@ -920,6 +1403,19 @@ function FinalCTA() {
         overflow: 'hidden',
       }}
     >
+      {/* Background ambient lighting */}
+      <div
+        style={{
+          position: 'absolute',
+          top: '-50%',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          width: '800px',
+          height: '600px',
+          background: 'radial-gradient(ellipse at center, rgba(165,240,232,0.18) 0%, rgba(1,96,90,0) 70%)',
+          pointerEvents: 'none',
+        }}
+      />
       <div
         style={{
           maxWidth: '896px',
@@ -932,10 +1428,10 @@ function FinalCTA() {
           alignItems: 'center',
         }}
       >
-        <h2 style={{ ...T.headlineXl, color: C.onPrimaryContainer }}>
+        <h2 style={{ ...T.headlineXl, color: '#ffffff', margin: 0 }}>
           YOUR BUSINESS. ON AUTOPILOT.
         </h2>
-        <p style={{ ...T.bodyLg, opacity: 0.9, maxWidth: '672px' }}>
+        <p style={{ ...T.bodyLg, opacity: 0.9, maxWidth: '672px', margin: 0, color: '#e8f7f5' }}>
           Join hundreds of high-performing executives who have eliminated email noise and accelerated operational velocity.
         </p>
         <div
@@ -946,7 +1442,9 @@ function FinalCTA() {
             justifyContent: 'center',
             gap: '16px',
             flexWrap: 'wrap',
+            width: '100%',
           }}
+          className="final-cta-btn-group"
         >
           <Link
             to="/book-a-demo"
@@ -958,8 +1456,8 @@ function FinalCTA() {
               ...T.labelMd,
               fontWeight: 700,
               textDecoration: 'none',
-              boxShadow: '0 8px 24px rgba(0,0,0,0.18)',
-              minWidth: '200px',
+              boxShadow: '0 8px 24px rgba(0,0,0,0.22)',
+              minWidth: '220px',
               textAlign: 'center',
             }}
           >
@@ -968,15 +1466,15 @@ function FinalCTA() {
           <Link
             to="/contact"
             style={{
-              backgroundColor: 'rgba(253,249,244,0.1)',
-              color: C.onPrimaryContainer,
-              border: `1px solid ${C.onPrimaryContainer}30`,
+              backgroundColor: 'rgba(253,249,244,0.12)',
+              color: '#ffffff',
+              border: `1px solid rgba(255,255,255,0.25)`,
               padding: '16px 32px',
               borderRadius: '12px',
               ...T.labelMd,
               fontWeight: 500,
               textDecoration: 'none',
-              minWidth: '200px',
+              minWidth: '220px',
               textAlign: 'center',
             }}
           >
@@ -989,21 +1487,89 @@ function FinalCTA() {
 }
 
 /* ─────────────────────────────────────────────────────────────────────────────
-   PAGE ASSEMBLY
+   PAGE ASSEMBLY & COMPREHENSIVE RESPONSIVE STYLES
 ───────────────────────────────────────────────────────────────────────────── */
 export function HomePage() {
   return (
-    <>
+    <div style={{ width: '100%', overflowX: 'hidden' }}>
       <style>{`
-        @media (max-width: 1024px) {
-          .hero-grid { grid-template-columns: 1fr !important; }
-          .showcase-grid { grid-template-columns: 1fr !important; }
+        /* Responsive Breakpoints from 320px to 1440px+ */
+        @media (max-width: 1100px) {
+          .hero-grid {
+            grid-template-columns: 1fr !important;
+            gap: 40px !important;
+          }
+          .hero-mockup-wrapper {
+            max-width: 680px;
+            margin: 0 auto;
+          }
+          .showcase-grid {
+            grid-template-columns: 1fr !important;
+            gap: 40px !important;
+          }
+          .steps-grid {
+            grid-template-columns: repeat(3, 1fr) !important;
+          }
         }
+
         @media (max-width: 768px) {
-          .steps-grid { grid-template-columns: 1fr !important; }
-          .solutions-grid { grid-template-columns: 1fr !important; }
-          .testimonials-grid { grid-template-columns: 1fr !important; }
-          .metrics-grid { grid-template-columns: repeat(2, 1fr) !important; }
+          .hero-section {
+            padding-top: 36px !important;
+            padding-bottom: 60px !important;
+            padding-left: 16px !important;
+            padding-right: 16px !important;
+          }
+          .hero-cta-group {
+            flex-direction: column !important;
+            align-items: stretch !important;
+          }
+          .hero-cta-group a {
+            width: 100% !important;
+          }
+          .hero-floating-phone {
+            width: 140px !important;
+            bottom: -20px !important;
+            right: -10px !important;
+          }
+          .metrics-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 16px !important;
+          }
+          .steps-grid {
+            grid-template-columns: 1fr !important;
+            gap: 16px !important;
+          }
+          .solutions-grid {
+            grid-template-columns: 1fr !important;
+            gap: 24px !important;
+          }
+          .testimonials-grid {
+            grid-template-columns: 1fr !important;
+            gap: 20px !important;
+          }
+          .final-cta-btn-group {
+            flex-direction: column !important;
+            align-items: stretch !important;
+          }
+          .final-cta-btn-group a {
+            width: 100% !important;
+            min-width: 0 !important;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .hero-floating-phone {
+            display: none !important;
+          }
+          .metrics-grid {
+            grid-template-columns: 1fr !important;
+          }
+        }
+
+        /* Interactive Micro-Interactions */
+        .btn-primary:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 12px 28px rgba(254,133,44,0.4) !important;
         }
       `}</style>
       <HeroSection />
@@ -1014,6 +1580,7 @@ export function HomePage() {
       <TestimonialsSection />
       <FAQSection />
       <FinalCTA />
-    </>
+    </div>
   );
 }
+export default HomePage;
