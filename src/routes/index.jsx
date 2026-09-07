@@ -13,6 +13,7 @@ import { CalendarAutomationPage } from '../pages/public/CalendarAutomationPage';
 import { CustomWorkflowsPage } from '../pages/public/CustomWorkflowsPage';
 import { HowItWorksPage } from '../pages/public/HowItWorksPage';
 import { ContactPage } from '../pages/public/ContactPage';
+import { TeamPage } from '../pages/public/TeamPage';
 import { FaqPage } from '../pages/public/FaqPage';
 import { AuthPage } from '../pages/public/AuthPage';
 import { DashboardPage } from '../pages/public/DashboardPage';
@@ -32,6 +33,7 @@ export const router = createBrowserRouter([
       { path: 'pricing', element: <PricingPage /> },
       { path: 'about', element: <AboutPage /> },
       { path: 'contact', element: <ContactPage /> },
+      { path: 'team', element: <TeamPage /> },
       { path: 'faq', element: <FaqPage /> },
       { path: 'book-a-demo', element: <BookDemoPage /> },
       { path: 'whatsapp-ai-agent', element: <WhatsAppAgentPage /> },

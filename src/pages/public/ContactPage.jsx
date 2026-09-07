@@ -1,632 +1,939 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import {
-  MapPin,
-  Mail,
-  Headphones,
   ArrowRight,
-} from 'lucide-react';
+  Building2,
+  CheckCircle2,
+  Clock,
+  Mail,
+  MessageSquare,
+  Phone,
+  Sparkles,
+  Users,
+  Zap,
+} from "lucide-react";
 
-/* ── STITCH EXACT COLOR PALETTE ── */
+/* ─────────── DESIGN TOKENS ─────────── */
 const C = {
-  surface: '#f9f9fb',
-  surfaceCream: '#F4F5F7',
-  surfaceContainerLowest: '#ffffff',
-  surfaceContainerLow: '#f3f3f5',
-  surfaceContainer: '#edeef0',
-  surfaceContainerHigh: '#e8e8ea',
-  deepTealText: '#0A2540',
-  primary: '#004642',
-  primaryContainer: '#01605a',
-  onPrimary: '#ffffff',
-  primaryFixed: '#a5f0e8',
-  primaryFixedDim: '#8ad4cc',
-  secondary: '#994700',
-  secondaryContainer: '#fe852c',
-  onSecondary: '#ffffff',
-  onSecondaryContainer: '#632c00',
-  secondaryFixed: '#ffdbc8',
-  onSurface: '#1a1c1d',
-  onSurfaceVariant: '#3f4947',
-  outline: '#6f7977',
-  outlineVariant: '#bec9c6',
-  error: '#ba1a1a',
+  surface: "#FDF9F4",
+  white: "#FFFFFF",
+  low: "#F7F3EE",
+  container: "#F1EDE8",
+  high: "#EBE8E3",
+
+  ink: "#1C1C19",
+  muted: "#3F4947",
+  outline: "#6F7977",
+  border: "rgba(190,201,198,0.55)",
+  borderSolid: "#BEC9C6",
+
+  teal: "#004642",
+  primary: "#01605A",
+  primaryTint: "rgba(1,96,90,0.09)",
+  primaryTintStrong: "rgba(1,96,90,0.15)",
+  orange: "#FF862D",
+  orangeTint: "rgba(255,134,45,0.10)",
+  peach: "#FFD0A8",
 };
 
-/* ── STITCH EXACT TYPOGRAPHY ── */
 const T = {
-  headlineXl: {
-    fontFamily: "'Inter', sans-serif",
-    fontSize: '48px',
-    lineHeight: '56px',
-    letterSpacing: '-0.02em',
-    fontWeight: 600,
-  },
-  headlineLg: {
-    fontFamily: "'Inter', sans-serif",
-    fontSize: '36px',
-    lineHeight: '44px',
-    letterSpacing: '-0.01em',
-    fontWeight: 600,
-  },
-  headlineMd: {
-    fontFamily: "'Inter', sans-serif",
-    fontSize: '24px',
-    lineHeight: '32px',
-    fontWeight: 500,
-  },
-  headlineSm: {
-    fontFamily: "'Inter', sans-serif",
-    fontSize: '18px',
-    lineHeight: '26px',
-    fontWeight: 500,
-  },
-  labelMd: {
-    fontFamily: "'Inter', sans-serif",
-    fontSize: '12px',
-    lineHeight: '16px',
-    letterSpacing: '0.02em',
-    fontWeight: 500,
-  },
-  labelSm: {
-    fontFamily: "'Inter', sans-serif",
-    fontSize: '11px',
-    lineHeight: '14px',
-    letterSpacing: '0.04em',
-    fontWeight: 500,
-  },
-  bodyLg: {
-    fontFamily: "'Inter', sans-serif",
-    fontSize: '16px',
-    lineHeight: '24px',
-    fontWeight: 400,
-  },
-  bodyMd: {
-    fontFamily: "'Inter', sans-serif",
-    fontSize: '14px',
-    lineHeight: '20px',
-    fontWeight: 400,
-  },
-  bodySm: {
-    fontFamily: "'Inter', sans-serif",
-    fontSize: '13px',
-    lineHeight: '18px',
-    fontWeight: 400,
-  },
+  plus: '"Plus Jakarta Sans", sans-serif',
+  inter: "Inter, sans-serif",
 };
 
-/* ── 1. HERO SECTION (Stitch 1:1) ── */
-function ContactHero() {
+/* ─────────── FORM INPUT ─────────── */
+function Field({ label, required, children }) {
   return (
-    <section className="px-6 md:px-16 pt-20 pb-16 max-w-7xl mx-auto text-center md:text-left flex flex-col md:flex-row items-center gap-12">
-      <div className="flex-1 space-y-6">
-        <div
-          className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border"
-          style={{
-            backgroundColor: C.surfaceCream,
-            borderColor: `${C.outlineVariant}4d`,
-          }}
-        >
-          <span
-            className="w-2 h-2 rounded-full"
-            style={{ backgroundColor: C.secondaryContainer }}
-          />
-          <span
-            className="tracking-wide uppercase"
-            style={{ ...T.labelSm, color: C.secondary }}
-          >
-            Meet the Team
-          </span>
-        </div>
-        <h1
-          className="tracking-tight uppercase"
-          style={{ ...T.headlineXl, color: C.deepTealText }}
-        >
-          BUILT BY OPERATORS. FOR OPERATORS.
-        </h1>
-        <p
-          className="max-w-2xl leading-relaxed"
-          style={{ ...T.bodyLg, color: C.onSurfaceVariant }}
-        >
-          We're a dedicated team of automation architects, engineers, and designers helping modern businesses run without friction.
-        </p>
-      </div>
-
-      <div className="w-full md:w-1/2">
-        <div
-          className="rounded-xl overflow-hidden shadow-lg border relative aspect-[4/3]"
-          style={{
-            backgroundColor: C.surfaceContainerLow,
-            borderColor: `${C.outlineVariant}33`,
-          }}
-        >
-          <img
-            className="w-full h-full object-cover"
-            src="https://lh3.googleusercontent.com/aida-public/AB6AXuBqNXdYshcx9G93PofQZHeApS9PzR-FY2p38efWsRsWyo_waUv84eDaxUpZVls2HeiwvdH0ffWIdM1usMSb69LPNp70Q5FEpYWOhnaQ_tN6X9lFDzfmbYYyQwnREWAxjfPwHPKL-6G7yvVq2CL8dOhJ0GZv7Ya0jq_UZ04Oj2tMOJHc48vpNLCq_r9rBhuAAhSIRbScrkUWHuERHLO1gGfgkSiK87NQuI-ctopjrM6EDLC3_yFqGUByAg"
-            alt="A pristine, bright modern corporate collaborative workspace featuring diverse automation engineers and architects discussing workflows around a sleek oak table with high-end laptops, architectural sketches of operational flows, soft natural window light, professional light mode luxury SaaS aesthetic, deep teal and orange minimalist accents."
-          />
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ── 2. MISSION STATEMENT (Stitch 1:1) ── */
-function MissionStatement() {
-  return (
-    <section
-      className="py-20 px-6 md:px-16 border-y"
-      style={{
-        backgroundColor: C.surfaceCream,
-        borderColor: `${C.outlineVariant}33`,
-      }}
-    >
-      <div className="max-w-4xl mx-auto text-center space-y-6">
-        <h2 style={{ ...T.headlineLg, color: C.deepTealText }}>
-          Human-Centric AI Operations
-        </h2>
-        <p
-          className="leading-relaxed"
-          style={{ ...T.bodyLg, color: C.onSurfaceVariant }}
-        >
-          Technology should amplify human capability, not complicate it. We founded FlowPilot because we experienced firsthand the friction of disconnected operational tools. Our mission is to build intelligent systems that respect your team's expertise, eliminate tedious busywork, and establish total clarity across every department.
-        </p>
-      </div>
-    </section>
-  );
-}
-
-/* ── 3. FOUNDER SPOTLIGHT (Stitch 1:1) ── */
-function FounderSpotlight() {
-  return (
-    <section className="py-24 px-6 md:px-16 max-w-7xl mx-auto">
-      <div
-        className="rounded-xl p-8 md:p-12 shadow-sm border flex flex-col lg:flex-row items-center gap-12"
+    <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+      <label
         style={{
-          backgroundColor: C.surfaceContainerLowest,
-          borderColor: `${C.outlineVariant}4d`,
+          fontFamily: T.inter,
+          fontSize: 13,
+          fontWeight: 600,
+          color: C.ink,
+          letterSpacing: "0.01em",
         }}
       >
-        <div className="w-full lg:w-1/3 aspect-square rounded-lg overflow-hidden shadow-md shrink-0">
-          <img
-            className="w-full h-full object-cover"
-            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCRq8BI9ReI2MkScrCWb4YXMsLXgoJWTSsPmkzkQ1WZaTi05UpbplGb7PA__Uvk82Es7Ef9DTuqWr2XpkeBcwoVqEsubVCxLqLpL_cA1bds-umx6offgLVCXRaheE9J-6gTmVOXe9HRYr1qgHTSE0wnDh_623cqzO6KzEDKaRVcXldUgwIDiMdHWOXWu8Qlu4LhGSgv4NkD1StxYYRrcVo-C3szTbKLxGM9MWR1Oa47eaoE7ny18SII-w"
-            alt="Professional portrait of Alex Martin, Founder and CEO of FlowPilot AI, smiling confidently in a modern minimalist architectural office with warm lighting, wearing a smart casual navy blazer over a clean white shirt, exuding executive warmth and tech leadership."
-          />
-        </div>
-        <div className="w-full lg:w-2/3 space-y-6">
-          <div className="space-y-1">
-            <h3 style={{ ...T.headlineMd, color: C.deepTealText }}>Alex Martin</h3>
-            <p
-              className="font-medium"
-              style={{ ...T.bodyMd, color: C.secondary }}
-            >
-              Founder &amp; CEO
-            </p>
-          </div>
-          <blockquote
-            className="italic pl-4 py-1"
-            style={{
-              ...T.bodyLg,
-              color: C.onSurface,
-              borderLeft: `4px solid ${C.secondaryContainer}`,
-            }}
-          >
-            "We didn't set out to build another noisy software dashboard. We built FlowPilot to act as a silent, reliable operational backbone—allowing teams to focus entirely on creative problem solving and strategic growth."
-          </blockquote>
-          <p
-            className="leading-relaxed"
-            style={{ ...T.bodyMd, color: C.onSurfaceVariant }}
-          >
-            Prior to founding FlowPilot, Alex spent over a decade leading global operations and enterprise transformation initiatives at high-growth technology companies.
-          </p>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ── 4. THE TEAM SECTION (Stitch 1:1) ── */
-function TeamSection() {
-  const team = [
-    {
-      name: 'Maya Dupont',
-      role: 'Automation Architect',
-      desc: 'Designing resilient, scalable multi-system integrations that bridge siloed corporate applications seamlessly.',
-      img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDCDnwvGrJp2kG5acgqRiHZc_x4QIrCj8WvOnxAQbavs-aa4Bq68XxGceUzMTevvjLFYH-FtgFoqkvCq5lUUmQZwwX4e8DdLxtCxKgHBpOFpZZpYeUSK520Ps4RetPXT0XHPPYoXYouhPOP_i-4z0Drci8yHhRWhAOgi4ojB_PrZJiHU_VfQfzkpdz4j-W3MjSmcyrJ4f-B40nTCuH1-GR2lJFsSbgh5jstx7JH4odQqHX6hjZ0N3eF5g',
-      alt: 'Professional portrait of Maya Dupont, Automation Architect, in a brightly lit minimalist workspace, focused and professional, wearing contemporary attire with subtle earthy tones, clean aesthetic.',
-    },
-    {
-      name: 'Jonas K.',
-      role: 'Product & Experience',
-      desc: 'Obsessed with crafting clean, high-end interfaces that make complex AI operations feel effortless and intuitive.',
-      img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuC1zDxzv5Jfo4oownnZ_bU4LkdLKIPvZp1s8iHLcu1ebuZxrc9dLTy54R8YCZo7tqeeYMDaV5AdzScshr5ZsKRwElE7j3a_BCl8z_e-Avuw4a2_ngxBUtUg4HxjpUxJ9NNUph0p8T-kXvLJklqH3SGgo17QqdLIq-lDqrFoL8uhJVGRC35v0fRdONHccpk_sXu630gX_DUhlBdfmIATUCevyxJO-XmCYCbfyHaKFBcBk-HZ2kJG7Z939A',
-      alt: 'Professional portrait of Jonas K., Product and Experience Lead, working in a modern design studio with natural lighting, approachable and sharp expression.',
-    },
-    {
-      name: 'Leila N.',
-      role: 'AI Systems',
-      desc: 'Pioneering deterministic workflow models that guarantee safety, speed, and absolute accuracy in automated decisions.',
-      img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCIFZ8Qtkxqy8VNCKN0yO7yw43_VI0ArGneSaS0mtLro1GdqlFKK0Oucl8NgS0ELN2mFvD9tAvnz9kv7Ymci_BB7EMxV75WfFSMhn90_BYUX8CKoprjsFSQPHWDi0IoQlv31VFMe8VvgVspcnv3WM7Lb5v1uMFWtkb93gNGIzQy9L6cGCYTkttouyMye2Q-kdpNZcS_tq0ohrMjeEH45EA2ij4Hcm2eLGaOpeyMjo1srQ_vRs2k1yfFZQ',
-      alt: 'Professional portrait of Leila N., AI Systems Engineer, in a high-tech clean office environment, confident posture and engaging gaze.',
-    },
-  ];
-
-  return (
-    <section className="py-20 px-6 md:px-16 max-w-7xl mx-auto">
-      <div className="text-center max-w-2xl mx-auto mb-16 space-y-4">
-        <h2 style={{ ...T.headlineLg, color: C.deepTealText }}>
-          Leadership &amp; Engineering
-        </h2>
-        <p style={{ ...T.bodyLg, color: C.onSurfaceVariant }}>
-          The minds architecting the future of enterprise process automation.
-        </p>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        {team.map((member, i) => (
-          <div
-            key={i}
-            className="rounded-xl overflow-hidden shadow-sm border flex flex-col group hover:shadow-md transition-shadow"
-            style={{
-              backgroundColor: C.surfaceContainerLowest,
-              borderColor: `${C.outlineVariant}4d`,
-            }}
-          >
-            <div className="aspect-[4/3] overflow-hidden" style={{ backgroundColor: C.surfaceContainerLow }}>
-              <img
-                src={member.img}
-                alt={member.alt}
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-              />
-            </div>
-            <div className="p-6 space-y-3 flex-1 flex flex-col justify-between">
-              <div>
-                <h3 style={{ ...T.headlineSm, color: C.deepTealText }}>{member.name}</h3>
-                <p
-                  className="font-medium"
-                  style={{ ...T.bodySm, color: C.secondary }}
-                >
-                  {member.role}
-                </p>
-                <p
-                  className="mt-3 leading-relaxed"
-                  style={{ ...T.bodySm, color: C.onSurfaceVariant }}
-                >
-                  {member.desc}
-                </p>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-/* ── 5. CONTACT & INQUIRY WORKSPACE (Stitch 1:1) ── */
-function ContactWorkspace() {
-  return (
-    <section
-      className="py-24 px-6 md:px-16 border-t"
-      style={{
-        backgroundColor: C.surfaceCream,
-        borderColor: `${C.outlineVariant}33`,
-      }}
-    >
-      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
-        {/* Left Side: Office & Info */}
-        <div className="lg:col-span-5 space-y-8">
-          <div className="space-y-4">
-            <h2 style={{ ...T.headlineLg, color: C.deepTealText }}>
-              Let's talk operations.
-            </h2>
-            <p style={{ ...T.bodyLg, color: C.onSurfaceVariant }}>
-              Whether you're looking to automate core processes or explore enterprise-grade partnership, our team is ready to connect.
-            </p>
-          </div>
-
-          <div className="space-y-6">
-            <div className="flex items-start gap-4">
-              <div
-                className="w-10 h-10 rounded-lg flex items-center justify-center shrink-0"
-                style={{ backgroundColor: `${C.primary}1a`, color: C.primary }}
-              >
-                <MapPin className="w-5 h-5" />
-              </div>
-              <div>
-                <h4 style={{ ...T.headlineSm, color: C.deepTealText }}>Global Headquarters</h4>
-                <p style={{ ...T.bodyMd, color: C.onSurfaceVariant }}>
-                  500 Howard Street, Suite 400<br />San Francisco, CA 94105
-                </p>
-              </div>
-            </div>
-
-            <div className="flex items-start gap-4">
-              <div
-                className="w-10 h-10 rounded-lg flex items-center justify-center shrink-0"
-                style={{ backgroundColor: `${C.primary}1a`, color: C.primary }}
-              >
-                <Mail className="w-5 h-5" />
-              </div>
-              <div>
-                <h4 style={{ ...T.headlineSm, color: C.deepTealText }}>Secure Inquiries</h4>
-                <p style={{ ...T.bodyMd, color: C.onSurfaceVariant }}>
-                  contact@flowpilot.ai<br />enterprise@flowpilot.ai
-                </p>
-              </div>
-            </div>
-
-            <div className="flex items-start gap-4">
-              <div
-                className="w-10 h-10 rounded-lg flex items-center justify-center shrink-0"
-                style={{ backgroundColor: `${C.primary}1a`, color: C.primary }}
-              >
-                <Headphones className="w-5 h-5" />
-              </div>
-              <div>
-                <h4 style={{ ...T.headlineSm, color: C.deepTealText }}>Support Hours</h4>
-                <p style={{ ...T.bodyMd, color: C.onSurfaceVariant }}>
-                  Monday – Friday, 8:00 AM – 6:00 PM PST<br />
-                  24/7 Priority Emergency Support for Enterprise Clients
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Right Side: Contact Form */}
-        <div
-          className="lg:col-span-7 rounded-xl p-8 md:p-10 shadow-sm border"
-          style={{
-            backgroundColor: C.surfaceContainerLowest,
-            borderColor: `${C.outlineVariant}4d`,
-          }}
-        >
-          <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="space-y-2">
-                <label
-                  className="block"
-                  style={{ ...T.labelMd, color: C.onSurface }}
-                >
-                  Your Name
-                </label>
-                <input
-                  className="w-full border rounded-lg px-4 py-3 focus:outline-none focus:ring-2"
-                  style={{
-                    backgroundColor: C.surfaceCream,
-                    borderColor: `${C.outlineVariant}80`,
-                    ...T.bodyMd,
-                    color: C.onSurface,
-                  }}
-                  placeholder="Alex Johnson"
-                  type="text"
-                />
-              </div>
-              <div className="space-y-2">
-                <label
-                  className="block"
-                  style={{ ...T.labelMd, color: C.onSurface }}
-                >
-                  Work Email
-                </label>
-                <input
-                  className="w-full border rounded-lg px-4 py-3 focus:outline-none focus:ring-2"
-                  style={{
-                    backgroundColor: C.surfaceCream,
-                    borderColor: `${C.outlineVariant}80`,
-                    ...T.bodyMd,
-                    color: C.onSurface,
-                  }}
-                  placeholder="alex@company.com"
-                  type="email"
-                />
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="space-y-2">
-                <label
-                  className="block"
-                  style={{ ...T.labelMd, color: C.onSurface }}
-                >
-                  Company Size
-                </label>
-                <select
-                  className="w-full border rounded-lg px-4 py-3 focus:outline-none focus:ring-2"
-                  style={{
-                    backgroundColor: C.surfaceCream,
-                    borderColor: `${C.outlineVariant}80`,
-                    ...T.bodyMd,
-                    color: C.onSurface,
-                  }}
-                >
-                  <option>10 - 50 employees</option>
-                  <option>51 - 200 employees</option>
-                  <option>201 - 1,000 employees</option>
-                  <option>1,000+ employees</option>
-                </select>
-              </div>
-              <div className="space-y-2">
-                <label
-                  className="block"
-                  style={{ ...T.labelMd, color: C.onSurface }}
-                >
-                  Inquiry Type
-                </label>
-                <select
-                  className="w-full border rounded-lg px-4 py-3 focus:outline-none focus:ring-2"
-                  style={{
-                    backgroundColor: C.surfaceCream,
-                    borderColor: `${C.outlineVariant}80`,
-                    ...T.bodyMd,
-                    color: C.onSurface,
-                  }}
-                >
-                  <option>Enterprise Demo</option>
-                  <option>Sales &amp; Pricing</option>
-                  <option>Technical Support</option>
-                  <option>Partnership</option>
-                </select>
-              </div>
-            </div>
-
-            <div className="space-y-2">
-              <label
-                className="block"
-                style={{ ...T.labelMd, color: C.onSurface }}
-              >
-                Message
-              </label>
-              <textarea
-                rows={4}
-                className="w-full border rounded-lg px-4 py-3 focus:outline-none focus:ring-2"
-                style={{
-                  backgroundColor: C.surfaceCream,
-                  borderColor: `${C.outlineVariant}80`,
-                  ...T.bodyMd,
-                  color: C.onSurface,
-                }}
-                placeholder="Tell us about your operational workflows and automation goals..."
-              />
-            </div>
-
-            <button
-              type="submit"
-              className="w-full font-medium py-3.5 px-6 rounded-lg shadow-sm hover:opacity-90 transition-opacity flex items-center justify-center gap-2 cursor-pointer"
-              style={{
-                backgroundColor: C.secondaryContainer,
-                color: C.onSecondary,
-                ...T.bodyMd,
-              }}
-            >
-              <span>Send Message</span>
-              <ArrowRight className="w-4 h-4" />
-            </button>
-          </form>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ── 6. FAQ CONTACT BLOCK (Stitch 1:1) ── */
-function ContactQuickAnswers() {
-  return (
-    <section className="py-20 px-6 md:px-16 max-w-5xl mx-auto">
-      <div className="text-center space-y-4 mb-12">
-        <h2 style={{ ...T.headlineLg, color: C.deepTealText }}>
-          Quick Answers
-        </h2>
-        <p style={{ ...T.bodyLg, color: C.onSurfaceVariant }}>
-          Common questions regarding onboarding, security, and sales.
-        </p>
-      </div>
-
-      <div className="space-y-4">
-        <div
-          className="rounded-xl p-6 border shadow-sm"
-          style={{
-            backgroundColor: C.surfaceContainerLowest,
-            borderColor: `${C.outlineVariant}4d`,
-          }}
-        >
-          <h3 className="mb-2" style={{ ...T.headlineSm, color: C.deepTealText }}>
-            How quickly can our team get onboarded with FlowPilot?
-          </h3>
-          <p style={{ ...T.bodyMd, color: C.onSurfaceVariant }}>
-            Most core workflows are fully mapped and integrated within 5 to 10 business days, guided directly by our dedicated automation architects.
-          </p>
-        </div>
-
-        <div
-          className="rounded-xl p-6 border shadow-sm"
-          style={{
-            backgroundColor: C.surfaceContainerLowest,
-            borderColor: `${C.outlineVariant}4d`,
-          }}
-        >
-          <h3 className="mb-2" style={{ ...T.headlineSm, color: C.deepTealText }}>
-            Are enterprise security audits and custom SLAs available?
-          </h3>
-          <p style={{ ...T.bodyMd, color: C.onSurfaceVariant }}>
-            Yes. We provide complete SOC 2 Type II compliance documentation, dedicated VPC options, and bespoke SLAs tailored to enterprise security requirements.
-          </p>
-        </div>
-
-        <div
-          className="rounded-xl p-6 border shadow-sm"
-          style={{
-            backgroundColor: C.surfaceContainerLowest,
-            borderColor: `${C.outlineVariant}4d`,
-          }}
-        >
-          <h3 className="mb-2" style={{ ...T.headlineSm, color: C.deepTealText }}>
-            Can we schedule a live technical demonstration with an engineer?
-          </h3>
-          <p style={{ ...T.bodyMd, color: C.onSurfaceVariant }}>
-            Absolutely. Submit an inquiry through our contact form selecting 'Enterprise Demo' and our team will coordinate a tailored session within 24 hours.
-          </p>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ── 7. FINAL CTA (Stitch 1:1) ── */
-function ContactCta() {
-  return (
-    <section
-      className="py-24 px-6 md:px-16 text-center"
-      style={{
-        backgroundColor: C.primary,
-        color: C.onPrimary,
-      }}
-    >
-      <div className="max-w-3xl mx-auto space-y-8">
-        <h2
-          className="tracking-tight uppercase"
-          style={{ ...T.headlineXl, color: '#ffffff' }}
-        >
-          READY TO PUT YOUR BUSINESS IN FLOW?
-        </h2>
-        <p
-          className="max-w-xl mx-auto"
-          style={{ ...T.bodyLg, color: C.primaryFixedDim }}
-        >
-          Join high-performing operations teams scaling effortlessly with intelligent automation.
-        </p>
-        <div className="pt-2">
-          <Link
-            to="/book-a-demo"
-            className="inline-flex items-center gap-2 px-8 py-4 rounded-lg font-medium shadow-md hover:opacity-95 transition-opacity"
-            style={{
-              backgroundColor: C.secondaryContainer,
-              color: C.onSecondary,
-              ...T.bodyMd,
-            }}
-          >
-            <span>Schedule a Demo</span>
-            <ArrowRight className="w-4 h-4" />
-          </Link>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ── MAIN PAGE EXPORT ── */
-export function ContactPage() {
-  return (
-    <div style={{ backgroundColor: C.surface, minHeight: '100%' }}>
-      <ContactHero />
-      <MissionStatement />
-      <FounderSpotlight />
-      <TeamSection />
-      <ContactWorkspace />
-      <ContactQuickAnswers />
-      <ContactCta />
+        {label}
+        {required && (
+          <span style={{ color: C.orange, marginLeft: 3 }}>*</span>
+        )}
+      </label>
+      {children}
     </div>
   );
 }
+
+function Input({ id, type = "text", placeholder, required, value, onChange }) {
+  const [focused, setFocused] = useState(false);
+  return (
+    <input
+      id={id}
+      type={type}
+      placeholder={placeholder}
+      required={required}
+      value={value}
+      onChange={onChange}
+      onFocus={() => setFocused(true)}
+      onBlur={() => setFocused(false)}
+      style={{
+        padding: "12px 14px",
+        borderRadius: 10,
+        border: `1.5px solid ${focused ? C.primary : C.borderSolid}`,
+        backgroundColor: C.white,
+        fontFamily: T.inter,
+        fontSize: 14,
+        color: C.ink,
+        outline: "none",
+        boxShadow: focused ? `0 0 0 3px ${C.primaryTint}` : "none",
+        transition: "border-color 0.15s, box-shadow 0.15s",
+        width: "100%",
+        boxSizing: "border-box",
+      }}
+    />
+  );
+}
+
+function Textarea({ id, placeholder, required, rows = 4, value, onChange }) {
+  const [focused, setFocused] = useState(false);
+  return (
+    <textarea
+      id={id}
+      placeholder={placeholder}
+      required={required}
+      rows={rows}
+      value={value}
+      onChange={onChange}
+      onFocus={() => setFocused(true)}
+      onBlur={() => setFocused(false)}
+      style={{
+        padding: "12px 14px",
+        borderRadius: 10,
+        border: `1.5px solid ${focused ? C.primary : C.borderSolid}`,
+        backgroundColor: C.white,
+        fontFamily: T.inter,
+        fontSize: 14,
+        color: C.ink,
+        outline: "none",
+        boxShadow: focused ? `0 0 0 3px ${C.primaryTint}` : "none",
+        transition: "border-color 0.15s, box-shadow 0.15s",
+        width: "100%",
+        boxSizing: "border-box",
+        resize: "vertical",
+        minHeight: 110,
+      }}
+    />
+  );
+}
+
+function Select({ id, required, value, onChange, children }) {
+  const [focused, setFocused] = useState(false);
+  return (
+    <select
+      id={id}
+      required={required}
+      value={value}
+      onChange={onChange}
+      onFocus={() => setFocused(true)}
+      onBlur={() => setFocused(false)}
+      style={{
+        padding: "12px 14px",
+        borderRadius: 10,
+        border: `1.5px solid ${focused ? C.primary : C.borderSolid}`,
+        backgroundColor: C.white,
+        fontFamily: T.inter,
+        fontSize: 14,
+        color: C.ink,
+        outline: "none",
+        boxShadow: focused ? `0 0 0 3px ${C.primaryTint}` : "none",
+        transition: "border-color 0.15s, box-shadow 0.15s",
+        width: "100%",
+        boxSizing: "border-box",
+        cursor: "pointer",
+        appearance: "auto",
+      }}
+    >
+      {children}
+    </select>
+  );
+}
+
+/* ─────────── INFO ITEM ─────────── */
+function InfoItem({ icon: Icon, label, children }) {
+  return (
+    <div style={{ display: "flex", gap: 14, alignItems: "flex-start" }}>
+      <div
+        style={{
+          width: 40,
+          height: 40,
+          borderRadius: 11,
+          background: C.primaryTint,
+          color: C.primary,
+          display: "grid",
+          placeItems: "center",
+          flexShrink: 0,
+          marginTop: 2,
+        }}
+      >
+        <Icon size={18} />
+      </div>
+      <div>
+        <p
+          style={{
+            margin: "0 0 4px",
+            fontFamily: T.inter,
+            fontSize: 11,
+            fontWeight: 700,
+            letterSpacing: "0.07em",
+            textTransform: "uppercase",
+            color: C.outline,
+          }}
+        >
+          {label}
+        </p>
+        <div
+          style={{
+            fontFamily: T.inter,
+            fontSize: 14,
+            color: C.ink,
+            lineHeight: 1.65,
+          }}
+        >
+          {children}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ─────────── PAGE ─────────── */
+export function ContactPage() {
+  const [form, setForm] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    company: "",
+    purpose: "",
+    message: "",
+  });
+  const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+
+  const set = (field) => (e) => setForm((f) => ({ ...f, [field]: e.target.value }));
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setSubmitting(true);
+    setTimeout(() => {
+      setSubmitting(false);
+      setSubmitted(true);
+    }, 900);
+  };
+
+  return (
+    <main style={{ background: C.surface, color: C.ink }}>
+
+      {/* ══════════════════════════════════
+          1. HERO
+      ══════════════════════════════════ */}
+      <section
+        style={{
+          position: "relative",
+          padding: "clamp(72px, 10vw, 120px) 24px 80px",
+          overflow: "hidden",
+        }}
+      >
+        {/* Subtle ambient blob */}
+        <div
+          style={{
+            position: "absolute",
+            top: -100,
+            right: -100,
+            width: 500,
+            height: 500,
+            borderRadius: "50%",
+            background: `radial-gradient(circle, ${C.peach} 0%, rgba(255,208,168,0) 65%)`,
+            opacity: 0.38,
+            pointerEvents: "none",
+          }}
+        />
+
+        <div style={{ maxWidth: 1180, margin: "0 auto", position: "relative" }}>
+          {/* Eyebrow */}
+          <div
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 8,
+              padding: "7px 14px",
+              background: C.white,
+              border: `1px solid ${C.border}`,
+              borderRadius: 999,
+              color: C.primary,
+              fontFamily: T.inter,
+              fontSize: 11,
+              fontWeight: 800,
+              letterSpacing: "0.08em",
+              textTransform: "uppercase",
+              marginBottom: 28,
+            }}
+          >
+            <Sparkles size={13} />
+            Talk to the FlowPilot team
+          </div>
+
+          <h1
+            style={{
+              margin: "0 0 24px",
+              fontFamily: T.plus,
+              fontSize: "clamp(48px, 8.5vw, 96px)",
+              lineHeight: 0.96,
+              letterSpacing: "-0.06em",
+              fontWeight: 800,
+              maxWidth: 960,
+            }}
+          >
+            LET&apos;S BUILD YOUR
+            <br />
+            NEXT
+            <span style={{ color: C.primary }}> AUTOMATION.</span>
+          </h1>
+
+          <p
+            style={{
+              margin: 0,
+              fontFamily: T.inter,
+              fontSize: 17,
+              lineHeight: 1.7,
+              color: C.muted,
+              maxWidth: 560,
+            }}
+          >
+            Whether you&apos;re automating a single workflow or transforming
+            your entire operations stack — our team will help you get there.
+          </p>
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════
+          2. CONTACT WORKSPACE — form + info
+      ══════════════════════════════════ */}
+      <section style={{ padding: "0 24px 100px" }}>
+        <div
+          style={{
+            maxWidth: 1180,
+            margin: "0 auto",
+            display: "grid",
+            gridTemplateColumns: "minmax(0,1.35fr) minmax(0,1fr)",
+            gap: 32,
+            alignItems: "start",
+          }}
+          className="fp-contact-workspace"
+        >
+          {/* ── LEFT: FORM ── */}
+          <div
+            style={{
+              background: C.white,
+              border: `1px solid ${C.border}`,
+              borderRadius: 28,
+              padding: "clamp(28px, 5vw, 48px)",
+            }}
+          >
+            {submitted ? (
+              /* ── SUCCESS STATE ── */
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  textAlign: "center",
+                  gap: 16,
+                  padding: "48px 0",
+                }}
+              >
+                <div
+                  style={{
+                    width: 64,
+                    height: 64,
+                    borderRadius: 18,
+                    background: C.primaryTint,
+                    color: C.primary,
+                    display: "grid",
+                    placeItems: "center",
+                  }}
+                >
+                  <CheckCircle2 size={30} />
+                </div>
+                <h2
+                  style={{
+                    margin: 0,
+                    fontFamily: T.plus,
+                    fontSize: 28,
+                    letterSpacing: "-0.03em",
+                  }}
+                >
+                  Message received.
+                </h2>
+                <p
+                  style={{
+                    margin: 0,
+                    fontFamily: T.inter,
+                    fontSize: 15,
+                    color: C.muted,
+                    lineHeight: 1.7,
+                    maxWidth: 380,
+                  }}
+                >
+                  We typically respond within one business day. Our team will
+                  reach out to the email address you provided.
+                </p>
+                <button
+                  onClick={() => { setSubmitted(false); setForm({ firstName:"", lastName:"", email:"", phone:"", company:"", purpose:"", message:"" }); }}
+                  style={{
+                    marginTop: 8,
+                    padding: "11px 22px",
+                    borderRadius: 10,
+                    border: `1.5px solid ${C.borderSolid}`,
+                    background: "transparent",
+                    fontFamily: T.inter,
+                    fontSize: 14,
+                    fontWeight: 700,
+                    color: C.ink,
+                    cursor: "pointer",
+                  }}
+                >
+                  Send another message
+                </button>
+              </div>
+            ) : (
+              /* ── FORM ── */
+              <form onSubmit={handleSubmit} noValidate>
+                <h2
+                  style={{
+                    margin: "0 0 28px",
+                    fontFamily: T.plus,
+                    fontSize: "clamp(22px, 3vw, 30px)",
+                    letterSpacing: "-0.03em",
+                  }}
+                >
+                  Send us a message
+                </h2>
+
+                {/* Row 1: first + last */}
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "1fr 1fr",
+                    gap: 16,
+                    marginBottom: 16,
+                  }}
+                  className="fp-form-two-col"
+                >
+                  <Field label="First name" required>
+                    <Input
+                      id="firstName"
+                      placeholder="Alex"
+                      required
+                      value={form.firstName}
+                      onChange={set("firstName")}
+                    />
+                  </Field>
+                  <Field label="Last name" required>
+                    <Input
+                      id="lastName"
+                      placeholder="Johnson"
+                      required
+                      value={form.lastName}
+                      onChange={set("lastName")}
+                    />
+                  </Field>
+                </div>
+
+                {/* Row 2: email + phone */}
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "1fr 1fr",
+                    gap: 16,
+                    marginBottom: 16,
+                  }}
+                  className="fp-form-two-col"
+                >
+                  <Field label="Work email" required>
+                    <Input
+                      id="email"
+                      type="email"
+                      placeholder="alex@company.com"
+                      required
+                      value={form.email}
+                      onChange={set("email")}
+                    />
+                  </Field>
+                  <Field label="Phone">
+                    <Input
+                      id="phone"
+                      type="tel"
+                      placeholder="+1 (555) 000-0000"
+                      value={form.phone}
+                      onChange={set("phone")}
+                    />
+                  </Field>
+                </div>
+
+                {/* Row 3: company + purpose */}
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "1fr 1fr",
+                    gap: 16,
+                    marginBottom: 16,
+                  }}
+                  className="fp-form-two-col"
+                >
+                  <Field label="Company">
+                    <Input
+                      id="company"
+                      placeholder="Acme Corp"
+                      value={form.company}
+                      onChange={set("company")}
+                    />
+                  </Field>
+                  <Field label="Purpose">
+                    <Select
+                      id="purpose"
+                      value={form.purpose}
+                      onChange={set("purpose")}
+                    >
+                      <option value="">Select a topic…</option>
+                      <option value="demo">Request a demo</option>
+                      <option value="sales">Sales &amp; pricing</option>
+                      <option value="partnership">Partnership</option>
+                      <option value="support">Technical support</option>
+                      <option value="other">Other</option>
+                    </Select>
+                  </Field>
+                </div>
+
+                {/* Message */}
+                <div style={{ marginBottom: 24 }}>
+                  <Field label="Message" required>
+                    <Textarea
+                      id="message"
+                      placeholder="Tell us what you're trying to automate and what workflows you'd like to streamline…"
+                      required
+                      rows={5}
+                      value={form.message}
+                      onChange={set("message")}
+                    />
+                  </Field>
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={submitting}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: 10,
+                    width: "100%",
+                    padding: "15px 24px",
+                    borderRadius: 12,
+                    border: "none",
+                    background: submitting ? C.outline : C.teal,
+                    color: C.white,
+                    fontFamily: T.inter,
+                    fontSize: 15,
+                    fontWeight: 800,
+                    cursor: submitting ? "not-allowed" : "pointer",
+                    transition: "background 0.15s, opacity 0.15s",
+                    opacity: submitting ? 0.75 : 1,
+                  }}
+                >
+                  {submitting ? "Sending…" : (
+                    <>Send Message <ArrowRight size={17} /></>
+                  )}
+                </button>
+              </form>
+            )}
+          </div>
+
+          {/* ── RIGHT: INFO PANEL ── */}
+          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+            {/* Contact details card */}
+            <div
+              style={{
+                background: C.white,
+                border: `1px solid ${C.border}`,
+                borderRadius: 24,
+                padding: 28,
+                display: "flex",
+                flexDirection: "column",
+                gap: 22,
+              }}
+            >
+              <h3
+                style={{
+                  margin: 0,
+                  fontFamily: T.plus,
+                  fontSize: 19,
+                  letterSpacing: "-0.025em",
+                }}
+              >
+                Contact information
+              </h3>
+
+              <InfoItem icon={Mail} label="Email">
+                <a href="mailto:contact@flowpilot.ai" style={{ color: C.primary, textDecoration: "none" }}>
+                  contact@flowpilot.ai
+                </a>
+                <br />
+                <a href="mailto:enterprise@flowpilot.ai" style={{ color: C.muted, textDecoration: "none" }}>
+                  enterprise@flowpilot.ai
+                </a>
+              </InfoItem>
+
+              <InfoItem icon={Phone} label="Phone">
+                +1 (415) 555-0190
+              </InfoItem>
+
+              <InfoItem icon={Building2} label="Office">
+                500 Howard Street, Suite 400
+                <br />
+                San Francisco, CA 94105
+              </InfoItem>
+
+              <InfoItem icon={Clock} label="Support hours">
+                Mon – Fri, 8 AM – 6 PM PST
+                <br />
+                <span style={{ color: C.muted, fontSize: 13 }}>
+                  24/7 priority support for Enterprise plans
+                </span>
+              </InfoItem>
+            </div>
+
+            {/* Book a demo card */}
+            <div
+              style={{
+                background: C.teal,
+                borderRadius: 24,
+                padding: 28,
+                color: C.white,
+                display: "flex",
+                flexDirection: "column",
+                gap: 14,
+              }}
+            >
+              <div
+                style={{
+                  width: 44,
+                  height: 44,
+                  borderRadius: 12,
+                  background: "rgba(255,255,255,0.12)",
+                  color: C.peach,
+                  display: "grid",
+                  placeItems: "center",
+                }}
+              >
+                <Zap size={20} />
+              </div>
+              <h3
+                style={{
+                  margin: 0,
+                  fontFamily: T.plus,
+                  fontSize: 20,
+                  letterSpacing: "-0.025em",
+                }}
+              >
+                Prefer a live walkthrough?
+              </h3>
+              <p
+                style={{
+                  margin: 0,
+                  fontFamily: T.inter,
+                  fontSize: 13,
+                  lineHeight: 1.7,
+                  color: "rgba(255,255,255,0.75)",
+                }}
+              >
+                See FlowPilot handle real workflows — WhatsApp approvals,
+                inbox triage, calendar scheduling — in a personalized 30-min session.
+              </p>
+              <Link
+                to="/book-a-demo"
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 8,
+                  padding: "12px 18px",
+                  borderRadius: 10,
+                  background: C.orange,
+                  color: C.white,
+                  textDecoration: "none",
+                  fontFamily: T.inter,
+                  fontSize: 14,
+                  fontWeight: 800,
+                  alignSelf: "flex-start",
+                }}
+              >
+                Book a Demo <ArrowRight size={15} />
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════
+          3. WHAT HAPPENS NEXT — 3-step process
+      ══════════════════════════════════ */}
+      <section style={{ padding: "90px 24px 100px", background: C.low }}>
+        <div style={{ maxWidth: 1180, margin: "0 auto" }}>
+          <div style={{ marginBottom: 52 }}>
+            <p
+              style={{
+                margin: "0 0 10px",
+                color: C.orange,
+                fontFamily: T.inter,
+                fontSize: 11,
+                fontWeight: 800,
+                letterSpacing: "0.09em",
+                textTransform: "uppercase",
+              }}
+            >
+              What happens after you submit
+            </p>
+            <h2
+              style={{
+                margin: 0,
+                fontFamily: T.plus,
+                fontSize: "clamp(32px, 5vw, 56px)",
+                lineHeight: 1.02,
+                letterSpacing: "-0.045em",
+              }}
+            >
+              SIMPLE.
+              <br />
+              FAST. HUMAN.
+            </h2>
+          </div>
+
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(3, 1fr)",
+              gap: 18,
+            }}
+            className="fp-steps-grid"
+          >
+            {[
+              {
+                step: "01",
+                icon: <MessageSquare size={22} />,
+                title: "We read your message",
+                desc: "A real team member reviews every submission — not a bot. We prioritize by use case and operational fit.",
+              },
+              {
+                step: "02",
+                icon: <Users size={22} />,
+                title: "We match you to the right person",
+                desc: "Depending on your needs, you'll hear from our solutions architecture, enterprise sales, or technical support team.",
+              },
+              {
+                step: "03",
+                icon: <Zap size={22} />,
+                title: "We respond within 24 hours",
+                desc: "Typically faster. Enterprise inquiries receive priority scheduling within the same business day.",
+              },
+            ].map((s) => (
+              <div
+                key={s.step}
+                style={{
+                  background: C.white,
+                  border: `1px solid ${C.border}`,
+                  borderRadius: 22,
+                  padding: 28,
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 16,
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "flex-start",
+                  }}
+                >
+                  <div
+                    style={{
+                      width: 44,
+                      height: 44,
+                      borderRadius: 12,
+                      background: C.primaryTint,
+                      color: C.primary,
+                      display: "grid",
+                      placeItems: "center",
+                    }}
+                  >
+                    {s.icon}
+                  </div>
+                  <span
+                    style={{
+                      fontFamily: T.plus,
+                      fontSize: 13,
+                      fontWeight: 800,
+                      color: C.high,
+                      letterSpacing: "-0.02em",
+                    }}
+                  >
+                    {s.step}
+                  </span>
+                </div>
+
+                <h3
+                  style={{
+                    margin: 0,
+                    fontFamily: T.plus,
+                    fontSize: 19,
+                    letterSpacing: "-0.025em",
+                  }}
+                >
+                  {s.title}
+                </h3>
+
+                <p
+                  style={{
+                    margin: 0,
+                    fontFamily: T.inter,
+                    fontSize: 14,
+                    color: C.muted,
+                    lineHeight: 1.7,
+                  }}
+                >
+                  {s.desc}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════
+          4. FINAL CTA
+      ══════════════════════════════════ */}
+      <section
+        style={{
+          padding: "100px 24px",
+          background: C.teal,
+          color: C.white,
+          textAlign: "center",
+        }}
+      >
+        <div style={{ maxWidth: 720, margin: "0 auto" }}>
+          <p
+            style={{
+              margin: "0 0 14px",
+              color: C.peach,
+              fontFamily: T.inter,
+              fontSize: 11,
+              fontWeight: 800,
+              letterSpacing: "0.09em",
+              textTransform: "uppercase",
+            }}
+          >
+            Ready to automate?
+          </p>
+
+          <h2
+            style={{
+              margin: "0 0 20px",
+              fontFamily: T.plus,
+              fontSize: "clamp(38px, 7vw, 72px)",
+              lineHeight: 0.98,
+              letterSpacing: "-0.055em",
+            }}
+          >
+            READY TO PUT YOUR
+            <br />
+            BUSINESS IN FLOW?
+          </h2>
+
+          <p
+            style={{
+              margin: "0 0 36px",
+              fontFamily: T.inter,
+              fontSize: 16,
+              color: "rgba(255,255,255,0.75)",
+              lineHeight: 1.7,
+            }}
+          >
+            Join operations leaders automating triage, communications, and
+            scheduling — with full human control at every step.
+          </p>
+
+          <div
+            style={{ display: "flex", justifyContent: "center", gap: 12, flexWrap: "wrap" }}
+          >
+            <Link
+              to="/book-a-demo"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 9,
+                padding: "15px 24px",
+                borderRadius: 12,
+                background: C.orange,
+                color: C.white,
+                textDecoration: "none",
+                fontFamily: T.inter,
+                fontSize: 14,
+                fontWeight: 800,
+                boxShadow: "0 4px 18px rgba(255,134,45,0.35)",
+              }}
+            >
+              Schedule a Demo <ArrowRight size={16} />
+            </Link>
+            <Link
+              to="/team"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 9,
+                padding: "15px 24px",
+                borderRadius: 12,
+                border: "1.5px solid rgba(255,255,255,0.28)",
+                background: "rgba(255,255,255,0.08)",
+                color: C.white,
+                textDecoration: "none",
+                fontFamily: T.inter,
+                fontSize: 14,
+                fontWeight: 700,
+              }}
+            >
+              Meet the Team
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      <style>{`
+        @media (max-width: 900px) {
+          .fp-contact-workspace {
+            grid-template-columns: 1fr !important;
+          }
+          .fp-steps-grid {
+            grid-template-columns: 1fr !important;
+          }
+        }
+        @media (max-width: 640px) {
+          .fp-form-two-col {
+            grid-template-columns: 1fr !important;
+          }
+        }
+      `}</style>
+    </main>
+  );
+}
+
+export default ContactPage;
