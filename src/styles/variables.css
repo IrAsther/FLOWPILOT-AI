@@ -1,0 +1,104 @@
+:root {
+  /* ==========================================================================
+     FLOWPILOT AI — DESIGN TOKENS
+     Source: Stitch Project "AuraTech Enterprise Brand Identity"
+     ========================================================================== */
+
+  /* Primary Brand Palette */
+  --color-teal: #01605A;
+  --color-teal-dark: #004642;
+  --color-teal-hover: #024b46;
+  --color-teal-tint: #e7f8f6;
+  --color-teal-surface: #032e2b;
+  --color-teal-light: #8ad4cc;
+  
+  --color-orange: #FF862D;
+  --color-orange-hover: #f0751b;
+  --color-orange-dark: #994700;
+  --color-orange-tint: #fff1e6;
+  --color-orange-light: #ffdbc8;
+
+  --color-peach: #FFD0A8;
+  --color-peach-soft: #ffdcc0;
+  --color-peach-tint: #fff6ed;
+
+  /* Surfaces & Canvas (Crisp warm light luxury theme) */
+  --color-bg-canvas: #fdf9f4;
+  --color-bg-surface: #ffffff;
+  --color-bg-surface-low: #f7f3ee;
+  --color-bg-surface-container: #f1ede8;
+  --color-bg-surface-high: #ebe8e3;
+  --color-bg-surface-highest: #e6e2dd;
+
+  /* Typography Colors */
+  --color-text-primary: #1c1c19;
+  --color-text-secondary: #3f4947;
+  --color-text-muted: #6f7977;
+  --color-text-inverse: #ffffff;
+
+  /* Structural Hairline Borders */
+  --color-border-subtle: rgba(111, 121, 119, 0.2);
+  --color-border-medium: rgba(111, 121, 119, 0.35);
+  --color-border-accent: rgba(1, 96, 90, 0.25);
+  --color-border-orange: rgba(255, 134, 45, 0.3);
+
+  /* Semantic Feedback Colors */
+  --color-success: #16a34a;
+  --color-success-bg: #dcfce7;
+  --color-warning: #d97706;
+  --color-warning-bg: #fef3c7;
+  --color-error: #dc2626;
+  --color-error-bg: #fee2e2;
+  --color-info: #0284c7;
+  --color-info-bg: #e0f2fe;
+
+  /* Typography Families */
+  --font-display: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  /* Spacing Grid (4px rhythmic unit) */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+  --space-24: 96px;
+  --space-32: 128px;
+
+  /* Border Radius */
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-2xl: 32px;
+  --radius-pill: 9999px;
+
+  /* Shadows */
+  --shadow-xs: 0 1px 2px rgba(10, 10, 15, 0.04);
+  --shadow-sm: 0 2px 8px rgba(10, 10, 15, 0.06);
+  --shadow-md: 0 8px 24px rgba(1, 96, 90, 0.08);
+  --shadow-lg: 0 16px 48px rgba(1, 96, 90, 0.12);
+  --shadow-modal: 0 24px 64px rgba(10, 10, 15, 0.18);
+  --shadow-glow-orange: 0 0 0 1px rgba(255, 134, 45, 0.4), 0 8px 32px rgba(255, 134, 45, 0.24);
+  --shadow-glow-teal: 0 0 0 1px rgba(1, 96, 90, 0.3), 0 8px 32px rgba(1, 96, 90, 0.16);
+
+  /* Transitions */
+  --transition-fast: 150ms cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-base: 250ms cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-slow: 400ms cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Layout Shell Constants */
+  --container-max: 1280px;
+  --container-narrow: 840px;
+  --header-height: 72px;
+  --sidebar-width: 260px;
+  --touch-target-min: 44px;
+}
