@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 const C = {
   surface: '#fdf9f4',
@@ -21,25 +21,72 @@ const C = {
 };
 
 export const AuthPage = ({ initialView = 'login' }) => {
-  const [view, setView] = useState(initialView);
-  const [onboardingStep, setOnboardingStep] = useState(1);
+  const location = useLocation();
   const navigate = useNavigate();
+
+  // Determine view and step from URL if available
+  const getViewFromPath = () => {
+    const p = location.pathname.toLowerCase();
+    if (p.includes('/forgot-password')) return 'forgot';
+    if (p.includes('/reset-password')) return 'reset';
+    if (p.includes('/verify-email') || p.includes('/verify')) return 'verify';
+    if (p.includes('/signup')) return 'signup';
+    if (p.includes('/onboarding')) {
+      if (p.includes('/complete')) return 'completion';
+      return 'onboarding';
+    }
+    if (p.includes('/login') || p.includes('/auth')) return 'login';
+    return initialView;
+  };
+
+  const getStepFromPath = () => {
+    const p = location.pathname.toLowerCase();
+    if (p.includes('/business-profile')) return 1;
+    if (p.includes('/automation-goals')) return 2;
+    if (p.includes('/connect-gmail')) return 3;
+    if (p.includes('/connect-whatsapp')) return 4;
+    if (p.includes('/connect-calendar')) return 5;
+    if (p.includes('/first-workflow')) return 6;
+    if (p.includes('/complete')) return 7;
+    return 1;
+  };
+
+  const [view, setView] = useState(getViewFromPath);
+  const [onboardingStep, setOnboardingStep] = useState(getStepFromPath);
+
+  useEffect(() => {
+    setView(getViewFromPath());
+    setOnboardingStep(getStepFromPath());
+  }, [location.pathname]);
+
+  const onboardingStepList = [
+    { step: 1, id: 'business-profile', label: 'Business Profile' },
+    { step: 2, id: 'automation-goals', label: 'Automation Goals' },
+    { step: 3, id: 'connect-gmail', label: 'Connect Gmail' },
+    { step: 4, id: 'connect-whatsapp', label: 'Connect WhatsApp' },
+    { step: 5, id: 'connect-calendar', label: 'Connect Calendar' },
+    { step: 6, id: 'first-workflow', label: 'First Workflow' },
+  ];
 
   return (
     <div style={{ backgroundColor: C.surface, color: C.onSurface, minHeight: '100vh', display: 'flex', flexDirection: 'column', fontFamily: "'Inter', sans-serif" }}>
-      {/* View Switcher Sub-header for interactive demo */}
+      {/* View Switcher Sub-header for quick interactive navigation & QA */}
       <div style={{ backgroundColor: C.surfaceContainer, padding: '8px 24px', borderBottom: `1px solid ${C.borderLight}`, display: 'flex', justifyContent: 'center', gap: '8px', flexWrap: 'wrap' }}>
         {[
-          { id: 'login', label: 'Login' },
-          { id: 'signup', label: 'Sign Up' },
-          { id: 'forgot', label: 'Forgot Password' },
-          { id: 'verify', label: 'Verify 2FA' },
-          { id: 'onboarding', label: 'Onboarding Wizard' },
-          { id: 'completion', label: 'Success' },
+          { id: 'login', label: 'Login', path: '/login' },
+          { id: 'signup', label: 'Sign Up', path: '/signup' },
+          { id: 'forgot', label: 'Forgot Password', path: '/forgot-password' },
+          { id: 'reset', label: 'Reset Password', path: '/reset-password' },
+          { id: 'verify', label: 'Verify Email / 2FA', path: '/verify-email' },
+          { id: 'onboarding', label: 'Onboarding Wizard', path: '/onboarding' },
+          { id: 'completion', label: 'Onboarding Complete', path: '/onboarding/complete' },
         ].map((tab) => (
           <button
             key={tab.id}
-            onClick={() => setView(tab.id)}
+            onClick={() => {
+              setView(tab.id);
+              navigate(tab.path);
+            }}
             style={{
               padding: '6px 14px',
               borderRadius: '8px',
@@ -74,7 +121,7 @@ export const AuthPage = ({ initialView = 'login' }) => {
                 </p>
               </div>
 
-              <form onSubmit={(e) => { e.preventDefault(); setView('onboarding'); }} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+              <form onSubmit={(e) => { e.preventDefault(); navigate('/dashboard'); }} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                 <div>
                   <label style={{ fontSize: '13px', fontWeight: 600, display: 'block', marginBottom: '6px' }}>Work Email</label>
                   <input
@@ -88,9 +135,9 @@ export const AuthPage = ({ initialView = 'login' }) => {
                 <div>
                   <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '6px' }}>
                     <label style={{ fontSize: '13px', fontWeight: 600 }}>Password</label>
-                    <button type="button" onClick={() => setView('forgot')} style={{ background: 'none', border: 'none', color: C.primary, fontSize: '12px', cursor: 'pointer', textDecoration: 'underline' }}>
+                    <Link to="/forgot-password" onClick={() => setView('forgot')} style={{ color: C.primary, fontSize: '12px', textDecoration: 'underline' }}>
                       Forgot password?
-                    </button>
+                    </Link>
                   </div>
                   <input
                     type="password"
@@ -129,19 +176,19 @@ export const AuthPage = ({ initialView = 'login' }) => {
               </div>
 
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
-                <button onClick={() => setView('onboarding')} style={{ padding: '10px', borderRadius: '10px', border: `1px solid ${C.borderLight}`, backgroundColor: '#ffffff', fontSize: '13px', fontWeight: 600, cursor: 'pointer' }}>
+                <button onClick={() => navigate('/onboarding')} style={{ padding: '10px', borderRadius: '10px', border: `1px solid ${C.borderLight}`, backgroundColor: '#ffffff', fontSize: '13px', fontWeight: 600, cursor: 'pointer' }}>
                   Google Workspace
                 </button>
-                <button onClick={() => setView('onboarding')} style={{ padding: '10px', borderRadius: '10px', border: `1px solid ${C.borderLight}`, backgroundColor: '#ffffff', fontSize: '13px', fontWeight: 600, cursor: 'pointer' }}>
+                <button onClick={() => navigate('/onboarding')} style={{ padding: '10px', borderRadius: '10px', border: `1px solid ${C.borderLight}`, backgroundColor: '#ffffff', fontSize: '13px', fontWeight: 600, cursor: 'pointer' }}>
                   Microsoft 365
                 </button>
               </div>
 
               <p style={{ textAlign: 'center', fontSize: '13px', color: C.onSurfaceVariant, marginTop: '28px' }}>
                 Don't have an account?{' '}
-                <button onClick={() => setView('signup')} style={{ background: 'none', border: 'none', color: C.primary, fontWeight: 700, cursor: 'pointer', textDecoration: 'underline' }}>
+                <Link to="/signup" onClick={() => setView('signup')} style={{ color: C.primary, fontWeight: 700, textDecoration: 'underline' }}>
                   Start free trial
-                </button>
+                </Link>
               </p>
             </div>
 
@@ -204,7 +251,7 @@ export const AuthPage = ({ initialView = 'login' }) => {
                 No credit card required. Set up your AI operations team in under 3 minutes.
               </p>
 
-              <form onSubmit={(e) => { e.preventDefault(); setView('verify'); }} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+              <form onSubmit={(e) => { e.preventDefault(); navigate('/verify-email'); }} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
                 <div>
                   <label style={{ fontSize: '12px', fontWeight: 600, display: 'block', marginBottom: '4px' }}>Full Name</label>
                   <input type="text" required placeholder="Alex Martin" defaultValue="Alex Martin" style={{ width: '100%', padding: '10px 12px', borderRadius: '8px', border: `1px solid ${C.outlineVariant}`, fontSize: '13px' }} />
@@ -241,9 +288,9 @@ export const AuthPage = ({ initialView = 'login' }) => {
 
               <p style={{ textAlign: 'center', fontSize: '13px', color: C.onSurfaceVariant, marginTop: '20px' }}>
                 Already registered?{' '}
-                <button onClick={() => setView('login')} style={{ background: 'none', border: 'none', color: C.primary, fontWeight: 700, cursor: 'pointer', textDecoration: 'underline' }}>
+                <Link to="/login" onClick={() => setView('login')} style={{ color: C.primary, fontWeight: 700, textDecoration: 'underline' }}>
                   Sign in
-                </button>
+                </Link>
               </p>
             </div>
           </div>
@@ -259,32 +306,62 @@ export const AuthPage = ({ initialView = 'login' }) => {
               <p style={{ fontSize: '13px', color: C.onSurfaceVariant, marginBottom: '20px' }}>
                 Enter your registered work email and we will send you a secure magic recovery link.
               </p>
-              <form onSubmit={(e) => { e.preventDefault(); alert('Recovery email sent! Check your inbox.'); setView('login'); }} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+              <form onSubmit={(e) => { e.preventDefault(); navigate('/reset-password'); }} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
                 <div>
                   <label style={{ fontSize: '12px', fontWeight: 600, display: 'block', marginBottom: '4px' }}>Work Email</label>
                   <input type="email" required placeholder="alex@company.com" defaultValue="alex@northlinestudio.com" style={{ width: '100%', padding: '10px 12px', borderRadius: '8px', border: `1px solid ${C.outlineVariant}`, fontSize: '13px' }} />
                 </div>
                 <button type="submit" style={{ backgroundColor: C.primaryContainer, color: '#ffffff', padding: '12px', borderRadius: '8px', border: 'none', fontSize: '14px', fontWeight: 700, cursor: 'pointer' }}>
-                  Send Recovery Link
+                  Send Recovery Link →
                 </button>
               </form>
-              <button onClick={() => setView('login')} style={{ width: '100%', background: 'none', border: 'none', color: C.primary, fontSize: '13px', fontWeight: 600, marginTop: '16px', cursor: 'pointer' }}>
+              <Link to="/login" onClick={() => setView('login')} style={{ display: 'block', textAlign: 'center', color: C.primary, fontSize: '13px', fontWeight: 600, marginTop: '16px', textDecoration: 'none' }}>
                 ← Back to Login
-              </button>
+              </Link>
             </div>
           </div>
         )}
 
-        {/* 4. VERIFY 2FA VIEW */}
+        {/* 4. RESET PASSWORD VIEW */}
+        {view === 'reset' && (
+          <div style={{ flex: 1, padding: '64px 32px', maxWidth: '480px', margin: '0 auto', width: '100%' }}>
+            <div style={{ backgroundColor: C.surfaceContainerLowest, padding: '36px', borderRadius: '24px', border: `1px solid ${C.borderLight}`, boxShadow: '0 12px 32px rgba(0,0,0,0.04)' }}>
+              <h2 style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: '24px', fontWeight: 800, color: C.onSurface, margin: '0 0 8px 0' }}>
+                Choose New Password
+              </h2>
+              <p style={{ fontSize: '13px', color: C.onSurfaceVariant, marginBottom: '20px' }}>
+                Your recovery token has been validated. Enter your new strong password below.
+              </p>
+              <form onSubmit={(e) => { e.preventDefault(); navigate('/login'); }} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+                <div>
+                  <label style={{ fontSize: '12px', fontWeight: 600, display: 'block', marginBottom: '4px' }}>New Password</label>
+                  <input type="password" required placeholder="••••••••••••" defaultValue="NewSecurePass2026!" style={{ width: '100%', padding: '10px 12px', borderRadius: '8px', border: `1px solid ${C.outlineVariant}`, fontSize: '13px' }} />
+                </div>
+                <div>
+                  <label style={{ fontSize: '12px', fontWeight: 600, display: 'block', marginBottom: '4px' }}>Confirm New Password</label>
+                  <input type="password" required placeholder="••••••••••••" defaultValue="NewSecurePass2026!" style={{ width: '100%', padding: '10px 12px', borderRadius: '8px', border: `1px solid ${C.outlineVariant}`, fontSize: '13px' }} />
+                </div>
+                <button type="submit" style={{ backgroundColor: C.secondaryContainer, color: '#ffffff', padding: '12px', borderRadius: '8px', border: 'none', fontSize: '14px', fontWeight: 700, cursor: 'pointer' }}>
+                  Update Password &amp; Log In →
+                </button>
+              </form>
+              <Link to="/login" onClick={() => setView('login')} style={{ display: 'block', textAlign: 'center', color: C.primary, fontSize: '13px', fontWeight: 600, marginTop: '16px', textDecoration: 'none' }}>
+                ← Back to Login
+              </Link>
+            </div>
+          </div>
+        )}
+
+        {/* 5. VERIFY 2FA / EMAIL VIEW */}
         {view === 'verify' && (
           <div style={{ flex: 1, padding: '64px 32px', maxWidth: '480px', margin: '0 auto', width: '100%' }}>
             <div style={{ backgroundColor: C.surfaceContainerLowest, padding: '36px', borderRadius: '24px', border: `1px solid ${C.borderLight}`, textAlign: 'center', boxShadow: '0 12px 32px rgba(0,0,0,0.04)' }}>
               <div style={{ fontSize: '36px', marginBottom: '12px' }}>🔐</div>
               <h2 style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: '24px', fontWeight: 800, color: C.onSurface, margin: '0 0 8px 0' }}>
-                Two-Factor Verification
+                Two-Factor / Email Verification
               </h2>
               <p style={{ fontSize: '13px', color: C.onSurfaceVariant, marginBottom: '24px' }}>
-                We sent a 6-digit code to your WhatsApp and email. Enter it below to confirm access.
+                We sent a 6-digit verification code to your WhatsApp and email. Enter it below to confirm access.
               </p>
               <div style={{ display: 'flex', justifyContent: 'center', gap: '8px', marginBottom: '24px' }}>
                 {['8', '4', '2', '0', '9', '1'].map((val, idx) => (
@@ -297,26 +374,25 @@ export const AuthPage = ({ initialView = 'login' }) => {
                   />
                 ))}
               </div>
-              <button onClick={() => setView('onboarding')} style={{ width: '100%', backgroundColor: C.primaryContainer, color: '#ffffff', padding: '12px', borderRadius: '8px', border: 'none', fontSize: '14px', fontWeight: 700, cursor: 'pointer' }}>
-                Verify &amp; Continue →
+              <button onClick={() => navigate('/onboarding')} style={{ width: '100%', backgroundColor: C.primaryContainer, color: '#ffffff', padding: '12px', borderRadius: '8px', border: 'none', fontSize: '14px', fontWeight: 700, cursor: 'pointer' }}>
+                Verify &amp; Start Onboarding →
               </button>
             </div>
           </div>
         )}
 
-        {/* 5. ONBOARDING WIZARD */}
+        {/* 6. ONBOARDING WIZARD */}
         {view === 'onboarding' && (
-          <div style={{ flex: 1, padding: '48px 32px', maxWidth: '780px', margin: '0 auto', width: '100%' }}>
+          <div style={{ flex: 1, padding: '48px 32px', maxWidth: '820px', margin: '0 auto', width: '100%' }}>
             <div style={{ backgroundColor: C.surfaceContainerLowest, padding: '36px', borderRadius: '24px', border: `1px solid ${C.borderLight}`, boxShadow: '0 12px 32px rgba(0,0,0,0.04)' }}>
-              {/* Progress Steps */}
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '32px', borderBottom: `1px solid ${C.borderLight}`, paddingBottom: '16px' }}>
-                {[
-                  { step: 1, name: 'Connect Gmail' },
-                  { step: 2, name: 'Connect WhatsApp' },
-                  { step: 3, name: 'Calendar Sync' },
-                  { step: 4, name: 'Activate Team' },
-                ].map((s) => (
-                  <div key={s.step} style={{ textAlign: 'center' }}>
+              {/* Progress Steps Header */}
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '32px', borderBottom: `1px solid ${C.borderLight}`, paddingBottom: '16px', overflowX: 'auto' }}>
+                {onboardingStepList.map((s) => (
+                  <div
+                    key={s.step}
+                    onClick={() => setOnboardingStep(s.step)}
+                    style={{ textAlign: 'center', cursor: 'pointer', padding: '0 8px', minWidth: '80px' }}
+                  >
                     <div
                       style={{
                         width: '32px',
@@ -330,25 +406,95 @@ export const AuthPage = ({ initialView = 'login' }) => {
                         fontSize: '12px',
                         fontWeight: 700,
                         margin: '0 auto 6px auto',
+                        transition: 'all 0.2s',
                       }}
                     >
                       {onboardingStep > s.step ? '✓' : s.step}
                     </div>
-                    <span style={{ fontSize: '11px', fontWeight: 600, color: onboardingStep === s.step ? C.primary : C.onSurfaceVariant }}>
-                      {s.name}
+                    <span style={{ fontSize: '11px', fontWeight: 600, color: onboardingStep === s.step ? C.primary : C.onSurfaceVariant, whiteSpace: 'nowrap' }}>
+                      {s.label}
                     </span>
                   </div>
                 ))}
               </div>
 
-              {/* Step 1: Connect Gmail */}
+              {/* Step 1: Business Profile */}
               {onboardingStep === 1 && (
                 <div>
                   <h3 style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: '22px', fontWeight: 800, marginBottom: '8px' }}>
-                    Step 1: Link your Primary Business Email
+                    Step 1: Set Up Your Business Profile
                   </h3>
                   <p style={{ fontSize: '14px', color: C.onSurfaceVariant, marginBottom: '24px' }}>
-                    FlowPilot reads incoming client requests and drafts AI responses without touching existing folders.
+                    Help FlowPilot understand your business domain, customer base, and operating timezone.
+                  </p>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '24px' }}>
+                    <div>
+                      <label style={{ fontSize: '12px', fontWeight: 600, display: 'block', marginBottom: '4px' }}>Company Name</label>
+                      <input type="text" defaultValue="Northline Studio" style={{ width: '100%', padding: '10px 12px', borderRadius: '8px', border: `1px solid ${C.outlineVariant}`, fontSize: '13px' }} />
+                    </div>
+                    <div>
+                      <label style={{ fontSize: '12px', fontWeight: 600, display: 'block', marginBottom: '4px' }}>Industry / Sector</label>
+                      <input type="text" defaultValue="Consulting & Professional Services" style={{ width: '100%', padding: '10px 12px', borderRadius: '8px', border: `1px solid ${C.outlineVariant}`, fontSize: '13px' }} />
+                    </div>
+                    <div>
+                      <label style={{ fontSize: '12px', fontWeight: 600, display: 'block', marginBottom: '4px' }}>Operating Timezone</label>
+                      <input type="text" defaultValue="America/New_York (EST)" style={{ width: '100%', padding: '10px 12px', borderRadius: '8px', border: `1px solid ${C.outlineVariant}`, fontSize: '13px' }} />
+                    </div>
+                    <div>
+                      <label style={{ fontSize: '12px', fontWeight: 600, display: 'block', marginBottom: '4px' }}>Team Size</label>
+                      <input type="text" defaultValue="10 - 25 members" style={{ width: '100%', padding: '10px 12px', borderRadius: '8px', border: `1px solid ${C.outlineVariant}`, fontSize: '13px' }} />
+                    </div>
+                  </div>
+                  <button onClick={() => setOnboardingStep(2)} style={{ backgroundColor: C.primaryContainer, color: '#ffffff', padding: '12px 24px', borderRadius: '8px', border: 'none', fontSize: '14px', fontWeight: 700, cursor: 'pointer' }}>
+                    Continue to Automation Goals →
+                  </button>
+                </div>
+              )}
+
+              {/* Step 2: Automation Goals */}
+              {onboardingStep === 2 && (
+                <div>
+                  <h3 style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: '22px', fontWeight: 800, marginBottom: '8px' }}>
+                    Step 2: Choose Your Primary Automation Goals
+                  </h3>
+                  <p style={{ fontSize: '14px', color: C.onSurfaceVariant, marginBottom: '24px' }}>
+                    Select the operations workflows you want FlowPilot AI to automate first.
+                  </p>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '24px' }}>
+                    {[
+                      { title: 'Inbound Email Triage & Drafts', desc: 'Scan RFQs, partner emails, and client questions to draft instant replies.', defaultChecked: true },
+                      { title: 'WhatsApp Push & Approval Routing', desc: 'Receive high-priority briefs with 1-tap WhatsApp authorization.', defaultChecked: true },
+                      { title: 'Autonomous Calendar Scheduling', desc: 'Resolve scheduling conflicts and hold focus blocks without email ping-pong.', defaultChecked: true },
+                      { title: 'Enterprise CRM Sync', desc: 'Log proposals, customer intent, and interaction logs straight to HubSpot/Salesforce.', defaultChecked: false },
+                    ].map((item, idx) => (
+                      <label key={idx} style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', padding: '14px', borderRadius: '10px', backgroundColor: C.surfaceContainerLow, border: `1px solid ${C.borderLight}`, cursor: 'pointer' }}>
+                        <input type="checkbox" defaultChecked={item.defaultChecked} style={{ marginTop: '3px', accentColor: C.primaryContainer }} />
+                        <div>
+                          <strong style={{ fontSize: '14px', display: 'block' }}>{item.title}</strong>
+                          <span style={{ fontSize: '12px', color: C.onSurfaceVariant }}>{item.desc}</span>
+                        </div>
+                      </label>
+                    ))}
+                  </div>
+                  <div style={{ display: 'flex', gap: '12px' }}>
+                    <button onClick={() => setOnboardingStep(1)} style={{ backgroundColor: C.surfaceContainer, color: C.onSurface, padding: '12px 20px', borderRadius: '8px', border: 'none', fontSize: '14px', fontWeight: 600, cursor: 'pointer' }}>
+                      ← Back
+                    </button>
+                    <button onClick={() => setOnboardingStep(3)} style={{ backgroundColor: C.primaryContainer, color: '#ffffff', padding: '12px 24px', borderRadius: '8px', border: 'none', fontSize: '14px', fontWeight: 700, cursor: 'pointer' }}>
+                      Continue to Connect Gmail →
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {/* Step 3: Connect Gmail */}
+              {onboardingStep === 3 && (
+                <div>
+                  <h3 style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: '22px', fontWeight: 800, marginBottom: '8px' }}>
+                    Step 3: Link Your Primary Business Email
+                  </h3>
+                  <p style={{ fontSize: '14px', color: C.onSurfaceVariant, marginBottom: '24px' }}>
+                    FlowPilot reads incoming client requests and drafts AI responses without modifying existing folders.
                   </p>
                   <div style={{ padding: '20px', borderRadius: '12px', backgroundColor: C.surfaceContainerLow, border: `1px solid ${C.borderLight}`, marginBottom: '24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
@@ -360,17 +506,22 @@ export const AuthPage = ({ initialView = 'login' }) => {
                     </div>
                     <span style={{ color: '#059669', fontSize: '12px', fontWeight: 700 }}>✓ OAuth Connected</span>
                   </div>
-                  <button onClick={() => setOnboardingStep(2)} style={{ backgroundColor: C.primaryContainer, color: '#ffffff', padding: '12px 24px', borderRadius: '8px', border: 'none', fontSize: '14px', fontWeight: 700, cursor: 'pointer' }}>
-                    Continue to WhatsApp Setup →
-                  </button>
+                  <div style={{ display: 'flex', gap: '12px' }}>
+                    <button onClick={() => setOnboardingStep(2)} style={{ backgroundColor: C.surfaceContainer, color: C.onSurface, padding: '12px 20px', borderRadius: '8px', border: 'none', fontSize: '14px', fontWeight: 600, cursor: 'pointer' }}>
+                      ← Back
+                    </button>
+                    <button onClick={() => setOnboardingStep(4)} style={{ backgroundColor: C.primaryContainer, color: '#ffffff', padding: '12px 24px', borderRadius: '8px', border: 'none', fontSize: '14px', fontWeight: 700, cursor: 'pointer' }}>
+                      Continue to WhatsApp Setup →
+                    </button>
+                  </div>
                 </div>
               )}
 
-              {/* Step 2: Connect WhatsApp */}
-              {onboardingStep === 2 && (
+              {/* Step 4: Connect WhatsApp */}
+              {onboardingStep === 4 && (
                 <div>
                   <h3 style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: '22px', fontWeight: 800, marginBottom: '8px' }}>
-                    Step 2: Connect WhatsApp Business Number
+                    Step 4: Connect WhatsApp Business Number
                   </h3>
                   <p style={{ fontSize: '14px', color: C.onSurfaceVariant, marginBottom: '24px' }}>
                     Receive real-time alerts and reply with text or voice notes to approve dispatched emails.
@@ -385,17 +536,22 @@ export const AuthPage = ({ initialView = 'login' }) => {
                     </div>
                     <span style={{ color: '#059669', fontSize: '12px', fontWeight: 700 }}>✓ Encrypted Sync</span>
                   </div>
-                  <button onClick={() => setOnboardingStep(3)} style={{ backgroundColor: C.primaryContainer, color: '#ffffff', padding: '12px 24px', borderRadius: '8px', border: 'none', fontSize: '14px', fontWeight: 700, cursor: 'pointer' }}>
-                    Continue to Calendar Setup →
-                  </button>
+                  <div style={{ display: 'flex', gap: '12px' }}>
+                    <button onClick={() => setOnboardingStep(3)} style={{ backgroundColor: C.surfaceContainer, color: C.onSurface, padding: '12px 20px', borderRadius: '8px', border: 'none', fontSize: '14px', fontWeight: 600, cursor: 'pointer' }}>
+                      ← Back
+                    </button>
+                    <button onClick={() => setOnboardingStep(5)} style={{ backgroundColor: C.primaryContainer, color: '#ffffff', padding: '12px 24px', borderRadius: '8px', border: 'none', fontSize: '14px', fontWeight: 700, cursor: 'pointer' }}>
+                      Continue to Calendar Setup →
+                    </button>
+                  </div>
                 </div>
               )}
 
-              {/* Step 3: Calendar Sync */}
-              {onboardingStep === 3 && (
+              {/* Step 5: Connect Calendar */}
+              {onboardingStep === 5 && (
                 <div>
                   <h3 style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: '22px', fontWeight: 800, marginBottom: '8px' }}>
-                    Step 3: Synchronize Calendars
+                    Step 5: Synchronize Calendars
                   </h3>
                   <p style={{ fontSize: '14px', color: C.onSurfaceVariant, marginBottom: '24px' }}>
                     Allow FlowPilot to auto-book slots and resolve conflicts automatically.
@@ -410,36 +566,47 @@ export const AuthPage = ({ initialView = 'login' }) => {
                     </div>
                     <span style={{ color: '#059669', fontSize: '12px', fontWeight: 700 }}>✓ Auto-synced</span>
                   </div>
-                  <button onClick={() => setOnboardingStep(4)} style={{ backgroundColor: C.primaryContainer, color: '#ffffff', padding: '12px 24px', borderRadius: '8px', border: 'none', fontSize: '14px', fontWeight: 700, cursor: 'pointer' }}>
-                    Review &amp; Finalize →
-                  </button>
+                  <div style={{ display: 'flex', gap: '12px' }}>
+                    <button onClick={() => setOnboardingStep(4)} style={{ backgroundColor: C.surfaceContainer, color: C.onSurface, padding: '12px 20px', borderRadius: '8px', border: 'none', fontSize: '14px', fontWeight: 600, cursor: 'pointer' }}>
+                      ← Back
+                    </button>
+                    <button onClick={() => setOnboardingStep(6)} style={{ backgroundColor: C.primaryContainer, color: '#ffffff', padding: '12px 24px', borderRadius: '8px', border: 'none', fontSize: '14px', fontWeight: 700, cursor: 'pointer' }}>
+                      Continue to First Workflow →
+                    </button>
+                  </div>
                 </div>
               )}
 
-              {/* Step 4: Activate Team */}
-              {onboardingStep === 4 && (
+              {/* Step 6: First Workflow */}
+              {onboardingStep === 6 && (
                 <div>
                   <h3 style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: '22px', fontWeight: 800, marginBottom: '8px' }}>
-                    Step 4: Ready to Launch Your Operations Team
+                    Step 6: Activate Your First Workflow
                   </h3>
                   <p style={{ fontSize: '14px', color: C.onSurfaceVariant, marginBottom: '24px' }}>
-                    Your autonomous loop (Gmail → FlowPilot AI → WhatsApp → Human Approval → Gmail) is fully validated.
+                    Configure the deterministic threshold for inbound email triage and WhatsApp approval gates.
                   </p>
                   <div style={{ backgroundColor: C.surfaceContainerLow, padding: '20px', borderRadius: '12px', marginBottom: '24px', fontSize: '13px', lineHeight: 1.6 }}>
                     <div>✓ Inbound: <strong>Gmail</strong> active</div>
                     <div>✓ Outbound: <strong>WhatsApp Alerts</strong> enabled</div>
                     <div>✓ Security: <strong>SOC2 / End-to-End Encryption</strong> enforced</div>
+                    <div>✓ Approval threshold: <strong>98% confidence</strong> or human sign-off required</div>
                   </div>
-                  <button onClick={() => setView('completion')} style={{ backgroundColor: C.secondaryContainer, color: '#ffffff', padding: '14px 32px', borderRadius: '10px', border: 'none', fontSize: '15px', fontWeight: 700, cursor: 'pointer' }}>
-                    Launch FlowPilot AI Workspace 🚀
-                  </button>
+                  <div style={{ display: 'flex', gap: '12px' }}>
+                    <button onClick={() => setOnboardingStep(5)} style={{ backgroundColor: C.surfaceContainer, color: C.onSurface, padding: '12px 20px', borderRadius: '8px', border: 'none', fontSize: '14px', fontWeight: 600, cursor: 'pointer' }}>
+                      ← Back
+                    </button>
+                    <button onClick={() => { setView('completion'); navigate('/onboarding/complete'); }} style={{ backgroundColor: C.secondaryContainer, color: '#ffffff', padding: '14px 32px', borderRadius: '10px', border: 'none', fontSize: '15px', fontWeight: 700, cursor: 'pointer' }}>
+                      Launch FlowPilot AI Workspace 🚀
+                    </button>
+                  </div>
                 </div>
               )}
             </div>
           </div>
         )}
 
-        {/* 6. COMPLETION SUCCESS VIEW */}
+        {/* 7. COMPLETION SUCCESS VIEW */}
         {view === 'completion' && (
           <div style={{ flex: 1, padding: '64px 32px', maxWidth: '540px', margin: '0 auto', width: '100%', textAlign: 'center' }}>
             <div style={{ backgroundColor: C.surfaceContainerLowest, padding: '48px 36px', borderRadius: '24px', border: `1px solid ${C.borderLight}`, boxShadow: '0 12px 32px rgba(0,0,0,0.04)' }}>
@@ -450,7 +617,7 @@ export const AuthPage = ({ initialView = 'login' }) => {
                 Your AI Operations Team is Live!
               </h2>
               <p style={{ fontSize: '15px', color: C.onSurfaceVariant, lineHeight: 1.6, marginBottom: '32px' }}>
-                Northline Studio's workspace is initialized. FlowPilot is now monitoring your inbox and ready to triage client communications.
+                Northline Studio's workspace is initialized. FlowPilot is now monitoring your inbox and ready to triage client communications with human approval.
               </p>
               <Link
                 to="/dashboard"
