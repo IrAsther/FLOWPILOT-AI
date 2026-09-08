@@ -1,18 +1,20 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-// Local curated assets from src/styles/Images
-import heroDeskImg from '../../styles/Images/A Revolução do WhatsApp nas Vendas Você já parou para pensar na importância do WhatsApp no seu dia a dia_ Quase todo mundo usa, e para as empresas, ele se tornou um ca.com_zap-suite-otimize-seu-whatsapp-para-vender___?url';
-import phoneAlertImg from '../../styles/Images/Notification alert concept, Unread messages or email notifications Businessman using smartphone with new messages Stock Illustration _ Adobe Stock.jfif';
-import emailStepImg from '../../styles/Images/E-mail.jfif';
-import whatsappStepImg from '../../styles/Images/WhatsApp has been working on a new feature that will allow users to lock specific chats using their fingerprint or … Read More ».jfif';
-import userRepliesImg from '../../styles/Images/With the most recent version of WhatsApp for iOS, users can now utilise the WhatsApp camera to. With the latest upgrade, WhatsApp has added features that make it more useful and entertaining, particularly for users___?url';
-import showcaseDualImg from '../../styles/Images/WhatsApp web tarayıcısı için grup görüntülü arama özelliği geliştiriyor.jfif';
-import supportSolImg from '../../styles/Images/download (3).jfif';
-import salesSolImg from '../../styles/Images/The Importance Of Creating Monthly Content Calendars http___bit_ly_1iyMwZg.jfif';
-import opsSolImg from '../../styles/Images/Business Office Decor, Corporate Office Interior Design 🧾.jfif';
-import testimonialImg1 from '../../styles/Images/ND Agencia de Marketing Digital Quito Ecuador Guayaquil.jfif';
-import testimonialImg2 from '../../styles/Images/download (2).jfif';
+// Local enterprise curated assets from src/styles/Images
+import heroWorkspaceImg from '../../styles/Images/executive-office.jfif';
+import heroPhoneImg from '../../styles/Images/hero-workspace.jfif';
+import stepEmailImg from '../../styles/Images/email-continuity.jfif';
+import stepAnalysisImg from '../../styles/Images/operations-dashboard.jpg';
+import stepMobileImg from '../../styles/Images/whatsapp-messaging-screen.jfif';
+import stepApprovalImg from '../../styles/Images/sales-calendar.jfif';
+import stepSuccessImg from '../../styles/Images/logistics-center.jfif';
+import showcaseWorkspaceImg from '../../styles/Images/executive-office.jfif';
+import solSupportImg from '../../styles/Images/logistics-center.jfif';
+import solSalesImg from '../../styles/Images/sales-calendar.jfif';
+import solOpsImg from '../../styles/Images/executive-office.jfif';
+import testimonialJonathanImg from '../../styles/Images/testimonial-director.jpg';
+import testimonialAriaImg from '../../styles/Images/digital-agency-team.jfif';
 
 /* ─────────────────────────────────────────────────────────────────────────────
    SHARED TOKENS (mirroring Stitch Tailwind config exactly)
@@ -75,380 +77,145 @@ function HeroSection() {
       style={{
         position: 'relative',
         overflow: 'hidden',
-        paddingTop: '64px',
-        paddingBottom: '96px',
+        paddingTop: '96px',
+        paddingBottom: '120px',
         paddingLeft: '24px',
         paddingRight: '24px',
-        maxWidth: '1320px',
-        margin: '0 auto',
+        backgroundImage: `url('${heroWorkspaceImg}')`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundAttachment: 'fixed',
       }}
       className="hero-section"
     >
+      {/* Semi-transparent overlay to ensure readability */}
+      <div 
+        style={{
+          position: 'absolute',
+          inset: 0,
+          backgroundColor: 'rgba(255, 255, 255, 0.65)',
+          zIndex: 1
+        }} 
+      />
+      
       <div
         style={{
-          display: 'grid',
-          gridTemplateColumns: '1.05fr 1fr',
-          gap: '56px',
+          position: 'relative',
+          maxWidth: '800px',
+          margin: '0 auto',
+          zIndex: 2,
+          backgroundColor: 'rgba(255, 255, 255, 0.88)',
+          backdropFilter: 'blur(12px)',
+          WebkitBackdropFilter: 'blur(12px)',
+          padding: '48px',
+          borderRadius: '12px',
+          boxShadow: '0 24px 64px -12px rgba(0,70,66,0.15), 0 12px 32px -8px rgba(0,0,0,0.08)',
+          border: `1px solid ${C.outlineVariant}50`,
+          display: 'flex',
+          flexDirection: 'column',
           alignItems: 'center',
+          textAlign: 'center',
+          gap: '24px',
         }}
-        className="hero-grid"
+        className="hero-content-container"
       >
-        {/* Left Column — Pure unchanged copy */}
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '24px', zIndex: 2 }}>
-          {/* Pill Badge */}
-          <div
+        {/* Pill Badge */}
+        <div
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '8px',
+            padding: '8px 16px',
+            borderRadius: '9999px',
+            backgroundColor: C.surfaceContainerHigh,
+            color: C.primary,
+            border: `1px solid ${C.outlineVariant}40`,
+            ...T.labelSm,
+          }}
+        >
+          <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>bolt</span>
+          <span>Next-Gen Autonomous Workflow Engine</span>
+        </div>
+
+        {/* H1 */}
+        <h1 style={{ ...T.headlineXl, color: C.onSurface, margin: 0 }}>
+          STOP MANAGING YOUR INBOX.<br />
+          <span style={{ color: C.primaryContainer }}>START RUNNING YOUR BUSINESS.</span>
+        </h1>
+
+        {/* Subheading */}
+        <p style={{ ...T.bodyLg, color: C.onSurfaceVariant, maxWidth: '600px', margin: 0 }}>
+          FlowPilot AI intercepts, parses, and resolves complex operational requests across Gmail and WhatsApp instantly, orchestrating your tools without human friction.
+        </p>
+
+        {/* CTA Buttons */}
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '16px',
+            paddingTop: '8px',
+            flexWrap: 'wrap',
+            width: '100%',
+          }}
+          className="hero-cta-group"
+        >
+          <Link
+            to="/book-a-demo"
             style={{
               display: 'inline-flex',
               alignItems: 'center',
+              justifyContent: 'center',
               gap: '8px',
-              padding: '8px 16px',
-              borderRadius: '9999px',
-              backgroundColor: C.surfaceContainerHigh,
-              color: C.primary,
-              border: `1px solid ${C.outlineVariant}40`,
-              ...T.labelSm,
+              backgroundColor: C.secondaryContainer,
+              color: C.onSecondaryContainer,
+              padding: '16px 32px',
+              borderRadius: '8px',
+              ...T.labelMd,
+              fontWeight: 700,
+              boxShadow: '0 8px 20px rgba(254,133,44,0.3)',
+              textDecoration: 'none',
+              transition: 'transform 0.15s ease, box-shadow 0.15s ease',
             }}
+            className="btn-primary"
           >
-            <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>bolt</span>
-            <span>Next-Gen Autonomous Workflow Engine</span>
-          </div>
-
-          {/* H1 */}
-          <h1 style={{ ...T.headlineXl, color: C.onSurface, margin: 0 }}>
-            STOP MANAGING YOUR INBOX.{' '}
-            <span style={{ color: C.primaryContainer }}>START RUNNING YOUR BUSINESS.</span>
-          </h1>
-
-          {/* Subheading */}
-          <p style={{ ...T.bodyLg, color: C.onSurfaceVariant, maxWidth: '672px', margin: 0 }}>
-            FlowPilot AI intercepts, parses, and resolves complex operational requests across Gmail and WhatsApp instantly, orchestrating your tools without human friction.
-          </p>
-
-          {/* CTA Buttons */}
-          <div
+            Start Free Workflow
+            <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>arrow_forward</span>
+          </Link>
+          <Link
+            to="#tour"
             style={{
-              display: 'flex',
-              flexDirection: 'row',
+              display: 'inline-flex',
               alignItems: 'center',
-              gap: '16px',
-              paddingTop: '8px',
-              flexWrap: 'wrap',
-              width: '100%',
+              justifyContent: 'center',
+              gap: '8px',
+              border: `1px solid ${C.outlineVariant}60`,
+              color: C.onSurface,
+              padding: '16px 24px',
+              borderRadius: '8px',
+              ...T.labelMd,
+              fontWeight: 500,
+              backgroundColor: C.surfaceContainerLowest,
+              textDecoration: 'none',
+              boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
             }}
-            className="hero-cta-group"
           >
-            <Link
-              to="/book-a-demo"
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '8px',
-                backgroundColor: C.secondaryContainer,
-                color: C.onSecondaryContainer,
-                padding: '16px 32px',
-                borderRadius: '12px',
-                ...T.labelMd,
-                fontWeight: 700,
-                boxShadow: '0 8px 20px rgba(254,133,44,0.3)',
-                textDecoration: 'none',
-                transition: 'transform 0.15s ease, box-shadow 0.15s ease',
-              }}
-              className="btn-primary"
-            >
-              Start Free Workflow
-              <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>arrow_forward</span>
-            </Link>
-            <Link
-              to="#tour"
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '8px',
-                border: `1px solid ${C.outlineVariant}60`,
-                color: C.onSurface,
-                padding: '16px 24px',
-                borderRadius: '12px',
-                ...T.labelMd,
-                fontWeight: 500,
-                backgroundColor: C.surfaceContainerLowest,
-                textDecoration: 'none',
-                boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
-              }}
-            >
-              <span className="material-symbols-outlined" style={{ fontSize: '18px', color: C.primary }}>play_circle</span>
-              Watch Product Tour
-            </Link>
-          </div>
-
-          {/* Trust Checks */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '24px', paddingTop: '16px', ...T.bodySm, color: C.outline, flexWrap: 'wrap' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <span className="material-symbols-outlined" style={{ fontSize: '18px', color: C.primary }}>check_circle</span>
-              <span>Zero configuration required</span>
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <span className="material-symbols-outlined" style={{ fontSize: '18px', color: C.primary }}>check_circle</span>
-              <span>SOC2 Type II Certified</span>
-            </div>
-          </div>
+            <span className="material-symbols-outlined" style={{ fontSize: '18px', color: C.primary }}>play_circle</span>
+            Watch Product Tour
+          </Link>
         </div>
 
-        {/* Right Column — Multi-Device Tangible Product Showcase */}
-        <div style={{ position: 'relative', width: '100%' }} className="hero-mockup-wrapper">
-          {/* Main Desktop / Laptop Frame with Real Desk Backdrop */}
-          <div
-            style={{
-              backgroundColor: C.surfaceContainerLowest,
-              borderRadius: '20px',
-              border: `1px solid ${C.outlineVariant}40`,
-              boxShadow: '0 24px 64px rgba(0,70,66,0.12), 0 4px 16px rgba(0,0,0,0.04)',
-              overflow: 'hidden',
-              position: 'relative',
-              zIndex: 1,
-            }}
-          >
-            {/* Device Window Chrome */}
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                padding: '12px 18px',
-                backgroundColor: '#f6f3ee',
-                borderBottom: `1px solid ${C.outlineVariant}30`,
-              }}
-            >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <div style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: `${C.error}90` }} />
-                <div style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: `${C.secondaryContainer}` }} />
-                <div style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: `${C.primary}90` }} />
-              </div>
-              <div
-                style={{
-                  ...T.bodySm,
-                  fontSize: '12px',
-                  fontFamily: 'monospace',
-                  color: C.onSurfaceVariant,
-                  backgroundColor: C.surfaceContainerLowest,
-                  padding: '3px 14px',
-                  borderRadius: '6px',
-                  border: `1px solid ${C.outlineVariant}25`,
-                }}
-              >
-                flowpilot-active-session.ai
-              </div>
-              <div style={{ width: '36px' }} />
-            </div>
-
-            {/* Desktop Workstation Real Visual Header */}
-            <div
-              style={{
-                position: 'relative',
-                height: '140px',
-                width: '100%',
-                overflow: 'hidden',
-                backgroundColor: C.surfaceContainerLow,
-              }}
-            >
-              <img
-                src={heroDeskImg}
-                alt="Executive desk with laptop and WhatsApp operations"
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'cover',
-                  objectPosition: 'center 40%',
-                  filter: 'brightness(0.92) contrast(1.05)',
-                }}
-              />
-              <div
-                style={{
-                  position: 'absolute',
-                  inset: 0,
-                  background: 'linear-gradient(180deg, rgba(1,96,90,0.2) 0%, rgba(253,249,244,0.95) 95%)',
-                }}
-              />
-              <div
-                style={{
-                  position: 'absolute',
-                  bottom: '12px',
-                  left: '16px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '8px',
-                  backgroundColor: 'rgba(255,255,255,0.92)',
-                  backdropFilter: 'blur(8px)',
-                  padding: '4px 12px',
-                  borderRadius: '9999px',
-                  border: `1px solid ${C.outlineVariant}40`,
-                  ...T.labelSm,
-                  fontWeight: 600,
-                  color: C.primary,
-                }}
-              >
-                <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#22c55e' }} />
-                <span>Live Orchestration Stream</span>
-              </div>
-            </div>
-
-            {/* Content Cards Inside Main Device */}
-            <div style={{ padding: '20px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
-              {/* Incoming Email Card */}
-              <div
-                style={{
-                  backgroundColor: C.surfaceContainerLow,
-                  padding: '16px',
-                  borderRadius: '12px',
-                  border: `1px solid ${C.outlineVariant}30`,
-                }}
-              >
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
-                  <span style={{ ...T.labelSm, fontWeight: 700, color: C.onSurface }}>Incoming Email #4092</span>
-                  <span
-                    style={{
-                      padding: '3px 10px',
-                      backgroundColor: C.primaryFixed,
-                      color: C.onPrimaryFixed,
-                      borderRadius: '6px',
-                      ...T.bodySm,
-                      fontWeight: 600,
-                    }}
-                  >
-                    AI Handled
-                  </span>
-                </div>
-                <p style={{ ...T.bodySm, color: C.onSurfaceVariant, margin: 0, lineHeight: '20px' }}>
-                  "Can we upgrade our enterprise seat license to 250 users by Friday? Need custom invoicing."
-                </p>
-              </div>
-
-              {/* AI Action Card */}
-              <div
-                style={{
-                  backgroundColor: C.primaryContainer,
-                  color: C.onPrimaryContainer,
-                  padding: '16px',
-                  borderRadius: '12px',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '8px',
-                  boxShadow: '0 8px 24px rgba(1,96,90,0.2)',
-                }}
-              >
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                  <span
-                    style={{
-                      ...T.labelSm,
-                      fontWeight: 700,
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '6px',
-                      color: '#ffffff',
-                    }}
-                  >
-                    <span className="material-symbols-outlined" style={{ fontSize: '18px', color: C.secondaryContainer }}>smart_toy</span>
-                    FlowPilot Autonomous Action
-                  </span>
-                  <span style={{ ...T.bodySm, opacity: 0.85, color: '#ffffff' }}>Just now</span>
-                </div>
-                <p style={{ ...T.bodySm, margin: 0, color: '#e8f7f5', lineHeight: '20px' }}>
-                  Generated custom quote #INV-8892, updated Stripe subscription tier, and sent WhatsApp confirmation to CFO.
-                </p>
-              </div>
-
-              {/* Footer row */}
-              <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  paddingTop: '6px',
-                  paddingLeft: '4px',
-                  paddingRight: '4px',
-                  ...T.bodySm,
-                  color: C.outline,
-                }}
-              >
-                <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                  <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>speed</span>
-                  Execution speed: 1.2s
-                </span>
-                <span style={{ color: C.secondary, fontWeight: 700, display: 'flex', alignItems: 'center', gap: '4px' }}>
-                  <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>verified</span>
-                  100% Automated
-                </span>
-              </div>
-            </div>
+        {/* Trust Checks */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '24px', paddingTop: '16px', ...T.bodySm, color: C.outline, flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <span className="material-symbols-outlined" style={{ fontSize: '18px', color: C.primary }}>check_circle</span>
+            <span>Zero configuration required</span>
           </div>
-
-          {/* Floating Mobile Phone Preview (Multi-Device presentation) */}
-          <div
-            style={{
-              position: 'absolute',
-              bottom: '-32px',
-              right: '-24px',
-              width: '180px',
-              backgroundColor: C.surfaceContainerLowest,
-              borderRadius: '24px',
-              padding: '8px',
-              border: `2px solid ${C.outlineVariant}60`,
-              boxShadow: '0 20px 48px rgba(0,0,0,0.18)',
-              zIndex: 3,
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '6px',
-            }}
-            className="hero-floating-phone"
-          >
-            {/* Phone Speaker Notch */}
-            <div style={{ width: '40px', height: '4px', backgroundColor: '#bec9c6', borderRadius: '9999px', margin: '4px auto 2px' }} />
-            <div
-              style={{
-                borderRadius: '16px',
-                overflow: 'hidden',
-                position: 'relative',
-                height: '110px',
-                backgroundColor: '#01605a',
-              }}
-            >
-              <img
-                src={phoneAlertImg}
-                alt="WhatsApp mobile operational alert"
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'cover',
-                  objectPosition: 'center',
-                }}
-              />
-              <div
-                style={{
-                  position: 'absolute',
-                  inset: 0,
-                  background: 'linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,70,66,0.75) 100%)',
-                }}
-              />
-              <div
-                style={{
-                  position: 'absolute',
-                  bottom: '6px',
-                  left: '8px',
-                  right: '8px',
-                  color: '#ffffff',
-                  fontSize: '11px',
-                  fontWeight: 600,
-                  fontFamily: "'Plus Jakarta Sans'",
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '4px',
-                }}
-              >
-                <span className="material-symbols-outlined" style={{ fontSize: '14px', color: '#25D366' }}>chat</span>
-                <span>WhatsApp Brief</span>
-              </div>
-            </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <span className="material-symbols-outlined" style={{ fontSize: '18px', color: C.primary }}>check_circle</span>
+            <span>SOC2 Type II Certified</span>
           </div>
         </div>
       </div>
@@ -496,7 +263,7 @@ function MetricsBar() {
             key={m.label}
             style={{
               padding: '20px 16px',
-              borderRadius: '16px',
+              borderRadius: '8px',
               backgroundColor: C.surfaceBright,
               border: `1px solid ${C.outlineVariant}25`,
               boxShadow: '0 2px 8px rgba(0,0,0,0.02)',
@@ -526,15 +293,17 @@ const WORKFLOW_STEPS = [
     desc: 'Client drops a complex multi-part request into your primary support or sales inbox.',
     icon: 'mail',
     source: 'Gmail / Outlook',
-    img: emailStepImg,
+    img: stepEmailImg,
     imgAlt: 'Client email landing in company inbox',
   },
   {
     step: 'STEP 02',
     title: 'AI Understands',
     desc: 'Deep semantic parsing extracts intent, sentiment, entity data, and priority levels.',
-    icon: 'psychology',
+    icon: 'analytics',
     source: 'FlowPilot Core',
+    img: stepAnalysisImg,
+    imgAlt: 'Operations team performing data analysis and semantic parsing',
     isTelemetry: true,
   },
   {
@@ -543,8 +312,8 @@ const WORKFLOW_STEPS = [
     desc: 'A concise operational brief is dispatched instantly to your team\'s secure WhatsApp group.',
     icon: 'chat',
     source: 'WhatsApp API',
-    img: whatsappStepImg,
-    imgAlt: 'WhatsApp operational brief security and message view',
+    img: stepMobileImg,
+    imgAlt: 'Professional receiving mobile communication via WhatsApp alert',
   },
   {
     step: 'STEP 04',
@@ -552,8 +321,8 @@ const WORKFLOW_STEPS = [
     desc: 'Approve suggested actions with a single click or reply with voice notes or simple text.',
     icon: 'thumb_up',
     source: 'Instant Command',
-    img: userRepliesImg,
-    imgAlt: 'User actively replying to operational prompt via WhatsApp',
+    img: stepApprovalImg,
+    imgAlt: 'Executive reviewing and approving operational prompt on laptop',
   },
   {
     step: 'STEP 05',
@@ -561,6 +330,8 @@ const WORKFLOW_STEPS = [
     desc: 'Polished, context-aware correspondence and backend updates execute autonomously.',
     icon: 'done_all',
     source: 'Fully Resolved',
+    img: stepSuccessImg,
+    imgAlt: 'Successful execution of enterprise customer workflow',
     isSuccess: true,
   },
 ];
@@ -570,48 +341,65 @@ function WorkflowSection() {
     <section
       id="features"
       style={{
+        position: 'relative',
         paddingTop: '96px',
         paddingBottom: '96px',
         paddingLeft: '24px',
         paddingRight: '24px',
-        maxWidth: '1320px',
-        margin: '0 auto',
+        backgroundImage: `url('${showcaseWorkspaceImg}')`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundAttachment: 'fixed',
       }}
     >
-      <div style={{ textAlign: 'center', maxWidth: '768px', margin: '0 auto 64px' }}>
-        <h2 style={{ ...T.headlineLg, color: C.onSurface, marginBottom: '16px' }}>
-          Autonomous Orchestration in 5 Cinematic Steps
-        </h2>
-        <p style={{ ...T.bodyLg, color: C.onSurfaceVariant }}>
-          Watch how raw chaotic communications transform into structured enterprise executions without manual input.
-        </p>
-      </div>
-
-      <div
+      {/* Semi-transparent overlay to ensure readability */}
+      <div 
         style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(5, 1fr)',
-          gap: '20px',
-        }}
-        className="steps-grid"
-      >
-        {WORKFLOW_STEPS.map((s) => (
-          <StepCard key={s.step} {...s} />
-        ))}
+          position: 'absolute',
+          inset: 0,
+          backgroundColor: 'rgba(253, 249, 244, 0.85)',
+          zIndex: 1
+        }} 
+      />
+
+      <div style={{ position: 'relative', zIndex: 2, maxWidth: '1320px', margin: '0 auto' }}>
+        <div style={{ textAlign: 'center', maxWidth: '768px', margin: '0 auto 64px' }}>
+          <h2 style={{ ...T.headlineLg, color: C.onSurface, marginBottom: '16px' }}>
+            Autonomous Orchestration in 5 Cinematic Steps
+          </h2>
+          <p style={{ ...T.bodyLg, color: C.onSurfaceVariant }}>
+            Watch how raw chaotic communications transform into structured enterprise executions without manual input.
+          </p>
+        </div>
+
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(5, 1fr)',
+            gap: '20px',
+          }}
+          className="steps-grid"
+        >
+          {WORKFLOW_STEPS.map((s) => (
+            <StepCard key={s.step} {...s} />
+          ))}
+        </div>
       </div>
     </section>
   );
 }
 
-function StepCard({ step, title, desc, icon, source, img, imgAlt, isTelemetry, isSuccess }) {
+function StepCard({ step, title, desc, icon, source, isTelemetry, isSuccess }) {
   const [hovered, setHovered] = useState(false);
   return (
     <div
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
-        backgroundColor: C.surfaceContainerLowest,
-        borderRadius: '16px',
+        backgroundColor: 'rgba(255, 255, 255, 0.88)',
+        backdropFilter: 'blur(12px)',
+        WebkitBackdropFilter: 'blur(12px)',
+        borderRadius: '8px',
         border: `1px solid ${hovered ? C.primary : `${C.outlineVariant}35`}`,
         display: 'flex',
         flexDirection: 'column',
@@ -622,129 +410,81 @@ function StepCard({ step, title, desc, icon, source, img, imgAlt, isTelemetry, i
         boxShadow: hovered ? '0 12px 32px rgba(0,70,66,0.08)' : '0 2px 8px rgba(0,0,0,0.02)',
         overflow: 'hidden',
         cursor: 'default',
+        padding: '24px',
+        height: '100%',
+        gap: '24px',
       }}
     >
-      {/* Step Visual Header (Intent-matched local imagery or telemetry display) */}
-      <div
-        style={{
-          height: '110px',
-          width: '100%',
-          position: 'relative',
-          backgroundColor: C.surfaceContainerLow,
-          overflow: 'hidden',
-          borderBottom: `1px solid ${C.outlineVariant}20`,
-        }}
-      >
-        {img ? (
-          <img
-            src={img}
-            alt={imgAlt || title}
-            style={{
-              width: '100%',
-              height: '100%',
-              objectFit: 'cover',
-              objectPosition: 'center',
-            }}
-          />
-        ) : isTelemetry ? (
-          <div
-            style={{
-              padding: '12px 14px',
-              height: '100%',
-              backgroundColor: '#013835',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              gap: '6px',
-              fontFamily: 'monospace',
-              fontSize: '11px',
-              color: '#8ed8d0',
-              lineHeight: '1.4',
-            }}
-          >
-            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#a5f0e8', fontWeight: 700 }}>
-              <span className="material-symbols-outlined" style={{ fontSize: '14px' }}>psychology</span>
-              PARSING ENGINE
-            </div>
-            <div style={{ color: '#fed0a8' }}>&gt; intent: quote_upgrade</div>
-            <div style={{ color: '#ffffff', opacity: 0.85 }}>&gt; confidence: 99.8%</div>
-          </div>
-        ) : isSuccess ? (
-          <div
-            style={{
-              padding: '12px 14px',
-              height: '100%',
-              background: 'linear-gradient(135deg, #01605a 0%, #004642 100%)',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: '6px',
-              color: '#ffffff',
-              textAlign: 'center',
-            }}
-          >
-            <div
-              style={{
-                width: '36px',
-                height: '36px',
-                borderRadius: '50%',
-                backgroundColor: 'rgba(255,255,255,0.15)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
-              <span className="material-symbols-outlined" style={{ fontSize: '22px', color: '#8ed8d0' }}>task_alt</span>
-            </div>
-            <span style={{ fontSize: '11px', fontFamily: 'monospace', color: '#8ed8d0', fontWeight: 600 }}>
-              EXECUTION VERIFIED
-            </span>
-          </div>
-        ) : null}
-
-        {/* Step Badge Overlaid */}
+      {/* Step Badge Overlaid */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
         <span
           style={{
-            position: 'absolute',
-            top: '8px',
-            left: '8px',
             ...T.labelSm,
             fontSize: '11px',
             color: C.onSecondaryContainer,
-            backgroundColor: 'rgba(254,133,44,0.92)',
-            backdropFilter: 'blur(4px)',
+            backgroundColor: 'rgba(254,133,44,0.15)',
             fontWeight: 700,
-            padding: '2px 8px',
+            padding: '4px 10px',
             borderRadius: '9999px',
           }}
         >
           {step}
         </span>
+
+        {/* Telemetry Parsing Overlay for Step 02 */}
+        {isTelemetry && (
+          <div
+            style={{
+              padding: '4px 8px',
+              backgroundColor: 'rgba(1, 56, 53, 0.08)',
+              borderRadius: '6px',
+              color: C.primary,
+              display: 'flex',
+              alignItems: 'center',
+              gap: '4px',
+            }}
+          >
+            <span className="material-symbols-outlined" style={{ fontSize: '14px' }}>analytics</span>
+          </div>
+        )}
+
+        {/* Verified Execution Overlay for Step 05 */}
+        {isSuccess && (
+          <div
+            style={{
+              padding: '4px 8px',
+              backgroundColor: 'rgba(1, 96, 90, 0.08)',
+              borderRadius: '6px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '4px',
+            }}
+          >
+            <span className="material-symbols-outlined" style={{ fontSize: '14px', color: C.primary }}>task_alt</span>
+          </div>
+        )}
       </div>
 
       {/* Step Text Body */}
-      <div style={{ padding: '20px', display: 'flex', flexDirection: 'column', flexGrow: 1, justifyContent: 'space-between' }}>
-        <div>
-          <h3 style={{ ...T.headlineSm, color: C.onSurface, marginBottom: '8px', fontSize: '17px' }}>{title}</h3>
-          <p style={{ ...T.bodySm, color: C.onSurfaceVariant, margin: 0, lineHeight: '20px' }}>{desc}</p>
-        </div>
+      <div style={{ display: 'flex', flexDirection: 'column', flexGrow: 1, justifyContent: 'center' }}>
+        <h3 style={{ ...T.headlineSm, color: C.onSurface, marginBottom: '12px', fontSize: '18px' }}>{title}</h3>
+        <p style={{ ...T.bodySm, color: C.onSurfaceVariant, margin: 0, lineHeight: '22px' }}>{desc}</p>
+      </div>
 
-        {/* Step Footer with Channel Source */}
-        <div
-          style={{
-            marginTop: '20px',
-            paddingTop: '12px',
-            borderTop: `1px solid ${C.outlineVariant}20`,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            color: C.outline,
-          }}
-        >
-          <span className="material-symbols-outlined" style={{ fontSize: '18px', color: C.primaryContainer }}>{icon}</span>
-          <span style={{ ...T.bodySm, fontSize: '11px', fontFamily: 'monospace', fontWeight: 600, color: C.onSurfaceVariant }}>{source}</span>
-        </div>
+      {/* Step Footer with Channel Source */}
+      <div
+        style={{
+          paddingTop: '16px',
+          borderTop: `1px solid ${C.outlineVariant}30`,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          color: C.outline,
+        }}
+      >
+        <span className="material-symbols-outlined" style={{ fontSize: '18px', color: C.primaryContainer }}>{icon}</span>
+        <span style={{ ...T.bodySm, fontSize: '11px', fontFamily: 'monospace', fontWeight: 600, color: C.onSurfaceVariant }}>{source}</span>
       </div>
     </div>
   );
@@ -807,44 +547,45 @@ function ProductShowcase() {
           <div
             style={{
               backgroundColor: C.surfaceContainerLowest,
-              borderRadius: '20px',
+              borderRadius: '12px',
               border: `1px solid ${C.outlineVariant}35`,
               boxShadow: '0 24px 64px rgba(0,0,0,0.08)',
               overflow: 'hidden',
             }}
           >
-            {/* Visual Header Window: Multi-device display image */}
+            {/* Visual Header Window: Enterprise workstation display image */}
             <div
               style={{
                 position: 'relative',
-                height: '180px',
+                height: '250px',
                 width: '100%',
                 overflow: 'hidden',
-                backgroundColor: '#0f172a',
+                backgroundColor: C.primary,
               }}
             >
               <img
-                src={showcaseDualImg}
-                alt="FlowPilot integrated WhatsApp and Web multi-device telemetry"
+                src={showcaseWorkspaceImg}
+                alt="FlowPilot integrated command center and enterprise modern workstation"
                 style={{
                   width: '100%',
                   height: '100%',
                   objectFit: 'cover',
-                  objectPosition: 'center',
+                  objectPosition: 'center 38%',
+                  filter: 'brightness(0.95) contrast(1.05)',
                 }}
               />
               <div
                 style={{
                   position: 'absolute',
                   inset: 0,
-                  background: 'linear-gradient(180deg, rgba(0,0,0,0.2) 0%, rgba(255,255,255,0.95) 100%)',
+                  background: 'linear-gradient(180deg, rgba(0,32,30,0.25) 0%, rgba(0,70,66,0.2) 40%, rgba(253,249,244,0.95) 100%)',
                 }}
               />
               <div
                 style={{
                   position: 'absolute',
-                  top: '12px',
-                  right: '12px',
+                  top: '14px',
+                  right: '14px',
                   backgroundColor: 'rgba(1,96,90,0.9)',
                   backdropFilter: 'blur(6px)',
                   color: '#ffffff',
@@ -880,7 +621,7 @@ function ProductShowcase() {
                     style={{
                       width: '40px',
                       height: '40px',
-                      borderRadius: '10px',
+                      borderRadius: '8px',
                       backgroundColor: `${C.primaryContainer}15`,
                       display: 'flex',
                       alignItems: 'center',
@@ -928,7 +669,7 @@ function ProductShowcase() {
                       style={{
                         width: '40px',
                         height: '40px',
-                        borderRadius: '10px',
+                        borderRadius: '8px',
                         backgroundColor: '#25D366',
                         color: '#ffffff',
                         display: 'flex',
@@ -979,7 +720,7 @@ function ProductShowcase() {
                       style={{
                         width: '40px',
                         height: '40px',
-                        borderRadius: '10px',
+                        borderRadius: '8px',
                         backgroundColor: C.primaryContainer,
                         color: C.onPrimaryContainer,
                         display: 'flex',
@@ -1033,8 +774,8 @@ const SOLUTIONS = [
     linkText: 'Explore Support Module',
     linkColor: C.primary,
     href: '/services',
-    img: supportSolImg,
-    imgAlt: 'Support headset with 3D customer satisfaction rating and chat bubbles',
+    img: solSupportImg,
+    imgAlt: 'Professional customer support specialist with laptop in modern enterprise office',
   },
   {
     icon: 'payments',
@@ -1044,18 +785,18 @@ const SOLUTIONS = [
     linkText: 'Explore Sales Module',
     linkColor: C.secondary,
     href: '/services',
-    img: salesSolImg,
-    imgAlt: 'Executive workspace laptop showing calendar scheduler',
+    img: solSalesImg,
+    imgAlt: 'Executive workspace laptop showing modern calendar and pipeline management',
   },
   {
-    icon: 'hub',
+    icon: 'account_tree',
     iconColor: C.primary,
     title: 'Operations & Logistics',
     desc: 'Coordinate supply chain communications, track vendor deliveries, and handle exception alerts in real-time.',
     linkText: 'Explore Ops Module',
     linkColor: C.primary,
     href: '/services',
-    img: opsSolImg,
+    img: solOpsImg,
     imgAlt: 'Enterprise modern office operations and logistics headquarters',
   },
 ];
@@ -1065,112 +806,94 @@ function SolutionsSection() {
     <section
       id="solutions"
       style={{
+        position: 'relative',
         paddingTop: '96px',
         paddingBottom: '96px',
         paddingLeft: '24px',
         paddingRight: '24px',
-        maxWidth: '1280px',
-        margin: '0 auto',
+        backgroundImage: `url('${solOpsImg}')`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundAttachment: 'fixed',
       }}
     >
-      <div style={{ textAlign: 'center', maxWidth: '768px', margin: '0 auto 64px' }}>
-        <h2 style={{ ...T.headlineLg, color: C.onSurface, marginBottom: '16px' }}>
-          Tailored Solutions for High-Growth Enterprises
-        </h2>
-        <p style={{ ...T.bodyLg, color: C.onSurfaceVariant }}>
-          Deploy purpose-built AI agents across your core operational pillars.
-        </p>
-      </div>
-
-      <div
+      {/* Semi-transparent overlay to ensure readability */}
+      <div 
         style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(3, 1fr)',
-          gap: '32px',
-        }}
-        className="solutions-grid"
-      >
-        {SOLUTIONS.map((sol) => (
-          <SolutionCard key={sol.title} {...sol} />
-        ))}
+          position: 'absolute',
+          inset: 0,
+          backgroundColor: 'rgba(253, 249, 244, 0.85)',
+          zIndex: 1
+        }} 
+      />
+
+      <div style={{ position: 'relative', zIndex: 2, maxWidth: '1280px', margin: '0 auto' }}>
+        <div style={{ textAlign: 'center', maxWidth: '768px', margin: '0 auto 64px' }}>
+          <h2 style={{ ...T.headlineLg, color: C.onSurface, marginBottom: '16px' }}>
+            Tailored Solutions for High-Growth Enterprises
+          </h2>
+          <p style={{ ...T.bodyLg, color: C.onSurfaceVariant }}>
+            Deploy purpose-built AI agents across your core operational pillars.
+          </p>
+        </div>
+
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(3, 1fr)',
+            gap: '32px',
+          }}
+          className="solutions-grid"
+        >
+          {SOLUTIONS.map((sol) => (
+            <SolutionCard key={sol.title} {...sol} />
+          ))}
+        </div>
       </div>
     </section>
   );
 }
 
-function SolutionCard({ icon, iconColor, title, desc, linkText, linkColor, href, img, imgAlt }) {
+function SolutionCard({ icon, iconColor, title, desc, linkText, linkColor, href }) {
   const [hovered, setHovered] = useState(false);
   return (
     <div
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
-        backgroundColor: C.surfaceContainerLowest,
-        borderRadius: '20px',
+        backgroundColor: 'rgba(255, 255, 255, 0.88)',
+        backdropFilter: 'blur(12px)',
+        WebkitBackdropFilter: 'blur(12px)',
+        borderRadius: '12px',
         border: `1px solid ${hovered ? C.primary : `${C.outlineVariant}35`}`,
-        overflow: 'hidden',
         display: 'flex',
         flexDirection: 'column',
         transition: 'all 200ms ease',
         transform: hovered ? 'translateY(-6px)' : 'translateY(0)',
         boxShadow: hovered ? '0 16px 40px rgba(0,70,66,0.1)' : '0 4px 16px rgba(0,0,0,0.03)',
+        padding: '32px',
+        gap: '24px',
       }}
     >
-      {/* Top Image Banner (Image-led card treatment inspired by reference) */}
+      {/* Category Icon Badge */}
       <div
         style={{
-          position: 'relative',
-          height: '160px',
-          width: '100%',
-          overflow: 'hidden',
-          backgroundColor: C.surfaceContainerLow,
+          width: '56px',
+          height: '56px',
+          borderRadius: '12px',
+          backgroundColor: `${iconColor}15`,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
         }}
       >
-        <img
-          src={img}
-          alt={imgAlt}
-          style={{
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-            objectPosition: 'center',
-            transition: 'transform 300ms ease',
-            transform: hovered ? 'scale(1.04)' : 'scale(1)',
-          }}
-        />
-        <div
-          style={{
-            position: 'absolute',
-            inset: 0,
-            background: 'linear-gradient(180deg, rgba(0,0,0,0.05) 0%, rgba(253,249,244,0.4) 100%)',
-          }}
-        />
-        {/* Floating Category Icon Badge */}
-        <div
-          style={{
-            position: 'absolute',
-            bottom: '12px',
-            left: '16px',
-            width: '44px',
-            height: '44px',
-            borderRadius: '12px',
-            backgroundColor: 'rgba(255,255,255,0.95)',
-            backdropFilter: 'blur(8px)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-            border: `1px solid ${C.outlineVariant}30`,
-          }}
-        >
-          <span className="material-symbols-outlined" style={{ fontSize: '26px', color: iconColor }}>
-            {icon}
-          </span>
-        </div>
+        <span className="material-symbols-outlined" style={{ fontSize: '32px', color: iconColor }}>
+          {icon}
+        </span>
       </div>
 
       {/* Card Content */}
-      <div style={{ padding: '28px', display: 'flex', flexDirection: 'column', flexGrow: 1, justifyContent: 'space-between' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', flexGrow: 1, justifyContent: 'space-between' }}>
         <div>
           <h3 style={{ ...T.headlineMd, color: C.onSurface, marginBottom: '12px' }}>{title}</h3>
           <p style={{ ...T.bodyMd, color: C.onSurfaceVariant, marginBottom: '24px', lineHeight: '24px' }}>{desc}</p>
@@ -1206,7 +929,7 @@ const TESTIMONIALS = [
     initials: 'JS',
     avatarBg: C.secondaryContainer,
     avatarColor: C.onSecondaryContainer,
-    avatarImg: testimonialImg1,
+    avatarImg: testimonialJonathanImg,
     name: 'Jonathan Sterling',
     role: 'Chief Operating Officer, Veloce Global',
   },
@@ -1215,7 +938,7 @@ const TESTIMONIALS = [
     initials: 'AM',
     avatarBg: C.primaryContainer,
     avatarColor: C.onPrimaryContainer,
-    avatarImg: testimonialImg2,
+    avatarImg: testimonialAriaImg,
     name: 'Aria Montgomery',
     role: 'Managing Director, Nexus Capital',
   },
@@ -1226,19 +949,33 @@ function TestimonialsSection() {
     <section
       id="enterprise"
       style={{
-        backgroundColor: C.surfaceContainerLow,
+        position: 'relative',
         paddingTop: '96px',
         paddingBottom: '96px',
         paddingLeft: '24px',
         paddingRight: '24px',
+        backgroundImage: `url('${testimonialJonathanImg}')`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center top',
+        backgroundAttachment: 'fixed',
       }}
     >
-      <div style={{ maxWidth: '1280px', margin: '0 auto' }}>
+      {/* Semi-transparent overlay */}
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          backgroundColor: 'rgba(0, 46, 42, 0.78)',
+          zIndex: 1,
+        }}
+      />
+
+      <div style={{ position: 'relative', zIndex: 2, maxWidth: '1280px', margin: '0 auto' }}>
         <div style={{ textAlign: 'center', maxWidth: '768px', margin: '0 auto 64px' }}>
-          <h2 style={{ ...T.headlineLg, color: C.onSurface, marginBottom: '16px' }}>
+          <h2 style={{ ...T.headlineLg, color: '#ffffff', marginBottom: '16px' }}>
             Trusted by Industry Leaders
           </h2>
-          <p style={{ ...T.bodyLg, color: C.onSurfaceVariant }}>
+          <p style={{ ...T.bodyLg, color: 'rgba(255,255,255,0.75)' }}>
             See how modern executives reclaim their time with FlowPilot AI.
           </p>
         </div>
@@ -1255,11 +992,13 @@ function TestimonialsSection() {
             <div
               key={t.name}
               style={{
-                backgroundColor: C.surfaceContainerLowest,
+                backgroundColor: 'rgba(255, 255, 255, 0.88)',
+                backdropFilter: 'blur(16px)',
+                WebkitBackdropFilter: 'blur(16px)',
                 padding: '36px',
-                borderRadius: '20px',
-                border: `1px solid ${C.outlineVariant}35`,
-                boxShadow: '0 8px 24px rgba(0,0,0,0.03)',
+                borderRadius: '12px',
+                border: `1px solid rgba(255,255,255,0.6)`,
+                boxShadow: '0 8px 32px rgba(0,0,0,0.15)',
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'space-between',
@@ -1281,7 +1020,7 @@ function TestimonialsSection() {
               </div>
 
               {/* Author Row with Executive Avatar */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: '16px', paddingTop: '12px', borderTop: `1px solid ${C.outlineVariant}20` }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '16px', paddingTop: '12px', borderTop: `1px solid ${C.outlineVariant}30` }}>
                 <div
                   style={{
                     width: '52px',
@@ -1294,7 +1033,7 @@ function TestimonialsSection() {
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
+                    boxShadow: '0 4px 12px rgba(0,0,0,0.12)',
                   }}
                 >
                   {t.avatarImg ? (
@@ -1342,6 +1081,8 @@ const FAQ_ITEMS = [
 ];
 
 function FAQSection() {
+  const [openIndex, setOpenIndex] = React.useState(null);
+
   return (
     <section
       id="pricing"
@@ -1354,31 +1095,117 @@ function FAQSection() {
         margin: '0 auto',
       }}
     >
+      {/* Section Header */}
       <div style={{ textAlign: 'center', marginBottom: '64px' }}>
-        <h2 style={{ ...T.headlineLg, color: C.onSurface, marginBottom: '16px' }}>
+        {/* Orange Accent Bar */}
+        <div
+          style={{
+            width: '60px',
+            height: '4px',
+            backgroundColor: '#FE852C',
+            borderRadius: '2px',
+            margin: '0 auto 24px',
+          }}
+        />
+        <h2
+          style={{
+            ...T.headlineLg,
+            color: '#004642',
+            fontWeight: 700,
+            marginBottom: '16px',
+          }}
+        >
           Frequently Asked Questions
         </h2>
-        <p style={{ ...T.bodyLg, color: C.onSurfaceVariant }}>
+        <p style={{ ...T.bodyLg, color: 'rgba(1, 96, 90, 0.75)', margin: 0 }}>
           Everything you need to know about setting up FlowPilot AI.
         </p>
       </div>
 
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-        {FAQ_ITEMS.map((item) => (
-          <div
-            key={item.q}
-            style={{
-              backgroundColor: C.surfaceContainerLowest,
-              padding: '28px',
-              borderRadius: '16px',
-              border: `1px solid ${C.outlineVariant}35`,
-              boxShadow: '0 2px 8px rgba(0,0,0,0.02)',
-            }}
-          >
-            <h3 style={{ ...T.headlineSm, color: C.onSurface, marginBottom: '10px', fontSize: '18px' }}>{item.q}</h3>
-            <p style={{ ...T.bodyMd, color: C.onSurfaceVariant, margin: 0, lineHeight: '24px' }}>{item.a}</p>
-          </div>
-        ))}
+      {/* Accordion Items */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+        {FAQ_ITEMS.map((item, idx) => {
+          const isOpen = openIndex === idx;
+          return (
+            <div
+              key={item.q}
+              style={{
+                backgroundColor: C.surfaceContainerLowest,
+                borderRadius: '8px',
+                border: `1px solid ${isOpen ? '#FE852C' : `${C.outlineVariant}40`}`,
+                boxShadow: isOpen
+                  ? '0 4px 20px rgba(254,133,44,0.08)'
+                  : '0 2px 8px rgba(0,0,0,0.02)',
+                overflow: 'hidden',
+                transition: 'border-color 200ms ease, box-shadow 200ms ease',
+              }}
+            >
+              {/* Accordion Toggle Button */}
+              <button
+                onClick={() => setOpenIndex(isOpen ? null : idx)}
+                style={{
+                  width: '100%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  padding: '24px 28px',
+                  background: 'none',
+                  border: 'none',
+                  cursor: 'pointer',
+                  textAlign: 'left',
+                  gap: '16px',
+                }}
+              >
+                <h3
+                  style={{
+                    ...T.headlineSm,
+                    fontSize: '18px',
+                    fontWeight: 600,
+                    color: isOpen ? '#FE852C' : '#004642',
+                    margin: 0,
+                    transition: 'color 200ms ease',
+                    flex: 1,
+                  }}
+                >
+                  {item.q}
+                </h3>
+                <span
+                  className="material-symbols-outlined"
+                  style={{
+                    fontSize: '22px',
+                    color: isOpen ? '#FE852C' : '#01605A',
+                    flexShrink: 0,
+                    transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+                    transition: 'color 200ms ease, transform 200ms ease',
+                  }}
+                >
+                  expand_more
+                </span>
+              </button>
+
+              {/* Accordion Body */}
+              {isOpen && (
+                <div
+                  style={{
+                    padding: '0 28px 24px',
+                    borderTop: `1px solid rgba(254,133,44,0.15)`,
+                  }}
+                >
+                  <p
+                    style={{
+                      ...T.bodyMd,
+                      color: C.onSurfaceVariant,
+                      margin: '20px 0 0',
+                      lineHeight: '26px',
+                    }}
+                  >
+                    {item.a}
+                  </p>
+                </div>
+              )}
+            </div>
+          );
+        })}
       </div>
     </section>
   );

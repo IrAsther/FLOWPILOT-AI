@@ -11,7 +11,7 @@ export function Logo({ size = 'md', link = true, className = '' }) {
   const current = sizeMap[size] || sizeMap.md;
 
   const content = (
-    <div className={`inline-flex items-center gap-2.5 select-none ${className}`}>
+    <div className={`inline-flex items-center select-none ${className}`} style={{ gap: '16px' }}>
       <div
         style={{
           width: size === 'sm' ? 28 : size === 'lg' ? 40 : 32,

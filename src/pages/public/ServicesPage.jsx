@@ -1,142 +1,338 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import {
+  ArrowRight,
+  CheckCircle2,
+  ShieldCheck,
+  Zap,
+  Lock,
+  MessageSquare,
+  Mail,
+  Calendar,
+  Layers,
+  BarChart3,
+  UserCheck,
+  Clock,
+  Sparkles,
+} from 'lucide-react';
 
-/* ─────────────────────────────────────────────────────────────────────────────
-   DESIGN TOKENS — exact Stitch color map
-───────────────────────────────────────────────────────────────────────────── */
+// Local curated enterprise photography
+import heroBg from '../../styles/Images/executive-office.jfif';
+import svcWhatsappImg from '../../styles/Images/whatsapp-messaging-screen.jfif';
+import svcEmailImg from '../../styles/Images/email-continuity.jfif';
+import svcAnalyticsImg from '../../styles/Images/operations-dashboard.jpg';
+import svcCalendarImg from '../../styles/Images/sales-calendar.jfif';
+import svcWorkflowsImg from '../../styles/Images/conference-room.jfif';
+import svcConciergeImg from '../../styles/Images/logistics-center.jfif';
+import showcaseImg from '../../styles/Images/executive-office.jfif';
+import statsBg from '../../styles/Images/google-workspace-provider.jfif';
+import ctaBg from '../../styles/Images/conference-room.jfif';
+import avatarJonathan from '../../styles/Images/testimonial-director.jpg';
+import avatarAria from '../../styles/Images/digital-agency-team.jfif';
+
+/* ─────────── STRICT BRAND COLOR SYSTEM ─────────── */
 const C = {
-  background: '#fdf9f4',
-  surface: '#fdf9f4',
-  surfaceContainerLowest: '#ffffff',
-  surfaceContainerLow: '#f7f3ee',
-  surfaceContainer: '#f1ede8',
-  surfaceContainerHigh: '#ebe8e3',
-  surfaceContainerHighest: '#e6e2dd',
-  onSurface: '#1c1c19',
-  onSurfaceVariant: '#3f4947',
-  outline: '#6f7977',
-  outlineVariant: '#bec9c6',
-  primary: '#004642',
-  primaryContainer: '#01605a',
-  onPrimary: '#ffffff',
-  onPrimaryContainer: '#8ed8d0',
-  primaryFixed: '#a5f0e8',
-  onPrimaryFixed: '#00201e',
-  secondary: '#994700',
-  secondaryContainer: '#fe852c',
-  onSecondary: '#ffffff',
-  onSecondaryContainer: '#632c00',
-  secondaryFixed: '#ffdbc8',
-  secondaryFixedVariant: '#743500',
-  error: '#ba1a1a',
-  errorContainer: '#ffdad6',
+  primary: '#004642',             // Primary Dark Teal
+  primaryLight: '#01605A',        // Secondary Mid Teal
+  accent: '#FE852C',              // Brand Orange Accent
+  accentLight: '#FFD0A8',         // Light Peach
+  surfaceCream: '#FDF9F4',        // Background Cream
+  surfaceWhite: '#FFFFFF',        // White
+  secondaryText: 'rgba(0, 70, 66, 0.76)',
+  borderLight: '#EAEAEA',
+  cardRadius: '8px',              // Strict 8px radius
 };
 
 /* ─────────────────────────────────────────────────────────────────────────────
-   TYPOGRAPHY — exact Stitch type scale
+   SERVICES DATA (PRESERVING ALL EXISTING TITLES, COPY, AND ROUTING)
 ───────────────────────────────────────────────────────────────────────────── */
-const T = {
-  headlineXl:  { fontFamily: "'Plus Jakarta Sans'", fontSize: '48px', lineHeight: '56px', letterSpacing: '-0.02em', fontWeight: 700 },
-  headlineLg:  { fontFamily: "'Plus Jakarta Sans'", fontSize: '36px', lineHeight: '44px', letterSpacing: '-0.01em', fontWeight: 600 },
-  headlineMd:  { fontFamily: "'Plus Jakarta Sans'", fontSize: '24px', lineHeight: '32px', fontWeight: 600 },
-  headlineSm:  { fontFamily: "'Plus Jakarta Sans'", fontSize: '18px', lineHeight: '24px', fontWeight: 600 },
-  labelMd:     { fontFamily: "'Plus Jakarta Sans'", fontSize: '14px', lineHeight: '20px', letterSpacing: '0.01em', fontWeight: 500 },
-  labelSm:     { fontFamily: "'Plus Jakarta Sans'", fontSize: '12px', lineHeight: '16px', letterSpacing: '0.01em', fontWeight: 500 },
-  bodyLg:      { fontFamily: "'Inter'", fontSize: '16px', lineHeight: '24px', fontWeight: 400 },
-  bodyMd:      { fontFamily: "'Inter'", fontSize: '14px', lineHeight: '20px', fontWeight: 400 },
-  bodySm:      { fontFamily: "'Inter'", fontSize: '12px', lineHeight: '16px', fontWeight: 400 },
-};
+const SERVICES = [
+  {
+    id: 'whatsapp-agent',
+    number: '01',
+    category: 'Customer Support',
+    title: 'WhatsApp AI Agent',
+    description:
+      'Immersive conversational operations preview with real-time AI summaries and instant action triggers. Handle high-volume client engagement natively through secure messaging protocols.',
+    image: svcWhatsappImg,
+    route: '/whatsapp-ai-agent',
+    ctaText: 'Explore WhatsApp Agent',
+    features: [
+      'Sub-second natural language response processing',
+      'Automated CRM record creation and lead scoring',
+      'Secure end-to-end encryption for executive comms',
+    ],
+  },
+  {
+    id: 'email-automation',
+    number: '02',
+    category: 'Automation',
+    title: 'Email Automation & Triage',
+    description:
+      'Split-screen zero-inbox triage interface showing incoming executive correspondence instantly transformed into context-aware, professionally verified responses.',
+    image: svcEmailImg,
+    route: '/email-automation',
+    ctaText: 'Explore Email Automation',
+    features: [
+      'Context-aware drafting matching executive tone',
+      'Automatic attachment verification & parsing',
+      'One-click human-in-the-loop override controls',
+    ],
+  },
+  {
+    id: 'email-intelligence',
+    number: '03',
+    category: 'Analytics',
+    title: 'Weekly Email Intelligence',
+    description:
+      'Executive analytics and trend visualization showcasing time-recovery metrics, sentiment trajectories, and prioritized strategic digests delivered every Monday at 6:00 AM.',
+    image: svcAnalyticsImg,
+    route: '/contact',
+    ctaText: 'Explore Analytics',
+    features: [
+      'Hours recovered tracking and time-audit charts',
+      'Stakeholder sentiment index across threads',
+      'Automated weekly executive digest PDF exports',
+    ],
+  },
+  {
+    id: 'calendar-automation',
+    number: '04',
+    category: 'Sales & Scheduling',
+    title: 'Calendar Automation & Buffer Detection',
+    description:
+      'Interactive calendar week view highlighting intelligent meeting scheduling, automatic buffer zone protection, and contextual conflict resolution.',
+    image: svcCalendarImg,
+    route: '/calendar-automation',
+    ctaText: 'Explore Calendar Automation',
+    features: [
+      'Dynamic focus-time block preservation',
+      'Smart rescheduling based on priority matrix',
+      'Cross-timezone alignment algorithms',
+    ],
+  },
+  {
+    id: 'custom-workflows',
+    number: '05',
+    category: 'Operations',
+    title: 'Custom AI Workflows',
+    description:
+      'Visual node-based automation builder preview. Seamlessly chain Triggers, AI Analysis, Conditional Routing, and Enterprise Actions without writing a single line of code.',
+    image: svcWorkflowsImg,
+    route: '/custom-workflows',
+    ctaText: 'Explore Custom Workflows',
+    features: [
+      'Visual multi-step conditional route builder',
+      'Bi-directional CRM & webhook synchronization',
+      'Deterministic fallback logic and manual gates',
+    ],
+  },
+  {
+    id: 'executive-concierge',
+    number: '06',
+    category: 'AI Assistant',
+    title: 'Executive Operations Concierge',
+    description:
+      'Dedicated operational assistant bridging communications between mobile chat, corporate inboxes, and internal project suites with guaranteed human-in-the-loop oversight.',
+    image: svcConciergeImg,
+    route: '/book-a-demo',
+    ctaText: 'Schedule Architecture Review',
+    features: [
+      'Cross-platform operational bridging',
+      'Continuous executive tone fine-tuning',
+      '24/7 dedicated solutions engineering support',
+    ],
+  },
+];
 
 /* ─────────────────────────────────────────────────────────────────────────────
-   HERO SECTION
+   SECTION 1 — HERO
 ───────────────────────────────────────────────────────────────────────────── */
 function ServicesHero() {
   return (
     <section
       style={{
         position: 'relative',
-        padding: '80px 32px 112px',
-        maxWidth: '1280px',
-        margin: '0 auto',
+        backgroundImage: `url("${heroBg}")`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        padding: '110px 24px 100px',
         overflow: 'hidden',
+        borderBottom: `1px solid ${C.borderLight}`,
       }}
     >
-      {/* Ambient blobs */}
-      <div style={{
-        position: 'absolute', top: '-96px', right: 0,
-        width: '384px', height: '384px',
-        backgroundColor: `${C.primaryFixed}33`,
-        borderRadius: '50%', filter: 'blur(64px)',
-        pointerEvents: 'none',
-      }} />
-      <div style={{
-        position: 'absolute', top: '50%', left: '25%',
-        width: '320px', height: '320px',
-        backgroundColor: `${C.secondaryFixed}33`,
-        borderRadius: '50%', filter: 'blur(64px)',
-        pointerEvents: 'none',
-      }} />
+      {/* Dark Teal Overlay */}
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          background: 'rgba(0, 70, 66, 0.65)',
+          zIndex: 1,
+        }}
+      />
 
-      {/* Content */}
-      <div style={{ maxWidth: '768px', position: 'relative', zIndex: 10 }}>
-        {/* Pill badge */}
-        <div style={{
-          display: 'inline-flex', alignItems: 'center', gap: '8px',
-          padding: '4px 12px', borderRadius: '9999px',
-          backgroundColor: C.surfaceContainer,
-          border: `1px solid ${C.outlineVariant}66`,
-          marginBottom: '24px',
-        }}>
-          <span style={{
-            width: '8px', height: '8px', borderRadius: '50%',
-            backgroundColor: C.secondaryContainer,
-            display: 'inline-block',
-            animation: 'pulse 2s infinite',
-          }} />
-          <span style={{ ...T.labelSm, color: C.primary, fontWeight: 600 }}>
-            Enterprise Services Overview
-          </span>
-        </div>
-
-        <h1 style={{ ...T.headlineXl, color: C.onSurface, marginBottom: '24px' }}>
-          Autonomous Capabilities Engineered for Enterprise Scale
-        </h1>
-
-        <p style={{ ...T.bodyLg, color: C.onSurfaceVariant, marginBottom: '40px', lineHeight: '1.75' }}>
-          Transform unstructured operational workflows into autonomous execution loops. Precision intelligence designed for executive leadership demanding absolute reliability.
-        </p>
-
-        <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '16px' }}>
-          <a
-            href="#solutions"
+      <div
+        style={{
+          position: 'relative',
+          zIndex: 2,
+          maxWidth: '850px',
+          margin: '0 auto',
+        }}
+      >
+        {/* Glass panel */}
+        <div
+          style={{
+            background: 'rgba(255, 255, 255, 0.92)',
+            backdropFilter: 'blur(10px)',
+            WebkitBackdropFilter: 'blur(10px)',
+            borderRadius: C.cardRadius,
+            padding: 'clamp(28px, 4vw, 48px)',
+            boxShadow: '0 16px 36px rgba(0, 70, 66, 0.18)',
+            border: `1px solid rgba(255, 255, 255, 0.8)`,
+            textAlign: 'center',
+          }}
+        >
+          {/* Badge */}
+          <div
             style={{
-              backgroundColor: C.primaryContainer,
-              color: C.onPrimaryContainer,
-              padding: '14px 24px',
-              borderRadius: '8px',
-              ...T.labelMd,
-              fontWeight: 600,
-              textDecoration: 'none',
-              boxShadow: '0 1px 3px rgba(0,0,0,0.08)',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '8px',
+              padding: '6px 16px',
+              borderRadius: C.cardRadius,
+              backgroundColor: 'rgba(1, 96, 90, 0.1)',
+              border: `1px solid rgba(1, 96, 90, 0.25)`,
+              marginBottom: '20px',
             }}
           >
-            Explore Capabilities
-          </a>
-          <Link
-            to="/book-a-demo"
+            <span
+              style={{
+                width: '8px',
+                height: '8px',
+                borderRadius: '50%',
+                backgroundColor: C.accent,
+                display: 'inline-block',
+              }}
+            />
+            <span
+              style={{
+                fontSize: '12px',
+                fontWeight: 700,
+                letterSpacing: '0.08em',
+                color: C.primary,
+                textTransform: 'uppercase',
+                fontFamily: "'Plus Jakarta Sans', sans-serif",
+              }}
+            >
+              Enterprise Services Overview
+            </span>
+          </div>
+
+          {/* Accent Line */}
+          <div
             style={{
-              backgroundColor: C.surfaceContainer,
-              border: `1px solid ${C.outlineVariant}99`,
-              color: C.onSurface,
-              padding: '14px 24px',
-              borderRadius: '8px',
-              ...T.labelMd,
-              fontWeight: 500,
-              textDecoration: 'none',
+              width: '50px',
+              height: '4px',
+              backgroundColor: C.accent,
+              margin: '0 auto 20px auto',
+              borderRadius: '2px',
+            }}
+          />
+
+          <h1
+            style={{
+              fontFamily: "'Plus Jakarta Sans', sans-serif",
+              fontSize: 'clamp(28px, 4vw, 46px)',
+              fontWeight: 800,
+              lineHeight: 1.18,
+              letterSpacing: '-0.025em',
+              color: C.primary,
+              margin: '0 0 18px 0',
             }}
           >
-            Schedule Architecture Review
-          </Link>
+            Autonomous Capabilities Engineered for Enterprise Scale
+          </h1>
+
+          <p
+            style={{
+              fontFamily: "'Inter', sans-serif",
+              fontSize: 'clamp(15px, 1.6vw, 18px)',
+              lineHeight: 1.6,
+              color: C.secondaryText,
+              maxWidth: '680px',
+              margin: '0 auto 36px auto',
+            }}
+          >
+            Transform unstructured operational workflows into autonomous execution loops. Precision intelligence designed for executive leadership demanding absolute reliability.
+          </p>
+
+          <div
+            style={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '16px',
+            }}
+          >
+            <a
+              href="#services-grid"
+              style={{
+                backgroundColor: C.primaryLight,
+                color: '#FFFFFF',
+                padding: '14px 28px',
+                borderRadius: C.cardRadius,
+                fontWeight: 700,
+                fontSize: '15px',
+                fontFamily: "'Plus Jakarta Sans', sans-serif",
+                textDecoration: 'none',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px',
+                boxShadow: '0 4px 12px rgba(1, 96, 90, 0.25)',
+                transition: 'all 0.2s ease',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = C.primary;
+                e.currentTarget.style.transform = 'translateY(-2px)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = C.primaryLight;
+                e.currentTarget.style.transform = 'none';
+              }}
+            >
+              Explore Capabilities <ArrowRight size={16} />
+            </a>
+
+            <Link
+              to="/book-a-demo"
+              style={{
+                backgroundColor: '#FFFFFF',
+                border: `1.5px solid ${C.primaryLight}`,
+                color: C.primary,
+                padding: '14px 28px',
+                borderRadius: C.cardRadius,
+                fontWeight: 700,
+                fontSize: '15px',
+                fontFamily: "'Plus Jakarta Sans', sans-serif",
+                textDecoration: 'none',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px',
+                transition: 'all 0.2s ease',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = C.surfaceCream;
+                e.currentTarget.style.transform = 'translateY(-2px)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = '#FFFFFF';
+                e.currentTarget.style.transform = 'none';
+              }}
+            >
+              Schedule Architecture Review
+            </Link>
+          </div>
         </div>
       </div>
     </section>
@@ -144,272 +340,95 @@ function ServicesHero() {
 }
 
 /* ─────────────────────────────────────────────────────────────────────────────
-   SERVICE 01: WHATSAPP AI AGENT
+   SECTION 3 — VISUAL FEATURE STRIP ("WHAT YOU GET")
 ───────────────────────────────────────────────────────────────────────────── */
-function ServiceWhatsApp() {
+function FeatureStrip() {
+  const features = [
+    {
+      icon: Zap,
+      title: 'Sub-Second Autonomous Triage',
+      text: 'Incoming client emails and RFP requests are classified, parsed, and drafted in under 1.5 seconds.',
+    },
+    {
+      icon: ShieldCheck,
+      title: '100% Human Approval Gate',
+      text: 'No critical external communication or document dispatches without explicit WhatsApp or dashboard sign-off.',
+    },
+    {
+      icon: Lock,
+      title: 'Enterprise SOC2 & OAuth Security',
+      text: 'Direct Google Workspace and Microsoft 365 OAuth with TLS 1.3 encryption and zero public model training.',
+    },
+  ];
+
   return (
     <section
-      id="solutions"
       style={{
-        paddingTop: '96px', paddingBottom: '96px',
-        backgroundColor: C.surfaceContainerLow,
-        borderTop: `1px solid ${C.outlineVariant}4D`,
-        borderBottom: `1px solid ${C.outlineVariant}4D`,
+        backgroundColor: C.surfaceCream,
+        padding: '54px 24px',
+        borderBottom: `1px solid ${C.borderLight}`,
       }}
     >
-      <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 32px' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '5fr 7fr', gap: '48px', alignItems: 'center' }}
-          className="svc-grid">
-          {/* Left — Text */}
-          <div>
-            <span style={{ ...T.labelSm, color: C.secondary, textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 600 }}>
-              Service 01
-            </span>
-            <h2 style={{ ...T.headlineLg, color: C.onSurface, marginTop: '8px', marginBottom: '16px' }}>
-              WhatsApp AI Agent
-            </h2>
-            <p style={{ ...T.bodyLg, color: C.onSurfaceVariant, marginBottom: '24px', lineHeight: '1.75' }}>
-              Immersive conversational operations preview with real-time AI summaries and instant action triggers. Handle high-volume client engagement natively through secure messaging protocols.
-            </p>
-            <ul style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '32px' }}>
-              {[
-                'Sub-second natural language response processing',
-                'Automated CRM record creation and lead scoring',
-                'Secure end-to-end encryption for executive comms',
-              ].map((item) => (
-                <li key={item} style={{ display: 'flex', alignItems: 'center', gap: '12px', ...T.bodyMd, color: C.onSurface }}>
-                  <span className="material-symbols-outlined" style={{ color: C.primary, fontSize: '18px', flexShrink: 0 }}>check_circle</span>
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Right — Chat Mockup */}
-          <div>
-            <div style={{
-              backgroundColor: C.surface,
-              borderRadius: '12px',
-              padding: '24px',
-              border: `1px solid ${C.outlineVariant}66`,
-              boxShadow: '0 1px 4px rgba(0,0,0,0.06)',
-              position: 'relative',
-              overflow: 'hidden',
-            }}>
-              {/* Card Header */}
-              <div style={{
-                display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                paddingBottom: '16px', borderBottom: `1px solid ${C.outlineVariant}4D`,
-                marginBottom: '24px',
-              }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                  <div style={{
-                    width: '40px', height: '40px', borderRadius: '50%',
-                    backgroundColor: C.primaryContainer, color: C.onPrimaryContainer,
-                    display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700,
-                    ...T.labelMd,
-                  }}>FP</div>
-                  <div>
-                    <h4 style={{ ...T.headlineSm, color: C.onSurface }}>FlowPilot Concierge</h4>
-                    <span style={{ ...T.bodySm, color: C.onSurfaceVariant }}>Active • WhatsApp Business API</span>
-                  </div>
+      <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+            gap: '32px',
+          }}
+        >
+          {features.map((f, i) => {
+            const Icon = f.icon;
+            return (
+              <div
+                key={i}
+                style={{
+                  display: 'flex',
+                  gap: '18px',
+                  alignItems: 'flex-start',
+                }}
+              >
+                <div
+                  style={{
+                    width: '46px',
+                    height: '46px',
+                    borderRadius: C.cardRadius,
+                    backgroundColor: 'rgba(1, 96, 90, 0.12)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flexShrink: 0,
+                  }}
+                >
+                  <Icon size={22} color={C.primaryLight} />
                 </div>
-                <span style={{
-                  padding: '4px 12px',
-                  backgroundColor: `${C.primaryFixed}4D`,
-                  color: C.onPrimaryFixed,
-                  borderRadius: '9999px',
-                  ...T.labelSm, fontWeight: 600,
-                }}>Live Feed</span>
-              </div>
-
-              {/* Chat Messages */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginBottom: '24px' }}>
-                {/* VIP incoming */}
-                <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', maxWidth: '448px' }}>
-                  <div style={{
-                    width: '32px', height: '32px', borderRadius: '50%',
-                    backgroundColor: C.surfaceContainerHigh, flexShrink: 0,
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    ...T.bodySm, fontWeight: 700, color: C.onSurface,
-                  }}>VIP</div>
-                  <div style={{
-                    backgroundColor: C.surfaceContainer, padding: '16px',
-                    borderRadius: '12px', borderTopLeftRadius: '0',
-                    border: `1px solid ${C.outlineVariant}4D`,
-                  }}>
-                    <p style={{ ...T.bodyMd, color: C.onSurface }}>
-                      "Can you review Q3 logistics variance reports and schedule an emergency sync with regional partners?"
-                    </p>
-                    <span style={{ fontSize: '10px', color: C.onSurfaceVariant, marginTop: '4px', display: 'block' }}>10:42 AM</span>
-                  </div>
-                </div>
-
-                {/* AI reply */}
-                <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', maxWidth: '448px', marginLeft: 'auto', flexDirection: 'row-reverse' }}>
-                  <div style={{
-                    width: '32px', height: '32px', borderRadius: '50%',
-                    backgroundColor: C.primary, color: C.onPrimary, flexShrink: 0,
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    ...T.bodySm, fontWeight: 700,
-                  }}>AI</div>
-                  <div style={{
-                    backgroundColor: C.primaryContainer, color: C.onPrimaryContainer,
-                    padding: '16px', borderRadius: '12px', borderTopRightRadius: '0',
-                    boxShadow: '0 1px 3px rgba(0,0,0,0.08)',
-                  }}>
-                    <p style={{ ...T.bodyMd, fontWeight: 500 }}>
-                      Analysis Complete: Q3 variance is +4.2%. I've flagged 3 bottlenecks and pre-drafted calendar invitations for 2:00 PM EST.
-                    </p>
-                    <div style={{ marginTop: '12px', paddingTop: '12px', borderTop: '1px solid rgba(255,255,255,0.2)', display: 'flex', gap: '8px' }}>
-                      <button style={{
-                        backgroundColor: '#fff', color: C.primary, padding: '6px 12px',
-                        borderRadius: '4px', ...T.labelSm, fontWeight: 700, cursor: 'pointer', border: 'none',
-                      }}>Send Invites</button>
-                      <button style={{
-                        backgroundColor: 'rgba(255,255,255,0.1)', color: '#fff', padding: '6px 12px',
-                        borderRadius: '4px', ...T.labelSm, cursor: 'pointer', border: 'none',
-                      }}>Modify Parameters</button>
-                    </div>
-                    <span style={{ fontSize: '10px', opacity: 0.75, marginTop: '8px', display: 'block' }}>10:42 AM • Action Executed</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Input bar */}
-              <div style={{
-                backgroundColor: C.surfaceContainerLow, padding: '12px',
-                borderRadius: '8px', border: `1px solid ${C.outlineVariant}4D`,
-                display: 'flex', alignItems: 'center', gap: '12px',
-              }}>
-                <span className="material-symbols-outlined" style={{ color: C.onSurfaceVariant }}>lock</span>
-                <span style={{ ...T.bodySm, color: C.onSurfaceVariant, flex: 1 }}>
-                  Encrypted enterprise session active. Type a command or prompt...
-                </span>
-                <span className="material-symbols-outlined" style={{ color: C.primary, cursor: 'pointer' }}>send</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ─────────────────────────────────────────────────────────────────────────────
-   SERVICE 02: EMAIL AUTOMATION — reversed layout
-───────────────────────────────────────────────────────────────────────────── */
-function ServiceEmail() {
-  return (
-    <section style={{ paddingTop: '96px', paddingBottom: '96px', maxWidth: '1280px', margin: '0 auto', padding: '96px 32px' }}>
-      <div style={{ display: 'grid', gridTemplateColumns: '7fr 5fr', gap: '48px', alignItems: 'center' }}
-        className="svc-grid">
-        {/* Left — Triage UI (order 2 on mobile → order 1 on desktop) */}
-        <div className="svc-order-first">
-          <div style={{
-            backgroundColor: C.surfaceContainerLowest, borderRadius: '12px', padding: '24px',
-            border: `1px solid ${C.outlineVariant}66`, boxShadow: '0 1px 4px rgba(0,0,0,0.06)',
-          }}>
-            {/* Header */}
-            <div style={{
-              display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-              marginBottom: '24px', paddingBottom: '16px', borderBottom: `1px solid ${C.outlineVariant}4D`,
-            }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <span className="material-symbols-outlined" style={{ color: C.secondary }}>bolt</span>
-                <h3 style={{ ...T.headlineSm, color: C.onSurface }}>Zero-Inbox Triage Engine</h3>
-              </div>
-              <span style={{
-                ...T.labelSm, padding: '4px 10px', fontWeight: 600,
-                backgroundColor: `${C.secondaryFixed}66`,
-                color: C.secondaryFixedVariant,
-                borderRadius: '6px',
-              }}>99.4% Autonomous</span>
-            </div>
-
-            {/* 2-col card grid */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
-              {/* Incoming */}
-              <div style={{
-                backgroundColor: C.surfaceContainerLow, padding: '16px',
-                borderRadius: '8px', border: `1px solid ${C.outlineVariant}4D`,
-              }}>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
-                  <span style={{ ...T.labelSm, fontWeight: 700, color: C.onSurface }}>Incoming Email</span>
-                  <span style={{
-                    fontSize: '10px', color: C.error, fontWeight: 500,
-                    backgroundColor: C.errorContainer, padding: '2px 8px', borderRadius: '4px',
-                  }}>High Priority</span>
-                </div>
-                <p style={{ ...T.bodySm, fontWeight: 600, color: C.onSurface, marginBottom: '4px' }}>Contract Amendment #8834</p>
-                <p style={{ ...T.bodySm, color: C.onSurfaceVariant }}>
-                  "Please review updated compliance clauses regarding data residency requirements prior to the board hearing tomorrow morning..."
-                </p>
-              </div>
-
-              {/* AI Draft */}
-              <div style={{
-                backgroundColor: `${C.primaryFixed}33`, padding: '16px',
-                borderRadius: '8px', border: `1px solid ${C.primary}33`,
-              }}>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
-                  <span style={{ ...T.labelSm, fontWeight: 700, color: C.primary }}>AI Generated Draft</span>
-                  <span style={{
-                    fontSize: '10px', color: C.primary, fontWeight: 500,
-                    backgroundColor: C.primaryFixed, padding: '2px 8px', borderRadius: '4px',
-                  }}>Ready to Send</span>
-                </div>
-                <p style={{ ...T.bodySm, fontWeight: 600, color: C.onSurface, marginBottom: '4px' }}>Response dispatched</p>
-                <p style={{ ...T.bodySm, color: C.onSurfaceVariant }}>
-                  "Thank you. Our legal team has verified clause 4.2 against EU GDPR standards. Attached is the countersigned execution copy."
-                </p>
-              </div>
-            </div>
-
-            {/* Time Saved Row */}
-            <div style={{
-              marginTop: '24px', padding: '16px', backgroundColor: C.surfaceContainer,
-              borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-            }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                <span className="material-symbols-outlined" style={{ color: C.primary }}>schedule</span>
                 <div>
-                  <p style={{ ...T.bodySm, fontWeight: 600, color: C.onSurface }}>Time Saved Today</p>
-                  <p style={{ ...T.labelSm, color: C.onSurfaceVariant }}>4 hours 20 minutes across 84 threads</p>
+                  <h3
+                    style={{
+                      fontFamily: "'Plus Jakarta Sans', sans-serif",
+                      fontSize: '17px',
+                      fontWeight: 700,
+                      color: C.primary,
+                      margin: '0 0 6px 0',
+                    }}
+                  >
+                    {f.title}
+                  </h3>
+                  <p
+                    style={{
+                      fontFamily: "'Inter', sans-serif",
+                      fontSize: '14px',
+                      lineHeight: 1.55,
+                      color: C.secondaryText,
+                      margin: 0,
+                    }}
+                  >
+                    {f.text}
+                  </p>
                 </div>
               </div>
-              <button style={{
-                backgroundColor: C.primary, color: C.onPrimary,
-                padding: '8px 16px', borderRadius: '8px',
-                ...T.labelSm, fontWeight: 700, cursor: 'pointer', border: 'none',
-              }}>Review Log</button>
-            </div>
-          </div>
-        </div>
-
-        {/* Right — Text */}
-        <div className="svc-order-second">
-          <span style={{ ...T.labelSm, color: C.secondary, textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 600 }}>
-            Service 02
-          </span>
-          <h2 style={{ ...T.headlineLg, color: C.onSurface, marginTop: '8px', marginBottom: '16px' }}>
-            Email Automation & Triage
-          </h2>
-          <p style={{ ...T.bodyLg, color: C.onSurfaceVariant, marginBottom: '24px', lineHeight: '1.75' }}>
-            Split-screen zero-inbox triage interface showing incoming executive correspondence instantly transformed into context-aware, professionally verified responses.
-          </p>
-          <ul style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-            {[
-              'Context-aware drafting matching executive tone',
-              'Automatic attachment verification & parsing',
-              'One-click human-in-the-loop override controls',
-            ].map((item) => (
-              <li key={item} style={{ display: 'flex', alignItems: 'center', gap: '12px', ...T.bodyMd, color: C.onSurface }}>
-                <span className="material-symbols-outlined" style={{ color: C.primary, fontSize: '18px', flexShrink: 0 }}>check_circle</span>
-                {item}
-              </li>
-            ))}
-          </ul>
+            );
+          })}
         </div>
       </div>
     </section>
@@ -417,203 +436,371 @@ function ServiceEmail() {
 }
 
 /* ─────────────────────────────────────────────────────────────────────────────
-   SERVICE 03: WEEKLY EMAIL INTELLIGENCE
+   SECTION 2 — SERVICES GRID
 ───────────────────────────────────────────────────────────────────────────── */
-function ServiceIntelligence() {
+function ServicesGrid() {
   return (
-    <section style={{
-      paddingTop: '96px', paddingBottom: '96px',
-      backgroundColor: C.surfaceContainerLow,
-      borderTop: `1px solid ${C.outlineVariant}4D`,
-      borderBottom: `1px solid ${C.outlineVariant}4D`,
-    }}>
-      <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 32px' }}>
-        {/* Header */}
-        <div style={{ maxWidth: '768px', marginBottom: '64px' }}>
-          <span style={{ ...T.labelSm, color: C.secondary, textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 600 }}>
-            Service 03
-          </span>
-          <h2 style={{ ...T.headlineLg, color: C.onSurface, marginTop: '8px', marginBottom: '16px' }}>
-            Weekly Email Intelligence
+    <section
+      id="services-grid"
+      style={{
+        padding: '90px 24px 100px',
+        backgroundColor: C.surfaceWhite,
+        borderBottom: `1px solid ${C.borderLight}`,
+      }}
+    >
+      <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+        {/* Section Header */}
+        <div style={{ textAlign: 'center', maxWidth: '720px', margin: '0 auto 60px auto' }}>
+          <div
+            style={{
+              width: '40px',
+              height: '3px',
+              backgroundColor: C.accent,
+              margin: '0 auto 12px auto',
+              borderRadius: '2px',
+            }}
+          />
+          <h2
+            style={{
+              fontFamily: "'Plus Jakarta Sans', sans-serif",
+              fontSize: 'clamp(28px, 3.5vw, 38px)',
+              fontWeight: 800,
+              color: C.primary,
+              letterSpacing: '-0.02em',
+              margin: '0 0 12px 0',
+            }}
+          >
+            Specialized Enterprise Capabilities
           </h2>
-          <p style={{ ...T.bodyLg, color: C.onSurfaceVariant, lineHeight: '1.75' }}>
-            Executive analytics and trend visualization showcasing time-recovery metrics, sentiment trajectories, and prioritized strategic digests delivered every Monday at 6:00 AM.
+          <p
+            style={{
+              fontFamily: "'Inter', sans-serif",
+              fontSize: '16px',
+              lineHeight: 1.6,
+              color: C.secondaryText,
+              margin: 0,
+            }}
+          >
+            Deploy modular, human-in-the-loop autonomous services purpose-built for high-volume corporate operations.
           </p>
         </div>
 
-        {/* 3 Stat Cards */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '24px', marginBottom: '48px' }}
-          className="stat-grid">
-          {[
-            { label: 'Hours Recovered', value: '18.5', badge: '+14% vs last week', badgeColor: C.primary, desc: 'Equivalent to 2.3 standard executive working days reclaimed.' },
-            { label: 'Sentiment Index', value: '94%', badge: 'Optimal', badgeColor: C.primary, desc: 'Stakeholder satisfaction measured across 340 parsed interactions.' },
-            { label: 'Action Items Cleared', value: '129', badge: 'Zero Backlog', badgeColor: C.secondary, desc: 'Fully automated resolutions requiring zero manual intervention.' },
-          ].map((s) => (
-            <div key={s.label} style={{
-              backgroundColor: C.surface, padding: '24px', borderRadius: '12px',
-              border: `1px solid ${C.outlineVariant}66`, boxShadow: '0 1px 3px rgba(0,0,0,0.06)',
-            }}>
-              <span style={{ ...T.labelSm, color: C.onSurfaceVariant, fontWeight: 500 }}>{s.label}</span>
-              <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', marginTop: '8px' }}>
-                <span style={{ ...T.headlineXl, color: C.onSurface }}>{s.value}</span>
-                <span style={{ ...T.labelSm, fontWeight: 600, color: s.badgeColor }}>{s.badge}</span>
+        {/* 6 Services Grid */}
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))',
+            gap: '32px',
+          }}
+        >
+          {SERVICES.map((svc) => (
+            <div
+              key={svc.id}
+              style={{
+                backgroundColor: C.surfaceWhite,
+                borderRadius: C.cardRadius,
+                border: `1px solid ${C.borderLight}`,
+                borderTop: `4px solid ${C.primaryLight}`,
+                overflow: 'hidden',
+                boxShadow: '0 10px 25px -5px rgba(0, 70, 66, 0.08), 0 8px 10px -6px rgba(0, 70, 66, 0.04)',
+                display: 'flex',
+                flexDirection: 'column',
+                transition: 'transform 0.25s ease, box-shadow 0.25s ease',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = 'translateY(-6px)';
+                e.currentTarget.style.boxShadow = '0 16px 32px rgba(0, 70, 66, 0.12)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'none';
+                e.currentTarget.style.boxShadow = '0 10px 25px -5px rgba(0, 70, 66, 0.08), 0 8px 10px -6px rgba(0, 70, 66, 0.04)';
+              }}
+            >
+              {/* Image banner: 220px, no rounded corners */}
+              <div style={{ height: '220px', width: '100%', overflow: 'hidden', position: 'relative' }}>
+                <img
+                  src={svc.image}
+                  alt={svc.title}
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    display: 'block',
+                  }}
+                />
+                <div
+                  style={{
+                    position: 'absolute',
+                    top: '14px',
+                    left: '14px',
+                    backgroundColor: 'rgba(255, 255, 255, 0.94)',
+                    backdropFilter: 'blur(4px)',
+                    padding: '4px 10px',
+                    borderRadius: '4px',
+                    fontSize: '11px',
+                    fontWeight: 700,
+                    color: C.primary,
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.06em',
+                  }}
+                >
+                  {svc.category}
+                </div>
               </div>
-              <p style={{ ...T.bodySm, color: C.onSurfaceVariant, marginTop: '16px' }}>{s.desc}</p>
+
+              {/* Body Content */}
+              <div style={{ padding: '28px', display: 'flex', flexDirection: 'column', flex: 1 }}>
+                <span
+                  style={{
+                    fontSize: '12px',
+                    fontWeight: 800,
+                    color: C.accent,
+                    letterSpacing: '0.08em',
+                    marginBottom: '6px',
+                  }}
+                >
+                  SERVICE {svc.number}
+                </span>
+
+                <h3
+                  style={{
+                    fontFamily: "'Plus Jakarta Sans', sans-serif",
+                    fontSize: '21px',
+                    fontWeight: 700,
+                    color: C.primary,
+                    margin: '0 0 10px 0',
+                  }}
+                >
+                  {svc.title}
+                </h3>
+
+                <p
+                  style={{
+                    fontFamily: "'Inter', sans-serif",
+                    fontSize: '14px',
+                    lineHeight: 1.6,
+                    color: C.secondaryText,
+                    margin: '0 0 20px 0',
+                    flex: 1,
+                  }}
+                >
+                  {svc.description}
+                </p>
+
+                {/* Features list */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '24px' }}>
+                  {svc.features.map((f, idx) => (
+                    <div
+                      key={idx}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '8px',
+                        fontSize: '13px',
+                        fontWeight: 500,
+                        color: C.primary,
+                      }}
+                    >
+                      <CheckCircle2 size={16} color={C.primaryLight} style={{ flexShrink: 0 }} />
+                      <span>{f}</span>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Button */}
+                <Link
+                  to={svc.route}
+                  style={{
+                    backgroundColor: C.surfaceCream,
+                    color: C.primary,
+                    border: `1.5px solid ${C.primaryLight}`,
+                    padding: '12px 20px',
+                    borderRadius: C.cardRadius,
+                    fontWeight: 700,
+                    fontSize: '14px',
+                    fontFamily: "'Plus Jakarta Sans', sans-serif",
+                    textDecoration: 'none',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '8px',
+                    transition: 'all 0.2s ease',
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = C.primaryLight;
+                    e.currentTarget.style.color = '#FFFFFF';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = C.surfaceCream;
+                    e.currentTarget.style.color = C.primary;
+                  }}
+                >
+                  {svc.ctaText} <ArrowRight size={15} />
+                </Link>
+              </div>
             </div>
           ))}
         </div>
-
-        {/* Digest Preview Widget */}
-        <div style={{
-          backgroundColor: C.surface, borderRadius: '12px', padding: '32px',
-          border: `1px solid ${C.outlineVariant}66`, boxShadow: '0 1px 3px rgba(0,0,0,0.06)',
-        }}>
-          <div style={{
-            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-            marginBottom: '24px', paddingBottom: '16px', borderBottom: `1px solid ${C.outlineVariant}4D`,
-            flexWrap: 'wrap', gap: '12px',
-          }}>
-            <div>
-              <h4 style={{ ...T.headlineSm, color: C.onSurface }}>Executive Weekly Digest #42</h4>
-              <p style={{ ...T.bodySm, color: C.onSurfaceVariant }}>Prepared by FlowPilot Intelligence Core • Oct 12 - Oct 18</p>
-            </div>
-            <span style={{
-              padding: '4px 12px', backgroundColor: C.primaryContainer, color: C.onPrimaryContainer,
-              borderRadius: '8px', ...T.labelSm, fontWeight: 700,
-            }}>Secure PDF Export</span>
-          </div>
-
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }} className="digest-grid">
-            <div style={{
-              backgroundColor: C.surfaceContainerLow, padding: '20px',
-              borderRadius: '8px', border: `1px solid ${C.outlineVariant}4D`,
-            }}>
-              <h5 style={{
-                ...T.labelMd, fontWeight: 700, color: C.onSurface, marginBottom: '8px',
-                display: 'flex', alignItems: 'center', gap: '8px',
-              }}>
-                <span className="material-symbols-outlined" style={{ color: C.primary, fontSize: '18px' }}>trending_up</span>
-                Top Strategic Priority
-              </h5>
-              <p style={{ ...T.bodyMd, color: C.onSurfaceVariant }}>
-                Q4 budget reallocations for APAC expansion finalized following automated thread consensus with regional directors.
-              </p>
-            </div>
-            <div style={{
-              backgroundColor: C.surfaceContainerLow, padding: '20px',
-              borderRadius: '8px', border: `1px solid ${C.outlineVariant}4D`,
-            }}>
-              <h5 style={{
-                ...T.labelMd, fontWeight: 700, color: C.onSurface, marginBottom: '8px',
-                display: 'flex', alignItems: 'center', gap: '8px',
-              }}>
-                <span className="material-symbols-outlined" style={{ color: C.secondary, fontSize: '18px' }}>warning</span>
-                Potential Bottleneck
-              </h5>
-              <p style={{ ...T.bodyMd, color: C.onSurfaceVariant }}>
-                Vendor security audit pending sign-off from compliance. Automated reminder scheduled for tomorrow at 9:00 AM.
-              </p>
-            </div>
-          </div>
-        </div>
       </div>
     </section>
   );
 }
 
 /* ─────────────────────────────────────────────────────────────────────────────
-   SERVICE 04: CALENDAR AUTOMATION
+   SECTION 4 — LARGE SHOWCASE (55% IMAGE, 45% CONTENT)
 ───────────────────────────────────────────────────────────────────────────── */
-const CALENDAR_DAYS = [
-  { day: 'MON', meetingBg: C.primaryContainer, meetingColor: C.onPrimaryContainer, meetingLabel: 'Board Sync (10am)', bufferBg: `${C.secondaryFixed}4D`, bufferColor: C.secondaryFixedVariant, bufferLabel: 'Buffer Zone' },
-  { day: 'TUE', meetingBg: C.surfaceContainerHigh, meetingColor: C.onSurface, meetingLabel: 'Strategy (2pm)', bufferBg: `${C.primaryFixed}4D`, bufferColor: C.onPrimaryFixed, bufferLabel: 'AI Focus Block' },
-  { day: 'WED', meetingBg: C.primaryContainer, meetingColor: C.onPrimaryContainer, meetingLabel: 'Partner Review', bufferBg: `${C.secondaryFixed}4D`, bufferColor: C.secondaryFixedVariant, bufferLabel: 'Buffer Zone' },
-  { day: 'THU', meetingBg: C.surfaceContainerHigh, meetingColor: C.onSurface, meetingLabel: 'All-Hands (11am)', bufferBg: `${C.primaryFixed}4D`, bufferColor: C.onPrimaryFixed, bufferLabel: 'AI Focus Block' },
-  { day: 'FRI', meetingBg: C.secondaryContainer, meetingColor: '#fff', meetingLabel: 'Q4 Review', bufferBg: `${C.secondaryFixed}4D`, bufferColor: C.secondaryFixedVariant, bufferLabel: 'Buffer Zone' },
-];
-
-function ServiceCalendar() {
+function LargeShowcase() {
   return (
-    <section style={{ paddingTop: '96px', paddingBottom: '96px', maxWidth: '1280px', margin: '0 auto', padding: '96px 32px' }}>
-      <div style={{ display: 'grid', gridTemplateColumns: '5fr 7fr', gap: '48px', alignItems: 'center' }}
-        className="svc-grid">
-        {/* Left — Text */}
-        <div>
-          <span style={{ ...T.labelSm, color: C.secondary, textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 600 }}>
-            Service 04
-          </span>
-          <h2 style={{ ...T.headlineLg, color: C.onSurface, marginTop: '8px', marginBottom: '16px' }}>
-            Calendar Automation & Buffer Detection
-          </h2>
-          <p style={{ ...T.bodyLg, color: C.onSurfaceVariant, marginBottom: '24px', lineHeight: '1.75' }}>
-            Interactive calendar week view highlighting intelligent meeting scheduling, automatic buffer zone protection, and contextual conflict resolution.
-          </p>
-          <ul style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-            {[
-              'Dynamic focus-time block preservation',
-              'Smart rescheduling based on priority matrix',
-              'Cross-timezone alignment algorithms',
-            ].map((item) => (
-              <li key={item} style={{ display: 'flex', alignItems: 'center', gap: '12px', ...T.bodyMd, color: C.onSurface }}>
-                <span className="material-symbols-outlined" style={{ color: C.primary, fontSize: '18px', flexShrink: 0 }}>check_circle</span>
-                {item}
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        {/* Right — Calendar Card */}
-        <div>
-          <div style={{
-            backgroundColor: C.surfaceContainerLowest, borderRadius: '12px', padding: '24px',
-            border: `1px solid ${C.outlineVariant}66`, boxShadow: '0 1px 4px rgba(0,0,0,0.06)',
-          }}>
-            {/* Header */}
-            <div style={{
-              display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-              marginBottom: '24px', paddingBottom: '16px', borderBottom: `1px solid ${C.outlineVariant}4D`,
-              flexWrap: 'wrap', gap: '8px',
-            }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                <span className="material-symbols-outlined" style={{ color: C.primary }}>calendar_month</span>
-                <h3 style={{ ...T.headlineSm, color: C.onSurface }}>Executive Schedule Optimization</h3>
-              </div>
-              <span style={{
-                ...T.labelSm, color: C.primary, fontWeight: 700,
-                backgroundColor: `${C.primaryFixed}4D`, padding: '4px 12px', borderRadius: '9999px',
-              }}>+4.5 Hours Buffer Added</span>
+    <section
+      style={{
+        padding: '95px 24px',
+        backgroundColor: C.surfaceCream,
+        borderBottom: `1px solid ${C.borderLight}`,
+        overflowX: 'hidden',
+      }}
+    >
+      <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+        <div
+          style={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            alignItems: 'center',
+            gap: '48px',
+          }}
+        >
+          {/* Image (55% desktop width) */}
+          <div
+            style={{
+              flex: '1 1 520px',
+              maxWidth: '650px',
+              borderRadius: C.cardRadius,
+              overflow: 'hidden',
+              boxShadow: '0 16px 36px rgba(0, 70, 66, 0.12)',
+              border: `1px solid ${C.borderLight}`,
+              position: 'relative',
+            }}
+          >
+            <img
+              src={showcaseImg}
+              alt="Enterprise Operations Center"
+              style={{
+                width: '100%',
+                height: '420px',
+                objectFit: 'cover',
+                display: 'block',
+              }}
+            />
+            {/* Overlay badge */}
+            <div
+              style={{
+                position: 'absolute',
+                bottom: '18px',
+                left: '18px',
+                backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                backdropFilter: 'blur(8px)',
+                padding: '12px 18px',
+                borderRadius: '6px',
+                border: `1px solid ${C.borderLight}`,
+                display: 'flex',
+                alignItems: 'center',
+                gap: '10px',
+                fontSize: '13px',
+                fontWeight: 700,
+                color: C.primary,
+              }}
+            >
+              <ShieldCheck size={18} color={C.accent} />
+              Enterprise-Grade Process Governance
             </div>
+          </div>
 
-            {/* Calendar Grid */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '12px', textAlign: 'center', marginBottom: '24px' }}>
-              {CALENDAR_DAYS.map((d) => (
-                <div key={d.day} style={{
-                  backgroundColor: C.surfaceContainer, padding: '12px',
-                  borderRadius: '8px', border: `1px solid ${C.outlineVariant}4D`,
-                }}>
-                  <span style={{ ...T.labelSm, fontWeight: 700, color: C.onSurface, display: 'block', marginBottom: '4px' }}>{d.day}</span>
-                  <div style={{
-                    backgroundColor: d.meetingBg, color: d.meetingColor,
-                    fontSize: '11px', padding: '8px', borderRadius: '4px', fontWeight: 500, marginBottom: '8px',
-                  }}>{d.meetingLabel}</div>
-                  <div style={{
-                    backgroundColor: d.bufferBg, color: d.bufferColor,
-                    fontSize: '11px', padding: '8px', borderRadius: '4px', fontWeight: 500,
-                  }}>{d.bufferLabel}</div>
+          {/* Content (45% desktop width) */}
+          <div style={{ flex: '1 1 400px' }}>
+            <div
+              style={{
+                width: '40px',
+                height: '3px',
+                backgroundColor: C.accent,
+                marginBottom: '14px',
+                borderRadius: '2px',
+              }}
+            />
+            <h2
+              style={{
+                fontFamily: "'Plus Jakarta Sans', sans-serif",
+                fontSize: 'clamp(26px, 3vw, 36px)',
+                fontWeight: 800,
+                color: C.primary,
+                lineHeight: 1.25,
+                margin: '0 0 16px 0',
+              }}
+            >
+              Engineered for Leadership Requiring Absolute Operational Certainty
+            </h2>
+
+            <p
+              style={{
+                fontFamily: "'Inter', sans-serif",
+                fontSize: '15px',
+                lineHeight: 1.7,
+                color: C.secondaryText,
+                margin: '0 0 24px 0',
+              }}
+            >
+              FlowPilot eliminates administrative communication bottlenecks without ever compromising your authority. When high-value vendor requests or critical inquiries emerge, our system prepares an actionable brief straight to your verified mobile thread.
+            </p>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', marginBottom: '32px' }}>
+              {[
+                'Under 10-minute setup with native Google Workspace & Microsoft 365 OAuth',
+                'Encrypted WhatsApp approval loops — zero new applications to master',
+                'Preserves your domain authority, email sender score, and SPF/DKIM records',
+              ].map((item, idx) => (
+                <div
+                  key={idx}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'flex-start',
+                    gap: '10px',
+                    fontSize: '14px',
+                    fontWeight: 500,
+                    color: C.primary,
+                  }}
+                >
+                  <CheckCircle2 size={18} color={C.accent} style={{ flexShrink: 0, marginTop: '2px' }} />
+                  <span>{item}</span>
                 </div>
               ))}
             </div>
 
-            {/* Conflict resolved row */}
-            <div style={{
-              backgroundColor: C.surfaceContainerLow, padding: '16px', borderRadius: '8px',
-              display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px',
-            }}>
-              <span style={{ ...T.bodySm, color: C.onSurface, fontWeight: 500 }}>
-                Conflict Auto-Resolved: Moved external vendor sync to Thursday afternoon.
-              </span>
-              <span className="material-symbols-outlined" style={{ color: C.primary, flexShrink: 0 }}>check_circle</span>
-            </div>
+            <Link
+              to="/book-a-demo"
+              style={{
+                backgroundColor: C.primary,
+                color: '#FFFFFF',
+                padding: '14px 28px',
+                borderRadius: C.cardRadius,
+                fontWeight: 700,
+                fontSize: '15px',
+                fontFamily: "'Plus Jakarta Sans', sans-serif",
+                textDecoration: 'none',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px',
+                boxShadow: '0 4px 12px rgba(0, 70, 66, 0.25)',
+                transition: 'all 0.2s ease',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = C.primaryLight;
+                e.currentTarget.style.transform = 'translateY(-2px)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = C.primary;
+                e.currentTarget.style.transform = 'none';
+              }}
+            >
+              Book Enterprise Consultation <ArrowRight size={16} />
+            </Link>
           </div>
         </div>
       </div>
@@ -622,102 +809,138 @@ function ServiceCalendar() {
 }
 
 /* ─────────────────────────────────────────────────────────────────────────────
-   SERVICE 05: CUSTOM AI WORKFLOWS
+   SECTION 5 — WHY FLOWPILOT (BACKGROUND IMAGE, OVERLAY, 4 STATS CARDS)
 ───────────────────────────────────────────────────────────────────────────── */
-const WORKFLOW_NODES = [
-  { num: '01', title: 'Trigger Event', desc: 'Incoming high-value client email or WhatsApp message.', bg: C.primary, color: C.onPrimary },
-  { num: '02', title: 'AI Analysis', desc: 'Sentiment scoring, intent classification, and urgency rating.', bg: C.primaryContainer, color: C.onPrimaryContainer },
-  { num: '03', title: 'Conditional Route', desc: 'Branch logic based on deal size and executive availability.', bg: C.secondary, color: C.onSecondary },
-  { num: '04', title: 'Action Execution', desc: 'Automated reply sent, calendar synced, and CRM updated.', bg: C.secondaryContainer, color: C.onSecondaryContainer },
-];
+function WhyFlowPilot() {
+  const stats = [
+    { value: '99.4%', label: 'Automation Accuracy', desc: 'Deterministic intent recognition & confidence scoring' },
+    { value: '24/7', label: 'Availability', desc: 'Continuous operations monitoring & queue triage' },
+    { value: '<1.5s', label: 'Response Time', desc: 'Real-time event processing and trigger activation' },
+    { value: '100%', label: 'Human Approval Control', desc: 'High-stakes dispatches require executive authorization' },
+  ];
 
-function ServiceWorkflows() {
   return (
-    <section style={{
-      paddingTop: '96px', paddingBottom: '96px',
-      backgroundColor: C.surfaceContainerLow,
-      borderTop: `1px solid ${C.outlineVariant}4D`,
-      borderBottom: `1px solid ${C.outlineVariant}4D`,
-    }}>
-      <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 32px' }}>
-        {/* Header */}
-        <div style={{ maxWidth: '768px', marginBottom: '64px' }}>
-          <span style={{ ...T.labelSm, color: C.secondary, textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 600 }}>
-            Service 05
-          </span>
-          <h2 style={{ ...T.headlineLg, color: C.onSurface, marginTop: '8px', marginBottom: '16px' }}>
-            Custom AI Workflows
+    <section
+      style={{
+        position: 'relative',
+        backgroundImage: `url("${statsBg}")`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        padding: '95px 24px',
+        overflow: 'hidden',
+      }}
+    >
+      {/* Dark Overlay */}
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          background: 'rgba(0, 70, 66, 0.88)',
+          backdropFilter: 'blur(8px)',
+          WebkitBackdropFilter: 'blur(8px)',
+          zIndex: 1,
+        }}
+      />
+
+      <div
+        style={{
+          position: 'relative',
+          zIndex: 2,
+          maxWidth: '1200px',
+          margin: '0 auto',
+        }}
+      >
+        <div style={{ textAlign: 'center', maxWidth: '720px', margin: '0 auto 56px auto' }}>
+          <div
+            style={{
+              width: '40px',
+              height: '3px',
+              backgroundColor: C.accent,
+              margin: '0 auto 12px auto',
+              borderRadius: '2px',
+            }}
+          />
+          <h2
+            style={{
+              fontFamily: "'Plus Jakarta Sans', sans-serif",
+              fontSize: 'clamp(28px, 3.5vw, 38px)',
+              fontWeight: 800,
+              color: '#FFFFFF',
+              letterSpacing: '-0.02em',
+              margin: '0 0 12px 0',
+            }}
+          >
+            Why Leading Enterprises Choose FlowPilot
           </h2>
-          <p style={{ ...T.bodyLg, color: C.onSurfaceVariant, lineHeight: '1.75' }}>
-            Visual node-based automation builder preview. Seamlessly chain Triggers, AI Analysis, Conditional Routing, and Enterprise Actions without writing a single line of code.
+          <p
+            style={{
+              fontFamily: "'Inter', sans-serif",
+              fontSize: '16px',
+              lineHeight: 1.6,
+              color: 'rgba(255, 255, 255, 0.85)',
+              margin: 0,
+            }}
+          >
+            Proven operational metrics measured across Fortune 500 leadership deployments.
           </p>
         </div>
 
-        {/* Builder Visual */}
-        <div style={{
-          backgroundColor: C.surface, borderRadius: '12px', padding: '32px',
-          border: `1px solid ${C.outlineVariant}66`, boxShadow: '0 1px 3px rgba(0,0,0,0.06)',
-          position: 'relative', overflow: 'hidden',
-        }}>
-          {/* Version badge */}
-          <div style={{ position: 'absolute', top: 0, right: 0, padding: '24px' }}>
-            <span style={{
-              padding: '4px 12px', backgroundColor: `${C.primaryFixed}4D`,
-              color: C.onPrimaryFixed, borderRadius: '9999px', ...T.labelSm, fontWeight: 700,
-            }}>Visual Builder v4.2</span>
-          </div>
-
-          {/* 4 Nodes */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '24px', position: 'relative', zIndex: 10, margin: '24px 0' }}
-            className="nodes-grid">
-            {WORKFLOW_NODES.map((node, i) => (
-              <div key={node.num} style={{
-                backgroundColor: C.surfaceContainerLow, padding: '20px',
-                borderRadius: '12px', border: `1px solid ${C.outlineVariant}4D`,
-                position: 'relative',
-              }}>
-                <div style={{
-                  width: '32px', height: '32px', borderRadius: '8px',
-                  backgroundColor: node.bg, color: node.color,
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  fontWeight: 700, fontSize: '12px', marginBottom: '12px',
-                }}>{node.num}</div>
-                <h4 style={{ ...T.headlineSm, color: C.onSurface, marginBottom: '4px' }}>{node.title}</h4>
-                <p style={{ ...T.bodySm, color: C.onSurfaceVariant }}>{node.desc}</p>
-                {/* Connector line (not last) */}
-                {i < WORKFLOW_NODES.length - 1 && (
-                  <div style={{
-                    position: 'absolute', right: '-12px', top: '50%',
-                    width: '24px', height: '2px',
-                    backgroundColor: C.outlineVariant,
-                    display: 'none', // shown via className on wider screens
-                  }} className="node-connector" />
-                )}
+        {/* 4 Stat Cards */}
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
+            gap: '24px',
+          }}
+        >
+          {stats.map((s, idx) => (
+            <div
+              key={idx}
+              style={{
+                backgroundColor: C.surfaceWhite,
+                borderRadius: C.cardRadius,
+                padding: '32px 24px',
+                boxShadow: '0 12px 28px rgba(0, 0, 0, 0.18)',
+                textAlign: 'center',
+                borderTop: `4px solid ${C.accent}`,
+              }}
+            >
+              <div
+                style={{
+                  fontFamily: "'Plus Jakarta Sans', sans-serif",
+                  fontSize: 'clamp(36px, 4vw, 48px)',
+                  fontWeight: 800,
+                  color: C.primary,
+                  lineHeight: 1.1,
+                  marginBottom: '8px',
+                }}
+              >
+                {s.value}
               </div>
-            ))}
-          </div>
-
-          {/* Footer row */}
-          <div style={{
-            marginTop: '32px', paddingTop: '24px',
-            borderTop: `1px solid ${C.outlineVariant}4D`,
-            display: 'flex', flexWrap: 'wrap', alignItems: 'center',
-            justifyContent: 'space-between', gap: '16px',
-          }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-              <span className="material-symbols-outlined" style={{ color: C.primary }}>check_circle</span>
-              <span style={{ ...T.bodyMd, fontWeight: 500, color: C.onSurface }}>
-                Flow validation passed with 0 compilation errors.
-              </span>
+              <div
+                style={{
+                  fontFamily: "'Plus Jakarta Sans', sans-serif",
+                  fontSize: '16px',
+                  fontWeight: 700,
+                  color: C.primaryLight,
+                  marginBottom: '8px',
+                }}
+              >
+                {s.label}
+              </div>
+              <p
+                style={{
+                  fontFamily: "'Inter', sans-serif",
+                  fontSize: '13px',
+                  lineHeight: 1.5,
+                  color: C.secondaryText,
+                  margin: 0,
+                }}
+              >
+                {s.desc}
+              </p>
             </div>
-            <button style={{
-              backgroundColor: C.primary, color: C.onPrimary,
-              padding: '10px 24px', borderRadius: '8px',
-              ...T.labelMd, fontWeight: 700, cursor: 'pointer', border: 'none',
-            }}>
-              Launch Custom Workflow
-            </button>
-          </div>
+          ))}
         </div>
       </div>
     </section>
@@ -725,46 +948,292 @@ function ServiceWorkflows() {
 }
 
 /* ─────────────────────────────────────────────────────────────────────────────
-   FINAL CTA
+   SECTION 6 — TESTIMONIALS (REAL PHOTOS 72X72 CIRCLE AVATARS)
+───────────────────────────────────────────────────────────────────────────── */
+function ServicesTestimonials() {
+  const testimonials = [
+    {
+      quote:
+        '"FlowPilot reduced our executive response latency by 85%. Our partners receive immediate, context-accurate updates while our leadership team stays focused on strategic acquisitions."',
+      name: 'Jonathan Sterling',
+      role: 'Chief Operating Officer, Veloce Global',
+      avatar: avatarJonathan,
+    },
+    {
+      quote:
+        '"The WhatsApp integration is an absolute game-changer. I manage all critical vendor exceptions from my phone while traveling without ever opening a laptop."',
+      name: 'Aria Montgomery',
+      role: 'Managing Director, Nexus Capital',
+      avatar: avatarAria,
+    },
+  ];
+
+  return (
+    <section
+      style={{
+        padding: '95px 24px',
+        backgroundColor: C.surfaceCream,
+        borderBottom: `1px solid ${C.borderLight}`,
+      }}
+    >
+      <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
+        <div style={{ textAlign: 'center', maxWidth: '720px', margin: '0 auto 54px auto' }}>
+          <div
+            style={{
+              width: '40px',
+              height: '3px',
+              backgroundColor: C.accent,
+              margin: '0 auto 12px auto',
+              borderRadius: '2px',
+            }}
+          />
+          <h2
+            style={{
+              fontFamily: "'Plus Jakarta Sans', sans-serif",
+              fontSize: 'clamp(26px, 3vw, 36px)',
+              fontWeight: 800,
+              color: C.primary,
+              margin: '0 0 10px 0',
+            }}
+          >
+            Endorsed by Operations Leadership
+          </h2>
+          <p
+            style={{
+              fontFamily: "'Inter', sans-serif",
+              fontSize: '15px',
+              color: C.secondaryText,
+              margin: 0,
+            }}
+          >
+            See how enterprise leaders eliminate communication latency with FlowPilot.
+          </p>
+        </div>
+
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+            gap: '32px',
+          }}
+        >
+          {testimonials.map((t, idx) => (
+            <div
+              key={idx}
+              style={{
+                backgroundColor: C.surfaceWhite,
+                borderRadius: C.cardRadius,
+                padding: '36px 32px',
+                border: `1px solid ${C.borderLight}`,
+                boxShadow: '0 6px 20px rgba(0, 70, 66, 0.05)',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between',
+              }}
+            >
+              <p
+                style={{
+                  fontFamily: "'Inter', sans-serif",
+                  fontSize: '15px',
+                  lineHeight: 1.7,
+                  color: C.primary,
+                  fontStyle: 'italic',
+                  margin: '0 0 24px 0',
+                }}
+              >
+                {t.quote}
+              </p>
+
+              <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                {/* 72x72 Circle Avatar */}
+                <img
+                  src={t.avatar}
+                  alt={t.name}
+                  style={{
+                    width: '72px',
+                    height: '72px',
+                    borderRadius: '50%',
+                    objectFit: 'cover',
+                    flexShrink: 0,
+                    border: `2px solid ${C.accent}`,
+                  }}
+                />
+                <div>
+                  <div
+                    style={{
+                      fontFamily: "'Plus Jakarta Sans', sans-serif",
+                      fontSize: '17px',
+                      fontWeight: 700,
+                      color: C.primary,
+                    }}
+                  >
+                    {t.name}
+                  </div>
+                  <div
+                    style={{
+                      fontFamily: "'Inter', sans-serif",
+                      fontSize: '13px',
+                      color: C.secondaryText,
+                      marginTop: '2px',
+                    }}
+                  >
+                    {t.role}
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   SECTION 7 — FINAL CTA
 ───────────────────────────────────────────────────────────────────────────── */
 function ServicesCTA() {
   return (
-    <section style={{
-      paddingTop: '96px', paddingBottom: '96px',
-      maxWidth: '1280px', margin: '0 auto', padding: '96px 32px',
-      textAlign: 'center', position: 'relative', overflow: 'hidden',
-    }}>
-      {/* Gradient BG */}
-      <div style={{
-        position: 'absolute', inset: 0,
-        background: `linear-gradient(135deg, ${C.primaryFixed}33 0%, ${C.secondaryFixed}33 100%)`,
-        borderRadius: '24px', zIndex: 0,
-      }} />
-      <div style={{ maxWidth: '768px', margin: '0 auto', paddingTop: '48px', paddingBottom: '48px', paddingLeft: '24px', paddingRight: '24px', position: 'relative', zIndex: 1 }}>
-        <h2 style={{ ...T.headlineLg, color: C.onSurface, marginBottom: '24px' }}>
+    <section
+      style={{
+        position: 'relative',
+        backgroundImage: `url("${ctaBg}")`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        padding: '100px 24px',
+        overflow: 'hidden',
+        textAlign: 'center',
+      }}
+    >
+      {/* Dark Overlay */}
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          background: 'linear-gradient(135deg, rgba(0, 70, 66, 0.94) 0%, rgba(0, 46, 43, 0.97) 100%)',
+          zIndex: 1,
+        }}
+      />
+
+      <div
+        style={{
+          position: 'relative',
+          zIndex: 2,
+          maxWidth: '820px',
+          margin: '0 auto',
+        }}
+      >
+        <div
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '8px',
+            padding: '6px 14px',
+            borderRadius: C.cardRadius,
+            backgroundColor: 'rgba(254, 133, 44, 0.15)',
+            border: '1px solid rgba(254, 133, 44, 0.3)',
+            color: C.accent,
+            fontSize: '12px',
+            fontWeight: 700,
+            letterSpacing: '0.06em',
+            textTransform: 'uppercase',
+            marginBottom: '20px',
+          }}
+        >
+          <Sparkles size={14} color={C.accent} />
+          Enterprise Deployment
+        </div>
+
+        <h2
+          style={{
+            fontFamily: "'Plus Jakarta Sans', sans-serif",
+            fontSize: 'clamp(28px, 4vw, 42px)',
+            fontWeight: 800,
+            lineHeight: 1.22,
+            color: '#FFFFFF',
+            margin: '0 0 16px 0',
+          }}
+        >
           Ready to Engineer Autonomous Operations for Your Enterprise?
         </h2>
-        <p style={{ ...T.bodyLg, color: C.onSurfaceVariant, marginBottom: '40px', lineHeight: '1.75' }}>
+
+        <p
+          style={{
+            fontFamily: "'Inter', sans-serif",
+            fontSize: '16px',
+            lineHeight: 1.65,
+            color: 'rgba(255, 255, 255, 0.85)',
+            maxWidth: '620px',
+            margin: '0 auto 36px auto',
+          }}
+        >
           Join Fortune 500 leadership teams leveraging FlowPilot AI to eliminate administrative overhead and accelerate strategic execution.
         </p>
-        <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center', gap: '16px' }}>
+
+        <div
+          style={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '16px',
+          }}
+        >
           <Link
             to="/book-a-demo"
             style={{
-              backgroundColor: C.secondaryContainer, color: C.onSecondaryContainer,
-              padding: '16px 32px', borderRadius: '8px',
-              ...T.labelMd, fontWeight: 700, textDecoration: 'none',
-              boxShadow: '0 1px 3px rgba(0,0,0,0.08)',
+              backgroundColor: C.accent,
+              color: '#FFFFFF',
+              padding: '15px 32px',
+              borderRadius: C.cardRadius,
+              fontWeight: 700,
+              fontSize: '15px',
+              fontFamily: "'Plus Jakarta Sans', sans-serif",
+              textDecoration: 'none',
+              boxShadow: '0 4px 14px rgba(254, 133, 44, 0.35)',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '8px',
+              transition: 'all 0.2s ease',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = '#e57220';
+              e.currentTarget.style.transform = 'translateY(-2px)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = C.accent;
+              e.currentTarget.style.transform = 'none';
             }}
           >
-            Start Free Enterprise Trial
+            Start Free Enterprise Trial <ArrowRight size={16} />
           </Link>
+
           <Link
             to="/book-a-demo"
             style={{
-              backgroundColor: C.surface, border: `1px solid ${C.outlineVariant}`,
-              color: C.onSurface, padding: '16px 32px', borderRadius: '8px',
-              ...T.labelMd, fontWeight: 600, textDecoration: 'none',
+              backgroundColor: 'transparent',
+              border: '1.5px solid rgba(255, 255, 255, 0.5)',
+              color: '#FFFFFF',
+              padding: '15px 32px',
+              borderRadius: C.cardRadius,
+              fontWeight: 700,
+              fontSize: '15px',
+              fontFamily: "'Plus Jakarta Sans', sans-serif",
+              textDecoration: 'none',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '8px',
+              transition: 'all 0.2s ease',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.borderColor = '#FFFFFF';
+              e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.08)';
+              e.currentTarget.style.transform = 'translateY(-2px)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.5)';
+              e.currentTarget.style.backgroundColor = 'transparent';
+              e.currentTarget.style.transform = 'none';
             }}
           >
             Schedule Architecture Review
@@ -780,36 +1249,16 @@ function ServicesCTA() {
 ───────────────────────────────────────────────────────────────────────────── */
 export function ServicesPage() {
   return (
-    <>
-      <style>{`
-        @keyframes pulse {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0.4; }
-        }
-        @media (max-width: 1024px) {
-          .svc-grid { grid-template-columns: 1fr !important; }
-          .svc-order-first { order: 1; }
-          .svc-order-second { order: 2; }
-        }
-        @media (max-width: 768px) {
-          .stat-grid { grid-template-columns: 1fr !important; }
-          .nodes-grid { grid-template-columns: 1fr 1fr !important; }
-          .digest-grid { grid-template-columns: 1fr !important; }
-        }
-        @media (max-width: 480px) {
-          .nodes-grid { grid-template-columns: 1fr !important; }
-        }
-        @media (min-width: 768px) {
-          .node-connector { display: block !important; }
-        }
-      `}</style>
+    <div style={{ backgroundColor: C.surfaceWhite, color: C.primary, minHeight: '100vh', overflowX: 'hidden' }}>
       <ServicesHero />
-      <ServiceWhatsApp />
-      <ServiceEmail />
-      <ServiceIntelligence />
-      <ServiceCalendar />
-      <ServiceWorkflows />
+      <FeatureStrip />
+      <ServicesGrid />
+      <LargeShowcase />
+      <WhyFlowPilot />
+      <ServicesTestimonials />
       <ServicesCTA />
-    </>
+    </div>
   );
 }
+
+export default ServicesPage;
