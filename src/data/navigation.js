@@ -2,13 +2,16 @@ export const publicNavLinks = [
   { label: 'Services', href: '/services' },
   { label: 'Solutions', href: '/solutions' },
   { label: 'How It Works', href: '/how-it-works' },
+  { label: 'Live Preview', href: '/dashboard-preview' },
   { label: 'Pricing', href: '/pricing' },
   { label: 'About', href: '/about' },
   { label: 'FAQ', href: '/faq' },
+  { label: 'Contact', href: '/contact' },
 ];
 
 export const footerLinks = {
   platform: [
+    { label: 'Dashboard Preview', href: '/dashboard-preview' },
     { label: 'Services Overview', href: '/services' },
     { label: 'WhatsApp AI Agent', href: '/whatsapp-ai-agent' },
     { label: 'Email Automation', href: '/email-automation' },

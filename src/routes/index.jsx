@@ -17,6 +17,7 @@ import { TeamPage } from '../pages/public/TeamPage';
 import { FaqPage } from '../pages/public/FaqPage';
 import { AuthPage } from '../pages/public/AuthPage';
 import { DashboardPage } from '../pages/public/DashboardPage';
+import { DashboardPreviewPage } from '../pages/public/DashboardPreviewPage';
 import { NotFoundPage } from '../pages/system/NotFoundPage';
 import { ServerErrorPage } from '../pages/system/ServerErrorPage';
 
@@ -36,10 +37,13 @@ export const router = createBrowserRouter([
       { path: 'team', element: <TeamPage /> },
       { path: 'faq', element: <FaqPage /> },
       { path: 'book-a-demo', element: <BookDemoPage /> },
+      { path: 'book-demo', element: <BookDemoPage /> },
       { path: 'whatsapp-ai-agent', element: <WhatsAppAgentPage /> },
       { path: 'email-automation', element: <EmailAutomationPage /> },
       { path: 'calendar-automation', element: <CalendarAutomationPage /> },
       { path: 'custom-ai-workflows', element: <CustomWorkflowsPage /> },
+      { path: 'custom-workflows', element: <CustomWorkflowsPage /> },
+      { path: 'dashboard-preview', element: <DashboardPreviewPage /> },
     ],
   },
   {

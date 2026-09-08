@@ -185,7 +185,7 @@ function HeroSection() {
             <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>arrow_forward</span>
           </Link>
           <Link
-            to="#tour"
+            to="/dashboard-preview"
             style={{
               display: 'inline-flex',
               alignItems: 'center',

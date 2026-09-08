@@ -1040,7 +1040,7 @@ export function HowItWorksPage() {
             </Link>
 
             <Link
-              to="/book-demo"
+              to="/book-a-demo"
               style={{
                 backgroundColor: 'transparent',
                 color: '#FFFFFF',

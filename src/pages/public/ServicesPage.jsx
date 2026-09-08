@@ -119,7 +119,7 @@ const SERVICES = [
     description:
       'Visual node-based automation builder preview. Seamlessly chain Triggers, AI Analysis, Conditional Routing, and Enterprise Actions without writing a single line of code.',
     image: svcWorkflowsImg,
-    route: '/custom-workflows',
+    route: '/custom-ai-workflows',
     ctaText: 'Explore Custom Workflows',
     features: [
       'Visual multi-step conditional route builder',

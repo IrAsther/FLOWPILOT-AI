@@ -648,7 +648,7 @@ export function FaqPage() {
                     Schedule a 1-on-1 workflow architecture review tailored to your company's existing CRM & stack.
                   </p>
                   <Link
-                    to="/book-demo"
+                    to="/book-a-demo"
                     style={{
                       display: 'inline-flex',
                       alignItems: 'center',
@@ -1178,7 +1178,7 @@ export function FaqPage() {
             </Link>
 
             <Link
-              to="/book-demo"
+              to="/book-a-demo"
               style={{
                 backgroundColor: 'transparent',
                 color: '#FFFFFF',

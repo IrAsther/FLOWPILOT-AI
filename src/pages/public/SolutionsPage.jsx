@@ -833,6 +833,32 @@ function SolutionsCTA() {
           </Link>
 
           <Link
+            to="/contact"
+            style={{
+              backgroundColor: 'transparent',
+              color: '#FFFFFF',
+              border: `1.5px solid rgba(255, 255, 255, 0.45)`,
+              padding: '15px 32px',
+              borderRadius: C.cardRadius,
+              ...T.labelMd,
+              fontWeight: 600,
+              textDecoration: 'none',
+              transition: 'all 0.2s ease',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.borderColor = '#FFFFFF';
+              e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.08)';
+              e.currentTarget.style.transform = 'translateY(-2px)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.45)';
+              e.currentTarget.style.backgroundColor = 'transparent';
+              e.currentTarget.style.transform = 'none';
+            }}
+          >
+            Contact Team
+          </Link>
+          <Link
             to="/pricing"
             style={{
               backgroundColor: 'transparent',

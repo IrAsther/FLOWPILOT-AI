@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Logo } from '../../components/common/Logo';
-import { Eye, EyeOff, Lock, Mail, Check, Loader2 } from 'lucide-react';
+import { Eye, EyeOff, Lock, Mail, Check, Loader2, Calendar, MessageSquare, ShieldCheck, ArrowRight } from 'lucide-react';
 import loginVisualImg from '../../styles/Images/login-security-workspace.jpg';
 
 const C = {
@@ -796,7 +796,9 @@ export const AuthPage = ({ initialView = 'login' }) => {
         {view === 'verify' && (
           <div style={{ flex: 1, padding: '64px 32px', maxWidth: '480px', margin: '0 auto', width: '100%' }}>
             <div style={{ backgroundColor: C.surfaceContainerLowest, padding: '36px', borderRadius: '24px', border: `1px solid ${C.borderLight}`, textAlign: 'center', boxShadow: '0 12px 32px rgba(0,0,0,0.04)' }}>
-              <div style={{ fontSize: '36px', marginBottom: '12px' }}>🔐</div>
+              <div style={{ display: 'inline-flex', padding: '12px', borderRadius: '50%', backgroundColor: 'rgba(1,96,90,0.1)', color: C.primaryContainer, marginBottom: '12px' }}>
+                <Lock size={30} />
+              </div>
               <h2 style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: '24px', fontWeight: 800, color: C.onSurface, margin: '0 0 8px 0' }}>
                 Two-Factor / Email Verification
               </h2>
@@ -938,13 +940,13 @@ export const AuthPage = ({ initialView = 'login' }) => {
                   </p>
                   <div style={{ padding: '20px', borderRadius: '12px', backgroundColor: C.surfaceContainerLow, border: `1px solid ${C.borderLight}`, marginBottom: '24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                      <span style={{ fontSize: '24px' }}>✉</span>
-                      <div>
+                       <Mail size={22} color={C.primaryContainer} />
+                       <div>
                         <strong>Google Workspace (Gmail)</strong>
                         <div style={{ fontSize: '12px', color: C.onSurfaceVariant }}>alex@northlinestudio.com</div>
                       </div>
                     </div>
-                    <span style={{ color: '#059669', fontSize: '12px', fontWeight: 700 }}>✓ OAuth Connected</span>
+                     <span style={{ color: '#059669', fontSize: '12px', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '4px' }}><Check size={13} /> OAuth Connected</span>
                   </div>
                   <div style={{ display: 'flex', gap: '12px' }}>
                     <button onClick={() => setOnboardingStep(2)} style={{ backgroundColor: C.surfaceContainer, color: C.onSurface, padding: '12px 20px', borderRadius: '8px', border: 'none', fontSize: '14px', fontWeight: 600, cursor: 'pointer' }}>
@@ -968,13 +970,13 @@ export const AuthPage = ({ initialView = 'login' }) => {
                   </p>
                   <div style={{ padding: '20px', borderRadius: '12px', backgroundColor: '#f0fdf4', border: '1px solid #bbf7d0', marginBottom: '24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                      <span style={{ fontSize: '24px' }}>💬</span>
-                      <div>
+                       <MessageSquare size={22} color='#166534' />
+                       <div>
                         <strong>WhatsApp Business API</strong>
                         <div style={{ fontSize: '12px', color: '#166534' }}>+1 (555) 234-9811 (Verified)</div>
                       </div>
                     </div>
-                    <span style={{ color: '#059669', fontSize: '12px', fontWeight: 700 }}>✓ Encrypted Sync</span>
+                     <span style={{ color: '#059669', fontSize: '12px', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '4px' }}><ShieldCheck size={13} /> Encrypted Sync</span>
                   </div>
                   <div style={{ display: 'flex', gap: '12px' }}>
                     <button onClick={() => setOnboardingStep(3)} style={{ backgroundColor: C.surfaceContainer, color: C.onSurface, padding: '12px 20px', borderRadius: '8px', border: 'none', fontSize: '14px', fontWeight: 600, cursor: 'pointer' }}>
@@ -998,13 +1000,13 @@ export const AuthPage = ({ initialView = 'login' }) => {
                   </p>
                   <div style={{ padding: '20px', borderRadius: '12px', backgroundColor: C.surfaceContainerLow, border: `1px solid ${C.borderLight}`, marginBottom: '24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                      <span style={{ fontSize: '24px' }}>📅</span>
-                      <div>
+                       <Calendar size={22} color={C.primaryContainer} />
+                       <div>
                         <strong>Google Calendar</strong>
                         <div style={{ fontSize: '12px', color: C.onSurfaceVariant }}>2 connected calendars (Work + Executive Focus)</div>
                       </div>
                     </div>
-                    <span style={{ color: '#059669', fontSize: '12px', fontWeight: 700 }}>✓ Auto-synced</span>
+                     <span style={{ color: '#059669', fontSize: '12px', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '4px' }}><Check size={13} /> Auto-synced</span>
                   </div>
                   <div style={{ display: 'flex', gap: '12px' }}>
                     <button onClick={() => setOnboardingStep(4)} style={{ backgroundColor: C.surfaceContainer, color: C.onSurface, padding: '12px 20px', borderRadius: '8px', border: 'none', fontSize: '14px', fontWeight: 600, cursor: 'pointer' }}>
@@ -1026,18 +1028,18 @@ export const AuthPage = ({ initialView = 'login' }) => {
                   <p style={{ fontSize: '14px', color: C.onSurfaceVariant, marginBottom: '24px' }}>
                     Configure the deterministic threshold for inbound email triage and WhatsApp approval gates.
                   </p>
-                  <div style={{ backgroundColor: C.surfaceContainerLow, padding: '20px', borderRadius: '12px', marginBottom: '24px', fontSize: '13px', lineHeight: 1.6 }}>
-                    <div>✓ Inbound: <strong>Gmail</strong> active</div>
-                    <div>✓ Outbound: <strong>WhatsApp Alerts</strong> enabled</div>
-                    <div>✓ Security: <strong>SOC2 / End-to-End Encryption</strong> enforced</div>
-                    <div>✓ Approval threshold: <strong>98% confidence</strong> or human sign-off required</div>
+                  <div style={{ backgroundColor: C.surfaceContainerLow, padding: '20px', borderRadius: '12px', marginBottom: '24px', fontSize: '13px', lineHeight: 1.6, display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><Check size={14} color='#059669' /> Inbound: <strong>Gmail</strong> active</div>
+                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><Check size={14} color='#059669' /> Outbound: <strong>WhatsApp Alerts</strong> enabled</div>
+                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><ShieldCheck size={14} color='#059669' /> Security: <strong>SOC2 / End-to-End Encryption</strong> enforced</div>
+                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><Check size={14} color='#059669' /> Approval threshold: <strong>98% confidence</strong> or human sign-off required</div>
                   </div>
                   <div style={{ display: 'flex', gap: '12px' }}>
                     <button onClick={() => setOnboardingStep(5)} style={{ backgroundColor: C.surfaceContainer, color: C.onSurface, padding: '12px 20px', borderRadius: '8px', border: 'none', fontSize: '14px', fontWeight: 600, cursor: 'pointer' }}>
                       ← Back
                     </button>
-                    <button onClick={() => { setView('completion'); navigate('/onboarding/complete'); }} style={{ backgroundColor: C.secondaryContainer, color: '#ffffff', padding: '14px 32px', borderRadius: '10px', border: 'none', fontSize: '15px', fontWeight: 700, cursor: 'pointer' }}>
-                      Launch FlowPilot AI Workspace 🚀
+                    <button onClick={() => { setView('completion'); navigate('/onboarding/complete'); }} style={{ backgroundColor: C.secondaryContainer, color: '#ffffff', padding: '14px 32px', borderRadius: '10px', border: 'none', fontSize: '15px', fontWeight: 700, cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+                       Launch FlowPilot AI Workspace <ArrowRight size={18} />
                     </button>
                   </div>
                 </div>

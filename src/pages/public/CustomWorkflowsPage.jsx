@@ -199,7 +199,8 @@ export const CustomWorkflowsPage = () => {
 
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
               <span style={{ fontSize: '12px', color: C.onSurfaceVariant }}>Execution Latency: 420ms avg</span>
-              <button
+              <Link
+                to="/book-a-demo"
                 style={{
                   backgroundColor: C.secondaryContainer,
                   color: '#ffffff',
@@ -209,10 +210,13 @@ export const CustomWorkflowsPage = () => {
                   fontSize: '12px',
                   fontWeight: 600,
                   cursor: 'pointer',
+                  textDecoration: 'none',
+                  display: 'inline-flex',
+                  alignItems: 'center',
                 }}
               >
                 Deploy Workflow
-              </button>
+              </Link>
             </div>
           </div>
 
@@ -354,8 +358,8 @@ export const CustomWorkflowsPage = () => {
                 </div>
                 <p style={{ fontSize: '11px', color: C.onSurfaceVariant, margin: '0 0 8px 0' }}>Review AI draft before release</p>
                 <div style={{ display: 'flex', gap: '6px' }}>
-                  <button style={{ backgroundColor: C.primaryContainer, color: '#ffffff', border: 'none', padding: '3px 8px', borderRadius: '4px', fontSize: '10px', fontWeight: 700 }}>Approve</button>
-                  <button style={{ backgroundColor: C.surfaceContainer, color: C.onSurface, border: 'none', padding: '3px 8px', borderRadius: '4px', fontSize: '10px', fontWeight: 600 }}>Modify</button>
+                  <button onClick={() => setActionStatus('Node 5 Approved ✓')} style={{ backgroundColor: C.primaryContainer, color: '#ffffff', border: 'none', padding: '3px 8px', borderRadius: '4px', fontSize: '10px', fontWeight: 700, cursor: 'pointer' }}>Approve</button>
+                  <button onClick={() => setActionStatus('Node 5 Marked for Revision')} style={{ backgroundColor: C.surfaceContainer, color: C.onSurface, border: 'none', padding: '3px 8px', borderRadius: '4px', fontSize: '10px', fontWeight: 600, cursor: 'pointer' }}>Modify</button>
                 </div>
               </div>
             </div>

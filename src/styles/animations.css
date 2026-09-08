@@ -109,6 +109,72 @@
   animation: shimmerSweep 1.8s infinite;
 }
 
+/* ── Stripe & Linear Style Micro-Interactions ──────────────────────────────── */
+@keyframes slideUpFade {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes sectionReveal {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Card Elevation Hover */
+.hover-card-elevate {
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease !important;
+}
+.hover-card-elevate:hover {
+  transform: translateY(-3px) !important;
+  box-shadow: 0 14px 28px -6px rgba(0, 70, 66, 0.12) !important;
+}
+
+/* Soft Image Zoom on Hover */
+.hover-image-zoom {
+  overflow: hidden;
+}
+.hover-image-zoom img,
+.hover-image-zoom picture {
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+.hover-image-zoom:hover img,
+.hover-image-zoom:hover picture {
+  transform: scale(1.03) !important;
+}
+
+/* Button Hover Transitions */
+.btn-smooth-hover {
+  transition: transform 0.18s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.18s ease, background-color 0.18s ease !important;
+}
+.btn-smooth-hover:hover {
+  transform: translateY(-1px) !important;
+}
+.btn-smooth-hover:active {
+  transform: translateY(0) !important;
+}
+
+/* Section Reveal */
+.section-reveal {
+  animation: sectionReveal 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Smooth Fade In */
+.smooth-fade-in {
+  animation: slideUpFade 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
 /* Accessibility: Respect Reduced Motion Preferences */
 @media (prefers-reduced-motion: reduce) {
   *, ::before, ::after {
