@@ -3,6 +3,7 @@ import { createBrowserRouter, Outlet } from 'react-router-dom';
 import { PublicLayout } from '../layouts/PublicLayout';
 import { BackToTop } from '../components/common/BackToTop';
 import { GoToFooter } from '../components/common/GoToFooter';
+import { SplashScreen } from '../components/common/SplashScreen';
 import { HomePage } from '../pages/public/HomePage';
 import { ServicesPage } from '../pages/public/ServicesPage';
 import { SolutionsPage } from '../pages/public/SolutionsPage';
@@ -24,12 +25,13 @@ import { NotFoundPage } from '../pages/system/NotFoundPage';
 import { ServerErrorPage } from '../pages/system/ServerErrorPage';
 
 /**
- * Global root layout mounting the singleton navigation controls (Back to Top & Go to Footer)
- * cleanly across all application routes.
+ * Global root layout mounting the launch SplashScreen and singleton navigation controls
+ * (Back to Top & Go to Footer) cleanly across all application routes.
  */
 function RootLayout() {
   return (
     <>
+      <SplashScreen />
       <Outlet />
       <div className="fp-floating-nav-stack">
         <BackToTop />

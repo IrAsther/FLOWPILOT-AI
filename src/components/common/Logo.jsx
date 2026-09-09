@@ -1,51 +1,90 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-export function Logo({ size = 'md', link = true, className = '' }) {
+export function LogoIcon({
+  size = 'md',
+  inverse = false,
+  className = '',
+  style = {},
+  iconStyle = {},
+  polygonClassName = '',
+}) {
   const sizeMap = {
-    sm: { box: 'w-7 h-7', icon: '16px', text: 'text-h4', padding: 'p-1' },
-    md: { box: 'w-8 h-8', icon: '20px', text: 'text-h3', padding: 'p-1.5' },
-    lg: { box: 'w-10 h-10', icon: '24px', text: 'text-h2', padding: 'p-2' },
+    sm: { boxPx: 28, icon: '16px' },
+    md: { boxPx: 32, icon: '20px' },
+    lg: { boxPx: 40, icon: '24px' },
+    xl: { boxPx: 48, icon: '28px' },
+    splash: { boxPx: 68, icon: '34px' },
   };
 
   const current = sizeMap[size] || sizeMap.md;
+  const boxDimension = current.boxPx || (size === 'sm' ? 28 : size === 'lg' ? 40 : 32);
+
+  return (
+    <div
+      className={className}
+      style={{
+        width: boxDimension,
+        height: boxDimension,
+        backgroundColor: 'var(--color-teal)',
+        borderRadius: size === 'splash' ? '16px' : 'var(--radius-md)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        boxShadow: inverse ? '0 8px 24px rgba(0, 70, 66, 0.4)' : 'var(--shadow-xs)',
+        border: inverse ? '1px solid rgba(254, 133, 44, 0.5)' : 'none',
+        flexShrink: 0,
+        ...style,
+      }}
+    >
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="var(--color-orange)"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        style={{ width: current.icon, height: current.icon, ...iconStyle }}
+      >
+        <polygon
+          className={polygonClassName}
+          points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"
+          fill="var(--color-orange)"
+        />
+      </svg>
+    </div>
+  );
+}
+
+export function Logo({ size = 'md', link = true, className = '', inverse = false }) {
+  const sizeMap = {
+    sm: { textRem: '1rem' },
+    md: { textRem: '1.25rem' },
+    lg: { textRem: '1.5rem' },
+    xl: { textRem: '1.875rem' },
+    splash: { textRem: '2.25rem' },
+  };
+
+  const current = sizeMap[size] || sizeMap.md;
+  const fontSize = current.textRem || (size === 'sm' ? '1rem' : size === 'lg' ? '1.5rem' : '1.25rem');
 
   const content = (
-    <div className={`inline-flex items-center select-none ${className}`} style={{ gap: '16px' }}>
-      <div
-        style={{
-          width: size === 'sm' ? 28 : size === 'lg' ? 40 : 32,
-          height: size === 'sm' ? 28 : size === 'lg' ? 40 : 32,
-          backgroundColor: 'var(--color-teal)',
-          borderRadius: 'var(--radius-md)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          boxShadow: 'var(--shadow-xs)'
-        }}
-      >
-        <svg
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="var(--color-orange)"
-          strokeWidth="2.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          style={{ width: current.icon, height: current.icon }}
-        >
-          <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" fill="var(--color-orange)" />
-        </svg>
-      </div>
+    <div
+      className={`inline-flex items-center select-none ${className}`}
+      style={{ gap: size === 'splash' ? '20px' : '16px' }}
+    >
+      <LogoIcon size={size} inverse={inverse} />
       <span
         style={{
           fontFamily: 'var(--font-display)',
           fontWeight: 800,
-          color: 'var(--color-text-primary)',
+          color: inverse ? '#FFFFFF' : 'var(--color-text-primary)',
           letterSpacing: '-0.02em',
-          fontSize: size === 'sm' ? '1rem' : size === 'lg' ? '1.5rem' : '1.25rem',
+          fontSize: fontSize,
+          whiteSpace: 'nowrap',
         }}
       >
-        FlowPilot <span style={{ color: 'var(--color-teal)' }}>AI</span>
+        FlowPilot <span style={{ color: inverse ? 'var(--color-orange)' : 'var(--color-teal)' }}>AI</span>
       </span>
     </div>
   );
