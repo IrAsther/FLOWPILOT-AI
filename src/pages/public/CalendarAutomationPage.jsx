@@ -74,7 +74,7 @@ export const CalendarAutomationPage = () => {
     <div style={{ backgroundColor: C.surface, color: C.onSurface, minHeight: '100vh', fontFamily: "'Inter', sans-serif" }}>
       {/* 1. HERO SECTION */}
       <section style={{ padding: '72px 32px 88px 32px', maxWidth: '1280px', margin: '0 auto' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '48px', alignItems: 'center' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, ), 1fr))', gap: '48px', alignItems: 'center' }}>
           <div>
             <div
               style={{
@@ -255,7 +255,7 @@ export const CalendarAutomationPage = () => {
       {/* 2. REALISTIC CONVERSATION DEMO */}
       <section style={{ padding: '72px 32px', backgroundColor: C.surfaceContainerLow, borderTop: `1px solid ${C.borderLight}`, borderBottom: `1px solid ${C.borderLight}` }}>
         <div style={{ maxWidth: '1280px', margin: '0 auto' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '48px', alignItems: 'center' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, ), 1fr))', gap: '48px', alignItems: 'center' }}>
             <div>
               <h2 style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: 'clamp(26px, 3.6vw, 38px)', fontWeight: 800, color: C.onSurface, marginBottom: '16px', lineHeight: 1.2 }}>
                 Autonomous Negotiation Dialogue

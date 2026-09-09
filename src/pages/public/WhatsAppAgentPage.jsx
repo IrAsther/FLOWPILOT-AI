@@ -495,7 +495,7 @@ export const WhatsAppAgentPage = () => {
             margin: '0 auto',
             padding: '0 32px',
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, ), 1fr))',
             gap: '48px',
             alignItems: 'center',
           }}

@@ -1,9 +1,96 @@
 /* ==========================================================================
-   RESPONSIVE SYSTEM
-   Mobile (~320px+) | Tablet (~768px+) | Desktop (~1024px+) | Wide (~1440px+)
+   FLOWPILOT AI — RESPONSIVE DESIGN SYSTEM
+   Supports 320px | 360px | 375px | 390px | 414px | 430px | 768px | 834px |
+            1024px | 1280px | 1440px | 1600px+
    ========================================================================== */
 
-/* Tablet & Up (>= 768px) */
+/* ── Base Responsive Resets & Guards ─────────────────────────────────── */
+html, body {
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+/* Ensure flex/grid children don't burst out of containers */
+.grid, [style*="display: grid"], [style*="display:grid"],
+.flex, [style*="display: flex"], [style*="display:flex"] {
+  min-width: 0;
+}
+
+img, video, canvas, svg {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Headings and paragraphs won't cause horizontal overflow with long strings */
+h1, h2, h3, h4, h5, h6, p, span, a, label {
+  overflow-wrap: break-word;
+  word-break: normal;
+}
+
+/* ── Ultra-compact Mobile (<= 375px) ─────────────────────────────────── */
+@media (max-width: 375px) {
+  .container, .container-narrow {
+    padding-left: 14px !important;
+    padding-right: 14px !important;
+  }
+
+  /* Compact button padding on 320px-360px */
+  button, .btn {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+}
+
+/* ── All Mobile (< 768px) ────────────────────────────────────────────── */
+@media (max-width: 767px) {
+  .container {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .hidden-mobile {
+    display: none !important;
+  }
+
+  .visible-mobile-only {
+    display: flex !important;
+  }
+
+  .section-py {
+    padding-top: var(--space-12);
+    padding-bottom: var(--space-12);
+  }
+
+  .section-py-lg {
+    padding-top: var(--space-14);
+    padding-bottom: var(--space-14);
+  }
+
+  /* Interactive touch targets minimum 44px */
+  button:not(.btn-icon-inline), 
+  a.btn, 
+  [role="button"] {
+    min-height: 44px;
+  }
+
+  /* Full-width stacks for mobile forms and buttons */
+  .mobile-w-full {
+    width: 100% !important;
+  }
+
+  .mobile-stack {
+    flex-direction: column !important;
+    align-items: stretch !important;
+  }
+}
+
+/* ── Tablet & Up (>= 768px) ──────────────────────────────────────────── */
 @media (min-width: 768px) {
   .container {
     padding-left: var(--space-8);
@@ -39,7 +126,7 @@
   }
 }
 
-/* Desktop & Up (>= 1024px) */
+/* ── Desktop & Up (>= 1024px) ────────────────────────────────────────── */
 @media (min-width: 1024px) {
   .container {
     padding-left: var(--space-12);
@@ -79,23 +166,17 @@
   }
 }
 
-/* Mobile defaults (< 768px) */
-@media (max-width: 767px) {
-  .hidden-mobile {
-    display: none !important;
+/* ── Large Desktop & Wide Screens (>= 1440px, 1600px+) ───────────────── */
+@media (min-width: 1440px) {
+  .container {
+    max-width: 1360px;
+    padding-left: var(--space-16);
+    padding-right: var(--space-16);
   }
+}
 
-  .visible-mobile-only {
-    display: flex !important;
-  }
-
-  .section-py {
-    padding-top: var(--space-12);
-    padding-bottom: var(--space-12);
-  }
-
-  .section-py-lg {
-    padding-top: var(--space-16);
-    padding-bottom: var(--space-16);
+@media (min-width: 1600px) {
+  .container {
+    max-width: 1440px;
   }
 }

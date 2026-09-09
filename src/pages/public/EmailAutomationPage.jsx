@@ -346,7 +346,7 @@ export const EmailAutomationPage = () => {
           </p>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '28px', alignItems: 'center' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, ), 1fr))', gap: '28px', alignItems: 'center' }}>
           <div style={{ backgroundColor: C.surfaceContainerLowest, padding: '28px', borderRadius: '16px', border: `1px solid ${C.borderLight}` }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: `1px solid ${C.borderLight}`, paddingBottom: '12px', marginBottom: '14px' }}>
               <span style={{ fontSize: '11px', color: C.onSurfaceVariant, fontWeight: 600, textTransform: 'uppercase' }}>
@@ -400,7 +400,7 @@ export const EmailAutomationPage = () => {
       {/* 3. DRAFT REVIEW & APPROVAL SECTION */}
       <section style={{ padding: '72px 32px', backgroundColor: C.surfaceContainerLow, borderTop: `1px solid ${C.borderLight}`, borderBottom: `1px solid ${C.borderLight}` }}>
         <div style={{ maxWidth: '1280px', margin: '0 auto' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '48px', alignItems: 'center' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, ), 1fr))', gap: '48px', alignItems: 'center' }}>
             <div>
               <span style={{ fontSize: '12px', fontWeight: 700, color: C.primary, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '10px', display: 'block', fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
                 Human-in-the-Loop Governance

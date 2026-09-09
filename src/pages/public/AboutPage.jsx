@@ -282,7 +282,7 @@ export function AboutPage() {
           <div
             style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, ), 1fr))',
               gap: '50px',
               alignItems: 'center',
             }}
@@ -672,7 +672,7 @@ export function AboutPage() {
           <div
             style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, ), 1fr))',
               gap: '48px',
               alignItems: 'center',
             }}

@@ -489,7 +489,7 @@ function ServicesGrid() {
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, ), 1fr))',
             gap: '32px',
           }}
         >
@@ -1013,7 +1013,7 @@ function ServicesTestimonials() {
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, ), 1fr))',
             gap: '32px',
           }}
         >

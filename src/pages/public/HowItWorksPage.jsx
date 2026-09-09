@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import {
   ArrowRight,
@@ -65,7 +65,9 @@ const faqItems = [
 const WORKFLOW_STEPS = [
   {
     step: '01',
+    id: 'step-01',
     label: 'STEP 01',
+    stageName: 'Inbound Gmail',
     title: 'Inbound email arrives in your corporate inbox',
     subtitle: 'Zero-latency monitoring with OAuth security',
     description:
@@ -81,7 +83,9 @@ const WORKFLOW_STEPS = [
   },
   {
     step: '02',
+    id: 'step-02',
     label: 'STEP 02',
+    stageName: 'FlowPilot Engine',
     title: 'Operations engine evaluates request parameters',
     subtitle: 'Contextual analysis & deal-size classification',
     description:
@@ -97,7 +101,9 @@ const WORKFLOW_STEPS = [
   },
   {
     step: '03',
+    id: 'step-03',
     label: 'STEP 03',
+    stageName: 'WhatsApp Brief',
     title: 'Encrypted mobile alert dispatched to WhatsApp',
     subtitle: 'Real-time operational briefs in your pocket',
     description:
@@ -113,7 +119,9 @@ const WORKFLOW_STEPS = [
   },
   {
     step: '04',
+    id: 'step-04',
     label: 'STEP 04',
+    stageName: 'Executive Approval',
     title: 'Human-in-the-loop executive sign-off',
     subtitle: 'You maintain 100% control over outbound actions',
     description:
@@ -129,7 +137,9 @@ const WORKFLOW_STEPS = [
   },
   {
     step: '05',
+    id: 'step-05',
     label: 'STEP 05',
+    stageName: 'Verified Dispatch',
     title: 'Autonomous execution & deliverable dispatch',
     subtitle: 'Flawless execution via verified mail servers',
     description:
@@ -145,7 +155,9 @@ const WORKFLOW_STEPS = [
   },
   {
     step: '06',
+    id: 'step-06',
     label: 'STEP 06',
+    stageName: 'CRM & Ledger Sync',
     title: 'Real-time CRM & financial ledger synchronization',
     subtitle: 'Zero data entry for your sales and ops teams',
     description:
@@ -190,13 +202,130 @@ const ARCHITECTURE_BLOCKS = [
 
 export function HowItWorksPage() {
   const [openFaq, setOpenFaq] = useState(null);
+  const [activeStepIdx, setActiveStepIdx] = useState(0);
 
   const toggleFaq = (index) => {
     setOpenFaq((current) => (current === index ? null : index));
   };
 
+  // Observe active steps on scroll for cinematic demonstration
+  useEffect(() => {
+    if (typeof window === 'undefined' || !('IntersectionObserver' in window)) return;
+
+    const observers = [];
+    WORKFLOW_STEPS.forEach((step, idx) => {
+      const el = document.getElementById(step.id);
+      if (!el) return;
+
+      const obs = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            setActiveStepIdx(idx);
+          }
+        },
+        { threshold: 0.35, rootMargin: '-10% 0px -40% 0px' }
+      );
+      obs.observe(el);
+      observers.push({ obs, el });
+    });
+
+    return () => {
+      observers.forEach(({ obs, el }) => {
+        obs.unobserve(el);
+        obs.disconnect();
+      });
+    };
+  }, []);
+
+  const scrollToStep = (id) => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  };
+
   return (
     <div style={{ backgroundColor: C.surfaceWhite, color: C.primary, minHeight: '100vh', fontFamily: "'Inter', sans-serif" }}>
+      {/* Scoped CSS for responsive layout and animations */}
+      <style>{`
+        .hiw-grid-card {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr));
+          gap: 40px;
+          align-items: center;
+          background-color: ${C.surfaceWhite};
+          padding: 36px;
+          border-radius: ${C.cardRadius};
+          border: 1px solid ${C.borderLight};
+          box-shadow: 0 6px 20px rgba(0, 70, 66, 0.04);
+          transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+        }
+        .hiw-grid-card.is-active-step {
+          border-color: rgba(254, 133, 44, 0.55);
+          box-shadow: 0 12px 32px rgba(0, 70, 66, 0.08), 0 0 0 1px rgba(254, 133, 44, 0.25);
+        }
+        .hiw-image-container {
+          position: relative;
+          border-radius: ${C.cardRadius};
+          overflow: hidden;
+          box-shadow: 0 8px 24px rgba(0, 70, 66, 0.08);
+          border: 1px solid ${C.borderLight};
+          height: 320px;
+        }
+        .hiw-ribbon-pill {
+          cursor: pointer;
+          border: none;
+          background: transparent;
+          font-family: inherit;
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          padding: 8px 14px;
+          border-radius: 6px;
+          font-size: 13px;
+          font-weight: 600;
+          color: rgba(0, 70, 66, 0.7);
+          transition: all 0.2s ease;
+          white-space: nowrap;
+        }
+        .hiw-ribbon-pill:hover {
+          color: ${C.primary};
+          background: rgba(0, 70, 66, 0.05);
+        }
+        .hiw-ribbon-pill.is-active {
+          color: ${C.primary};
+          background: #FFFFFF;
+          box-shadow: 0 2px 8px rgba(0, 70, 66, 0.10);
+          border: 1px solid rgba(254, 133, 44, 0.35);
+          font-weight: 700;
+        }
+        @media (max-width: 768px) {
+          .hiw-grid-card {
+            padding: 20px !important;
+            gap: 24px !important;
+          }
+          .hiw-image-container {
+            height: 220px !important;
+          }
+          .hiw-hero-actions {
+            flex-direction: column !important;
+            width: 100% !important;
+          }
+          .hiw-hero-actions a {
+            width: 100% !important;
+            justify-content: center !important;
+          }
+        }
+        @media (max-width: 480px) {
+          .hiw-grid-card {
+            padding: 16px !important;
+          }
+          .hiw-image-container {
+            height: 190px !important;
+          }
+        }
+      `}</style>
+
       {/* ════════════════════════════════════════════════════════════════════
           1. HERO SECTION WITH ENTERPRISE WORKSPACE IMAGE & FROSTED OVERLAY
       ════════════════════════════════════════════════════════════════════ */}
@@ -234,6 +363,7 @@ export function HowItWorksPage() {
         >
           {/* Eyebrow Pill */}
           <div
+            className="hero-enter-pill"
             style={{
               display: 'inline-flex',
               alignItems: 'center',
@@ -267,6 +397,7 @@ export function HowItWorksPage() {
 
           {/* Main Title */}
           <h1
+            className="hero-enter-title"
             style={{
               fontFamily: "'Plus Jakarta Sans', sans-serif",
               fontSize: 'clamp(32px, 4.5vw, 56px)',
@@ -282,6 +413,7 @@ export function HowItWorksPage() {
 
           {/* Subtitle */}
           <p
+            className="hero-enter-subtitle"
             style={{
               fontSize: 'clamp(16px, 1.6vw, 20px)',
               lineHeight: 1.55,
@@ -295,6 +427,7 @@ export function HowItWorksPage() {
 
           {/* Hero Actions */}
           <div
+            className="hero-enter-cta hiw-hero-actions"
             style={{
               display: 'flex',
               flexWrap: 'wrap',
@@ -305,6 +438,7 @@ export function HowItWorksPage() {
           >
             <Link
               to="/contact"
+              className="btn-smooth-hover"
               style={{
                 backgroundColor: C.accent,
                 color: '#FFFFFF',
@@ -318,15 +452,7 @@ export function HowItWorksPage() {
                 alignItems: 'center',
                 gap: '8px',
                 boxShadow: '0 4px 14px rgba(254, 133, 44, 0.35)',
-                transition: 'all 0.2s ease',
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = C.accentHover;
-                e.currentTarget.style.transform = 'translateY(-2px)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = C.accent;
-                e.currentTarget.style.transform = 'none';
+                minHeight: '48px',
               }}
             >
               Plan a Demo <ArrowRight size={16} />
@@ -334,6 +460,7 @@ export function HowItWorksPage() {
 
             <a
               href="#workflow"
+              className="btn-smooth-hover"
               style={{
                 backgroundColor: C.surfaceWhite,
                 color: C.primary,
@@ -348,15 +475,7 @@ export function HowItWorksPage() {
                 alignItems: 'center',
                 gap: '8px',
                 boxShadow: '0 2px 6px rgba(0, 70, 66, 0.04)',
-                transition: 'all 0.2s ease',
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.borderColor = C.primaryLight;
-                e.currentTarget.style.transform = 'translateY(-2px)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = C.borderLight;
-                e.currentTarget.style.transform = 'none';
+                minHeight: '48px',
               }}
             >
               Explore the Workflow
@@ -404,19 +523,19 @@ export function HowItWorksPage() {
       </section>
 
       {/* ════════════════════════════════════════════════════════════════════
-          2. VISUAL WORKFLOW TIMELINE (6 STEPS, ALTERNATING 65% IMAGE LAYOUT)
+          2. VISUAL WORKFLOW TIMELINE (6 STEPS, PRODUCT FLOW DEMO)
       ════════════════════════════════════════════════════════════════════ */}
       <section
         id="workflow"
         style={{
-          padding: '100px 24px',
+          padding: '90px 24px',
           backgroundColor: C.surfaceCream,
           borderBottom: `1px solid ${C.borderLight}`,
         }}
       >
         <div style={{ maxWidth: '1160px', margin: '0 auto' }}>
           {/* Section Heading */}
-          <div style={{ textAlign: 'center', maxWidth: '720px', margin: '0 auto 72px auto' }}>
+          <div className="reveal-init" style={{ textAlign: 'center', maxWidth: '720px', margin: '0 auto 36px auto' }}>
             <div
               style={{
                 width: '40px',
@@ -450,41 +569,73 @@ export function HowItWorksPage() {
             </p>
           </div>
 
+          {/* Interactive Live Process Ribbon (Sticky / Overview tracker) */}
+          <div
+            className="reveal-init"
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '6px',
+              flexWrap: 'wrap',
+              backgroundColor: 'rgba(0, 70, 66, 0.05)',
+              padding: '10px 14px',
+              borderRadius: '10px',
+              margin: '0 auto 54px auto',
+              maxWidth: '960px',
+              border: `1px solid ${C.borderLight}`,
+            }}
+          >
+            {WORKFLOW_STEPS.map((step, idx) => {
+              const isActive = activeStepIdx === idx;
+              return (
+                <React.Fragment key={step.step}>
+                  <button
+                    type="button"
+                    onClick={() => scrollToStep(step.id)}
+                    className={`hiw-ribbon-pill ${isActive ? 'is-active' : ''}`}
+                    aria-label={`Jump to ${step.label} ${step.stageName}`}
+                  >
+                    <span
+                      style={{
+                        width: '6px',
+                        height: '6px',
+                        borderRadius: '50%',
+                        backgroundColor: isActive ? C.accent : 'rgba(0, 70, 66, 0.3)',
+                        display: 'inline-block',
+                      }}
+                    />
+                    <span style={{ fontSize: '11px', opacity: 0.8 }}>{step.step}</span>
+                    <span>{step.stageName}</span>
+                  </button>
+                  {idx < WORKFLOW_STEPS.length - 1 && (
+                    <span style={{ color: 'rgba(0, 70, 66, 0.25)', fontSize: '12px' }}>→</span>
+                  )}
+                </React.Fragment>
+              );
+            })}
+          </div>
+
           {/* Timeline Steps List */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '70px', position: 'relative' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '60px', position: 'relative' }}>
             {WORKFLOW_STEPS.map((item, idx) => {
               const isReverse = item.reverse;
+              const isActive = activeStepIdx === idx;
               return (
-                <div key={item.step} style={{ position: 'relative' }}>
+                <div key={item.step} id={item.id} style={{ position: 'relative' }}>
                   {/* Step Card Container */}
                   <div
-                    style={{
-                      display: 'grid',
-                      gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-                      gap: '40px',
-                      alignItems: 'center',
-                      backgroundColor: C.surfaceWhite,
-                      padding: '36px',
-                      borderRadius: C.cardRadius,
-                      border: `1px solid ${C.borderLight}`,
-                      boxShadow: '0 6px 20px rgba(0, 70, 66, 0.04)',
-                    }}
+                    className={`hiw-grid-card reveal-init ${isActive ? 'is-active-step' : ''}`}
                   >
-                    {/* Visual Column (65% dominance feel) */}
+                    {/* Visual Column */}
                     <div
-                      style={{
-                        order: isReverse ? 2 : 1,
-                        position: 'relative',
-                        borderRadius: C.cardRadius,
-                        overflow: 'hidden',
-                        boxShadow: '0 8px 24px rgba(0, 70, 66, 0.08)',
-                        border: `1px solid ${C.borderLight}`,
-                        height: '320px',
-                      }}
+                      className="hiw-image-container hover-image-zoom"
+                      style={{ order: isReverse ? 2 : 1 }}
                     >
                       <img
                         src={item.image}
                         alt={item.title}
+                        loading="lazy"
                         style={{
                           width: '100%',
                           height: '100%',
@@ -525,7 +676,7 @@ export function HowItWorksPage() {
                     </div>
 
                     {/* Copy Column */}
-                    <div style={{ order: isReverse ? 1 : 2 }}>
+                    <div style={{ order: isReverse ? 1 : 2, minWidth: 0 }}>
                       {/* Step Pill */}
                       <div
                         style={{
@@ -534,16 +685,18 @@ export function HowItWorksPage() {
                           gap: '6px',
                           padding: '4px 12px',
                           borderRadius: C.cardRadius,
-                          backgroundColor: 'rgba(254, 133, 44, 0.1)',
-                          border: '1px solid rgba(254, 133, 44, 0.3)',
+                          backgroundColor: isActive ? 'rgba(254, 133, 44, 0.18)' : 'rgba(254, 133, 44, 0.1)',
+                          border: isActive ? '1px solid rgba(254, 133, 44, 0.5)' : '1px solid rgba(254, 133, 44, 0.3)',
                           color: C.accent,
                           fontSize: '12px',
                           fontWeight: 800,
                           letterSpacing: '0.08em',
                           marginBottom: '14px',
+                          transition: 'all 0.25s ease',
                         }}
                       >
                         {item.label}
+                        {isActive && <span style={{ fontSize: '10px', textTransform: 'uppercase', opacity: 0.9 }}>• ACTIVE STAGE</span>}
                       </div>
 
                       <h3
@@ -611,17 +764,20 @@ export function HowItWorksPage() {
                         flexDirection: 'column',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        margin: '18px 0 -18px',
+                        margin: '16px 0 -16px',
+                        position: 'relative',
+                        zIndex: 2,
                       }}
                     >
                       <div
                         style={{
                           width: '2px',
-                          height: '34px',
-                          backgroundColor: 'rgba(0, 70, 66, 0.2)',
+                          height: '36px',
+                          background: 'linear-gradient(180deg, rgba(0, 70, 66, 0.25), rgba(254, 133, 44, 0.6))',
                         }}
                       />
                       <div
+                        className="pulse-dot-beacon"
                         style={{
                           width: '10px',
                           height: '10px',
@@ -651,7 +807,7 @@ export function HowItWorksPage() {
         }}
       >
         <div style={{ maxWidth: '1160px', margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', maxWidth: '720px', margin: '0 auto 60px auto' }}>
+          <div className="reveal-init" style={{ textAlign: 'center', maxWidth: '720px', margin: '0 auto 60px auto' }}>
             <div
               style={{
                 width: '40px',
@@ -664,7 +820,7 @@ export function HowItWorksPage() {
             <h2
               style={{
                 fontFamily: "'Plus Jakarta Sans', sans-serif",
-                fontSize: 'clamp(28px, 3.5vw, 38px)',
+                fontSize: 'clamp(28px, 3.5vw, 40px)',
                 fontWeight: 800,
                 color: C.primary,
                 letterSpacing: '-0.02em',
@@ -689,15 +845,16 @@ export function HowItWorksPage() {
           <div
             style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 300px), 1fr))',
               gap: '28px',
             }}
           >
-            {ARCHITECTURE_BLOCKS.map((block) => {
+            {ARCHITECTURE_BLOCKS.map((block, bIdx) => {
               const Icon = block.icon;
               return (
                 <div
                   key={block.number}
+                  className={`hover-card-elevate reveal-init stagger-${bIdx + 1}`}
                   style={{
                     backgroundColor: C.surfaceWhite,
                     borderRadius: C.cardRadius,
@@ -706,15 +863,6 @@ export function HowItWorksPage() {
                     boxShadow: '0 4px 16px rgba(0, 70, 66, 0.04)',
                     display: 'flex',
                     flexDirection: 'column',
-                    transition: 'all 0.25s ease',
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = 'translateY(-4px)';
-                    e.currentTarget.style.boxShadow = '0 12px 28px rgba(0, 70, 66, 0.1)';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = 'none';
-                    e.currentTarget.style.boxShadow = '0 4px 16px rgba(0, 70, 66, 0.04)';
                   }}
                 >
                   {/* Card Image Header */}
@@ -722,6 +870,7 @@ export function HowItWorksPage() {
                     <img
                       src={block.image}
                       alt={block.title}
+                      loading="lazy"
                       style={{
                         width: '100%',
                         height: '100%',
@@ -759,7 +908,7 @@ export function HowItWorksPage() {
                   </div>
 
                   {/* Card Body */}
-                  <div style={{ padding: '28px', display: 'flex', flexDirection: 'column', flex: 1 }}>
+                  <div style={{ padding: '28px', display: 'flex', flexDirection: 'column', flex: 1, minWidth: 0 }}>
                     <div
                       style={{
                         fontSize: '12px',
@@ -814,7 +963,7 @@ export function HowItWorksPage() {
         }}
       >
         <div style={{ maxWidth: '880px', margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: '48px' }}>
+          <div className="reveal-init" style={{ textAlign: 'center', marginBottom: '48px' }}>
             <div
               style={{
                 width: '40px',
@@ -846,6 +995,7 @@ export function HowItWorksPage() {
               return (
                 <div
                   key={item.question}
+                  className="reveal-init"
                   style={{
                     backgroundColor: C.surfaceWhite,
                     borderRadius: C.cardRadius,
@@ -873,6 +1023,7 @@ export function HowItWorksPage() {
                       cursor: 'pointer',
                       textAlign: 'left',
                       gap: '16px',
+                      minHeight: '48px',
                     }}
                   >
                     <span
@@ -950,6 +1101,7 @@ export function HowItWorksPage() {
         }}
       >
         <div
+          className="reveal-init"
           style={{
             maxWidth: '860px',
             margin: '0 auto',
@@ -1003,6 +1155,7 @@ export function HowItWorksPage() {
           </p>
 
           <div
+            className="hiw-hero-actions"
             style={{
               display: 'flex',
               flexWrap: 'wrap',
@@ -1012,6 +1165,7 @@ export function HowItWorksPage() {
           >
             <Link
               to="/contact"
+              className="btn-smooth-hover"
               style={{
                 backgroundColor: C.accent,
                 color: '#FFFFFF',
@@ -1025,15 +1179,7 @@ export function HowItWorksPage() {
                 alignItems: 'center',
                 gap: '8px',
                 boxShadow: '0 4px 14px rgba(254, 133, 44, 0.35)',
-                transition: 'all 0.2s ease',
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = C.accentHover;
-                e.currentTarget.style.transform = 'translateY(-2px)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = C.accent;
-                e.currentTarget.style.transform = 'none';
+                minHeight: '48px',
               }}
             >
               Plan a Demo <ArrowRight size={16} />
@@ -1041,6 +1187,7 @@ export function HowItWorksPage() {
 
             <Link
               to="/book-a-demo"
+              className="btn-smooth-hover"
               style={{
                 backgroundColor: 'transparent',
                 color: '#FFFFFF',
@@ -1054,17 +1201,7 @@ export function HowItWorksPage() {
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '8px',
-                transition: 'all 0.2s ease',
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.borderColor = '#FFFFFF';
-                e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.08)';
-                e.currentTarget.style.transform = 'translateY(-2px)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.45)';
-                e.currentTarget.style.backgroundColor = 'transparent';
-                e.currentTarget.style.transform = 'none';
+                minHeight: '48px',
               }}
             >
               Book Enterprise Demo

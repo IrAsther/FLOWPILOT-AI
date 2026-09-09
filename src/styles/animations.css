@@ -1,6 +1,6 @@
 /* ==========================================================================
-   ANIMATION FOUNDATION
-   Subtle, purposeful, deterministic motion
+   ANIMATION FOUNDATION & CINEMATIC MOTION SYSTEM
+   Subtle, purposeful, deterministic motion for FlowPilot AI
    ========================================================================== */
 
 @keyframes fadeIn {
@@ -45,6 +45,17 @@
   }
 }
 
+@keyframes pulseTealGlow {
+  0%, 100% {
+    opacity: 0.4;
+    transform: scale(0.96);
+  }
+  50% {
+    opacity: 0.85;
+    transform: scale(1.05);
+  }
+}
+
 @keyframes signalFlow {
   0% {
     stroke-dashoffset: 24;
@@ -72,7 +83,62 @@
   }
 }
 
-/* Reusable Utility Animation Classes */
+/* ── Hero Entrance Keyframes ─────────────────────────────────────────── */
+@keyframes heroFadeSlide {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes heroScaleFade {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* ── Subtle UI State Keyframes (Typing, Live Activity) ──────────────── */
+@keyframes typingBounce {
+  0%, 80%, 100% {
+    opacity: 0.3;
+    transform: translateY(0);
+  }
+  40% {
+    opacity: 1;
+    transform: translateY(-4px);
+  }
+}
+
+@keyframes pulseDot {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+  50% {
+    transform: scale(1.35);
+    opacity: 0.4;
+  }
+}
+
+@keyframes workflowLinePulse {
+  0% {
+    background-position: 0% 0%;
+  }
+  100% {
+    background-position: 0% 200%;
+  }
+}
+
+/* ── Reusable Utility Animation Classes ─────────────────────────────── */
 .animate-fade-in {
   animation: fadeIn 200ms var(--transition-base) forwards;
 }
@@ -87,6 +153,10 @@
 
 .animate-pulse-orange {
   animation: pulseOrangeGlow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.animate-pulse-teal {
+  animation: pulseTealGlow 2.4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
 .animate-signal-flow {
@@ -109,54 +179,104 @@
   animation: shimmerSweep 1.8s infinite;
 }
 
-/* ── Stripe & Linear Style Micro-Interactions ──────────────────────────────── */
-@keyframes slideUpFade {
-  from {
-    opacity: 0;
-    transform: translateY(18px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+/* ── Hero Entrance Classes ───────────────────────────────────────────── */
+.hero-enter-pill {
+  animation: heroFadeSlide 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-@keyframes sectionReveal {
-  from {
-    opacity: 0;
-    transform: translateY(12px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.hero-enter-title {
+  animation: heroFadeSlide 0.65s cubic-bezier(0.16, 1, 0.3, 1) 0.08s both;
 }
 
-/* Card Elevation Hover */
+.hero-enter-subtitle {
+  animation: heroFadeSlide 0.65s cubic-bezier(0.16, 1, 0.3, 1) 0.16s both;
+}
+
+.hero-enter-cta {
+  animation: heroFadeSlide 0.65s cubic-bezier(0.16, 1, 0.3, 1) 0.24s both;
+}
+
+.hero-enter-visual {
+  animation: heroScaleFade 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.28s both;
+}
+
+/* ── Cinematic Scroll-Reveal Classes ─────────────────────────────────── */
+.reveal-init {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1), transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.reveal-init.is-revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-init-scale {
+  opacity: 0;
+  transform: scale(0.97) translateY(14px);
+  transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.reveal-init-scale.is-revealed {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+}
+
+/* Stagger Delays for Sequential Cards / Lists (60-120ms intervals) */
+.stagger-1 { transition-delay: 60ms; }
+.stagger-2 { transition-delay: 120ms; }
+.stagger-3 { transition-delay: 180ms; }
+.stagger-4 { transition-delay: 240ms; }
+.stagger-5 { transition-delay: 300ms; }
+.stagger-6 { transition-delay: 360ms; }
+
+/* ── UI Simulation / Software State Classes ──────────────────────────── */
+.typing-dot-1 {
+  animation: typingBounce 1.2s infinite ease-in-out;
+}
+.typing-dot-2 {
+  animation: typingBounce 1.2s infinite ease-in-out 0.2s;
+}
+.typing-dot-3 {
+  animation: typingBounce 1.2s infinite ease-in-out 0.4s;
+}
+
+.pulse-dot-beacon {
+  animation: pulseDot 2s ease-in-out infinite;
+}
+
+/* ── Card Elevation & Micro-Interactions ──────────────────────────────── */
 .hover-card-elevate {
-  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease !important;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.2s ease !important;
 }
 .hover-card-elevate:hover {
   transform: translateY(-3px) !important;
   box-shadow: 0 14px 28px -6px rgba(0, 70, 66, 0.12) !important;
 }
 
-/* Soft Image Zoom on Hover */
+/* Soft Image Zoom on Hover (Restrained 1.025x) */
 .hover-image-zoom {
   overflow: hidden;
 }
 .hover-image-zoom img,
 .hover-image-zoom picture {
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 .hover-image-zoom:hover img,
 .hover-image-zoom:hover picture {
-  transform: scale(1.03) !important;
+  transform: scale(1.025) !important;
 }
 
-/* Button Hover Transitions */
+/* Button Hover Transitions (Restrained -1px) */
 .btn-smooth-hover {
-  transition: transform 0.18s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.18s ease, background-color 0.18s ease !important;
+  transition: transform 0.18s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.18s ease,
+              background-color 0.18s ease !important;
 }
 .btn-smooth-hover:hover {
   transform: translateY(-1px) !important;
@@ -167,20 +287,25 @@
 
 /* Section Reveal */
 .section-reveal {
-  animation: sectionReveal 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation: heroFadeSlide 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-/* Smooth Fade In */
 .smooth-fade-in {
-  animation: slideUpFade 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation: heroFadeSlide 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-/* Accessibility: Respect Reduced Motion Preferences */
+/* ── Accessibility: Respect Reduced Motion Preferences ───────────────── */
 @media (prefers-reduced-motion: reduce) {
   *, ::before, ::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+  .reveal-init,
+  .reveal-init-scale {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
   }
 }
