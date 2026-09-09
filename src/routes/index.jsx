@@ -1,6 +1,8 @@
 import React from 'react';
-import { createBrowserRouter } from 'react-router-dom';
+import { createBrowserRouter, Outlet } from 'react-router-dom';
 import { PublicLayout } from '../layouts/PublicLayout';
+import { BackToTop } from '../components/common/BackToTop';
+import { GoToFooter } from '../components/common/GoToFooter';
 import { HomePage } from '../pages/public/HomePage';
 import { ServicesPage } from '../pages/public/ServicesPage';
 import { SolutionsPage } from '../pages/public/SolutionsPage';
@@ -21,87 +23,129 @@ import { DashboardPreviewPage } from '../pages/public/DashboardPreviewPage';
 import { NotFoundPage } from '../pages/system/NotFoundPage';
 import { ServerErrorPage } from '../pages/system/ServerErrorPage';
 
+/**
+ * Global root layout mounting the singleton navigation controls (Back to Top & Go to Footer)
+ * cleanly across all application routes.
+ */
+function RootLayout() {
+  return (
+    <>
+      <Outlet />
+      <div className="fp-floating-nav-stack">
+        <BackToTop />
+        <GoToFooter />
+      </div>
+      <style>{`
+        .fp-floating-nav-stack {
+          position: fixed;
+          right: 24px;
+          bottom: 24px;
+          z-index: 900;
+          display: flex;
+          flex-direction: column;
+          align-items: flex-end;
+          gap: 8px;
+          pointer-events: none;
+        }
+        @media (max-width: 768px) {
+          .fp-floating-nav-stack {
+            right: 16px;
+            bottom: 16px;
+            gap: 8px;
+          }
+        }
+      `}</style>
+    </>
+  );
+}
+
 export const router = createBrowserRouter([
   {
-    path: '/',
-    element: <PublicLayout />,
+    element: <RootLayout />,
     errorElement: <ServerErrorPage />,
     children: [
-      { index: true, element: <HomePage /> },
-      { path: 'services', element: <ServicesPage /> },
-      { path: 'solutions', element: <SolutionsPage /> },
-      { path: 'how-it-works', element: <HowItWorksPage /> },
-      { path: 'pricing', element: <PricingPage /> },
-      { path: 'about', element: <AboutPage /> },
-      { path: 'contact', element: <ContactPage /> },
-      { path: 'team', element: <TeamPage /> },
-      { path: 'faq', element: <FaqPage /> },
-      { path: 'book-a-demo', element: <BookDemoPage /> },
-      { path: 'book-demo', element: <BookDemoPage /> },
-      { path: 'whatsapp-ai-agent', element: <WhatsAppAgentPage /> },
-      { path: 'email-automation', element: <EmailAutomationPage /> },
-      { path: 'calendar-automation', element: <CalendarAutomationPage /> },
-      { path: 'custom-ai-workflows', element: <CustomWorkflowsPage /> },
-      { path: 'custom-workflows', element: <CustomWorkflowsPage /> },
-      { path: 'dashboard-preview', element: <DashboardPreviewPage /> },
+      {
+        path: '/',
+        element: <PublicLayout />,
+        errorElement: <ServerErrorPage />,
+        children: [
+          { index: true, element: <HomePage /> },
+          { path: 'services', element: <ServicesPage /> },
+          { path: 'solutions', element: <SolutionsPage /> },
+          { path: 'how-it-works', element: <HowItWorksPage /> },
+          { path: 'pricing', element: <PricingPage /> },
+          { path: 'about', element: <AboutPage /> },
+          { path: 'contact', element: <ContactPage /> },
+          { path: 'team', element: <TeamPage /> },
+          { path: 'faq', element: <FaqPage /> },
+          { path: 'book-a-demo', element: <BookDemoPage /> },
+          { path: 'book-demo', element: <BookDemoPage /> },
+          { path: 'whatsapp-ai-agent', element: <WhatsAppAgentPage /> },
+          { path: 'email-automation', element: <EmailAutomationPage /> },
+          { path: 'calendar-automation', element: <CalendarAutomationPage /> },
+          { path: 'custom-ai-workflows', element: <CustomWorkflowsPage /> },
+          { path: 'custom-workflows', element: <CustomWorkflowsPage /> },
+          { path: 'dashboard-preview', element: <DashboardPreviewPage /> },
+        ],
+      },
+      {
+        path: 'auth',
+        element: <AuthPage initialView="login" />,
+        errorElement: <ServerErrorPage />,
+      },
+      {
+        path: 'login',
+        element: <AuthPage initialView="login" />,
+        errorElement: <ServerErrorPage />,
+      },
+      {
+        path: 'signup',
+        element: <AuthPage initialView="signup" />,
+        errorElement: <ServerErrorPage />,
+      },
+      {
+        path: 'forgot-password',
+        element: <AuthPage initialView="forgot" />,
+        errorElement: <ServerErrorPage />,
+      },
+      {
+        path: 'reset-password',
+        element: <AuthPage initialView="reset" />,
+        errorElement: <ServerErrorPage />,
+      },
+      {
+        path: 'verify-email',
+        element: <AuthPage initialView="verify" />,
+        errorElement: <ServerErrorPage />,
+      },
+      {
+        path: 'onboarding',
+        element: <AuthPage initialView="onboarding" />,
+        errorElement: <ServerErrorPage />,
+      },
+      {
+        path: 'onboarding/*',
+        element: <AuthPage initialView="onboarding" />,
+        errorElement: <ServerErrorPage />,
+      },
+      {
+        path: 'dashboard',
+        element: <DashboardPage />,
+        errorElement: <ServerErrorPage />,
+      },
+      {
+        path: 'dashboard/*',
+        element: <DashboardPage />,
+        errorElement: <ServerErrorPage />,
+      },
+      {
+        path: '500',
+        element: <ServerErrorPage />,
+      },
+      {
+        path: '*',
+        element: <NotFoundPage />,
+      },
     ],
-  },
-  {
-    path: 'auth',
-    element: <AuthPage initialView="login" />,
-    errorElement: <ServerErrorPage />,
-  },
-  {
-    path: 'login',
-    element: <AuthPage initialView="login" />,
-    errorElement: <ServerErrorPage />,
-  },
-  {
-    path: 'signup',
-    element: <AuthPage initialView="signup" />,
-    errorElement: <ServerErrorPage />,
-  },
-  {
-    path: 'forgot-password',
-    element: <AuthPage initialView="forgot" />,
-    errorElement: <ServerErrorPage />,
-  },
-  {
-    path: 'reset-password',
-    element: <AuthPage initialView="reset" />,
-    errorElement: <ServerErrorPage />,
-  },
-  {
-    path: 'verify-email',
-    element: <AuthPage initialView="verify" />,
-    errorElement: <ServerErrorPage />,
-  },
-  {
-    path: 'onboarding',
-    element: <AuthPage initialView="onboarding" />,
-    errorElement: <ServerErrorPage />,
-  },
-  {
-    path: 'onboarding/*',
-    element: <AuthPage initialView="onboarding" />,
-    errorElement: <ServerErrorPage />,
-  },
-  {
-    path: 'dashboard',
-    element: <DashboardPage />,
-    errorElement: <ServerErrorPage />,
-  },
-  {
-    path: 'dashboard/*',
-    element: <DashboardPage />,
-    errorElement: <ServerErrorPage />,
-  },
-  {
-    path: '500',
-    element: <ServerErrorPage />,
-  },
-  {
-    path: '*',
-    element: <NotFoundPage />,
   },
 ]);

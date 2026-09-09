@@ -6,6 +6,7 @@ import { footerLinks } from '../../data/navigation';
 export function Footer() {
   return (
     <footer
+      id="site-footer"
       style={{
         backgroundColor: 'var(--color-bg-surface-low)',
         borderTop: '1px solid var(--color-border-subtle)',
