@@ -180,6 +180,14 @@ export function DashboardPreviewPage() {
     >
       {/* ── Scoped CSS Styles ────────────────────────────────────────────── */}
       <style>{`
+        /* ── Base resets for this page ───────────────────────────────────── */
+        .dash-root {
+          width: 100%;
+          max-width: 100%;
+          overflow-x: hidden;
+        }
+
+        /* ── Card hover micro-interaction ───────────────────────────────── */
         .dash-card {
           background: #FFFFFF;
           border: 1px solid ${C.border};
@@ -192,9 +200,11 @@ export function DashboardPreviewPage() {
           border-color: ${C.primaryTeal};
         }
 
+        /* ── Button variants ─────────────────────────────────────────────── */
         .btn-dash-primary {
           background-color: ${C.primaryTeal};
           color: #FFFFFF;
+          min-height: 48px;
           padding: 13px 26px;
           border-radius: 8px;
           font-family: 'Plus Jakarta Sans', sans-serif;
@@ -208,6 +218,7 @@ export function DashboardPreviewPage() {
           justify-content: center;
           gap: 8px;
           text-decoration: none;
+          white-space: nowrap;
         }
         .btn-dash-primary:hover {
           background-color: ${C.darkTeal};
@@ -218,6 +229,7 @@ export function DashboardPreviewPage() {
         .btn-dash-secondary {
           background-color: rgba(255, 255, 255, 0.12);
           color: #FFFFFF;
+          min-height: 48px;
           padding: 13px 26px;
           border-radius: 8px;
           font-family: 'Plus Jakarta Sans', sans-serif;
@@ -232,6 +244,7 @@ export function DashboardPreviewPage() {
           justify-content: center;
           gap: 8px;
           text-decoration: none;
+          white-space: nowrap;
         }
         .btn-dash-secondary:hover {
           background-color: rgba(255, 255, 255, 0.22);
@@ -242,6 +255,7 @@ export function DashboardPreviewPage() {
         .btn-dash-orange {
           background-color: ${C.orange};
           color: #FFFFFF;
+          min-height: 48px;
           padding: 13px 26px;
           border-radius: 8px;
           font-family: 'Plus Jakarta Sans', sans-serif;
@@ -255,12 +269,14 @@ export function DashboardPreviewPage() {
           justify-content: center;
           gap: 8px;
           text-decoration: none;
+          white-space: nowrap;
         }
         .btn-dash-orange:hover {
           background-color: #e06c19;
           transform: translateY(-1px);
         }
 
+        /* ── Email row ───────────────────────────────────────────────────── */
         .email-row {
           padding: 16px 20px;
           border-bottom: 1px solid ${C.border};
@@ -270,18 +286,77 @@ export function DashboardPreviewPage() {
           align-items: center;
           justify-content: space-between;
           gap: 16px;
+          min-width: 0;
         }
-        .email-row:hover {
-          background-color: ${C.cream};
-        }
+        .email-row:hover { background-color: ${C.cream}; }
         .email-row.selected {
           background-color: rgba(1, 96, 90, 0.05);
           border-left: 3px solid ${C.primaryTeal};
         }
 
+        /* ── Grids ───────────────────────────────────────────────────────── */
+        .kpi-grid-4 {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 20px;
+        }
+        .analytics-grid-4 {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 24px;
+        }
+        .integrations-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+          gap: 20px;
+        }
+        .preview-split-2 {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 56px;
+          align-items: center;
+        }
+
+        /* ── Hero CTA group ──────────────────────────────────────────────── */
+        .hero-cta-group {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 16px;
+          flex-wrap: wrap;
+        }
+
+        /* ── CTA final button row ─────────────────────────────────────────── */
+        .cta-btn-group {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 16px;
+          flex-wrap: wrap;
+        }
+
+        /* ── Workflow step badge (keep on one line, allow wrap on tiny) ─── */
+        .workflow-badge {
+          flex-shrink: 0;
+          white-space: nowrap;
+        }
+
+        /* ── Inbox AI inspector wrap ─────────────────────────────────────── */
+        .inbox-inspector {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          flex-wrap: wrap;
+          gap: 14px;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════
+           TABLET  ≤ 1024px
+        ═══════════════════════════════════════════════════════════════════ */
         @media (max-width: 1024px) {
           .preview-split-2 {
             grid-template-columns: 1fr !important;
+            gap: 40px !important;
           }
           .kpi-grid-4 {
             grid-template-columns: repeat(2, 1fr) !important;
@@ -294,29 +369,135 @@ export function DashboardPreviewPage() {
           }
         }
 
-        @media (max-width: 640px) {
+        /* ═══════════════════════════════════════════════════════════════════
+           MOBILE  ≤ 768px
+        ═══════════════════════════════════════════════════════════════════ */
+        @media (max-width: 768px) {
+          /* ── Section padding ─────────────────────────────────────────── */
+          .dash-section-wide { padding: 56px 16px !important; }
+          .dash-section-full { padding: 56px 16px !important; }
+
+          /* ── Grids → single column ───────────────────────────────────── */
+          .kpi-grid-4 {
+            grid-template-columns: 1fr 1fr !important;
+            gap: 14px !important;
+          }
+          .analytics-grid-4 {
+            grid-template-columns: 1fr 1fr !important;
+            gap: 16px !important;
+          }
+          .integrations-grid {
+            grid-template-columns: 1fr !important;
+            gap: 14px !important;
+          }
+
+          /* ── Hero buttons ─────────────────────────────────────────────── */
+          .hero-cta-group {
+            flex-direction: column !important;
+            width: 100% !important;
+          }
+          .hero-cta-group a,
+          .hero-cta-group button {
+            width: 100% !important;
+            max-width: 360px !important;
+          }
+
+          /* ── CTA final buttons ────────────────────────────────────────── */
+          .cta-btn-group {
+            flex-direction: column !important;
+            width: 100% !important;
+            align-items: center !important;
+          }
+          .cta-btn-group a,
+          .cta-btn-group button {
+            width: 100% !important;
+            max-width: 340px !important;
+          }
+
+          /* ── Email rows → stack vertically ───────────────────────────── */
+          .email-row {
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            gap: 10px !important;
+            padding: 14px 14px !important;
+          }
+
+          /* ── Workflow step cards → allow badge to wrap below ─────────── */
+          .workflow-step-card {
+            flex-wrap: wrap !important;
+            gap: 12px !important;
+          }
+          .workflow-badge {
+            width: 100% !important;
+            text-align: right !important;
+          }
+
+          /* ── WhatsApp phone panel — center & constrain ───────────────── */
+          .whatsapp-phone-wrap {
+            width: 100% !important;
+            max-width: 100% !important;
+          }
+          .whatsapp-phone-inner {
+            max-width: 100% !important;
+          }
+
+          /* ── Inbox inspector panel ───────────────────────────────────── */
+          .inbox-inspector {
+            flex-direction: column !important;
+            align-items: flex-start !important;
+          }
+
+          /* ── KPI anchor banner text ──────────────────────────────────── */
+          .kpi-banner-inner {
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            padding: 16px !important;
+          }
+
+          /* ── Calendar header ─────────────────────────────────────────── */
+          .calendar-header {
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            gap: 8px !important;
+          }
+
+          /* ── Calendar appointments grid ──────────────────────────────── */
+          .calendar-appt-grid {
+            grid-template-columns: 1fr !important;
+            padding: 16px !important;
+          }
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════
+           SMALL MOBILE  ≤ 480px
+        ═══════════════════════════════════════════════════════════════════ */
+        @media (max-width: 480px) {
           .kpi-grid-4 {
             grid-template-columns: 1fr !important;
           }
           .analytics-grid-4 {
             grid-template-columns: 1fr !important;
           }
-          .integrations-grid {
-            grid-template-columns: 1fr !important;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════
+           TINY  ≤ 360px
+        ═══════════════════════════════════════════════════════════════════ */
+        @media (max-width: 360px) {
+          .btn-dash-primary,
+          .btn-dash-secondary,
+          .btn-dash-orange {
+            font-size: 14px !important;
+            padding: 12px 18px !important;
           }
-          .hero-cta-group {
-            flex-direction: column !important;
-            width: 100% !important;
-          }
-          .hero-cta-group a {
-            width: 100% !important;
-            text-align: center !important;
-          }
-          .email-row {
-            flex-direction: column !important;
-            align-items: flex-start !important;
-            gap: 8px !important;
-          }
+        }
+
+        /* ── Prefers-reduced-motion ───────────────────────────────────── */
+        @media (prefers-reduced-motion: reduce) {
+          .dash-card { transition: none !important; }
+          .btn-dash-primary,
+          .btn-dash-secondary,
+          .btn-dash-orange { transition: none !important; }
         }
       `}</style>
 
@@ -514,6 +695,7 @@ export function DashboardPreviewPage() {
             }}
           />
           <div
+            className="kpi-banner-inner"
             style={{
               position: 'absolute',
               inset: 0,
@@ -924,6 +1106,7 @@ export function DashboardPreviewPage() {
 
             {/* Selected Thread AI Inspector Panel */}
             <div
+              className="inbox-inspector"
               style={{
                 backgroundColor: C.cream,
                 padding: '20px',
@@ -1046,8 +1229,9 @@ export function DashboardPreviewPage() {
           </div>
 
           {/* Right Column: Smartphone Panel Mockup */}
-          <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <div className="whatsapp-phone-wrap" style={{ display: 'flex', justifyContent: 'center' }}>
             <div
+              className="whatsapp-phone-inner"
               style={{
                 width: '100%',
                 maxWidth: '380px',
@@ -1297,7 +1481,7 @@ export function DashboardPreviewPage() {
           {/* Timeline Visual Cards */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', position: 'relative' }}>
             {/* Step 1 */}
-            <div className="dash-card" style={{ padding: '20px 24px', display: 'flex', alignItems: 'center', gap: '18px' }}>
+            <div className="dash-card workflow-step-card" style={{ padding: '20px 24px', display: 'flex', alignItems: 'center', gap: '18px' }}>
               <div
                 style={{
                   width: '42px',
@@ -1315,7 +1499,7 @@ export function DashboardPreviewPage() {
               >
                 01
               </div>
-              <div style={{ flex: 1 }}>
+              <div style={{ flex: 1, minWidth: 0 }}>
                 <div style={{ fontSize: '16px', fontWeight: 700, color: C.darkTeal, marginBottom: '2px' }}>
                   Email Received
                 </div>
@@ -1323,13 +1507,13 @@ export function DashboardPreviewPage() {
                   Encrypted webhook triggers upon delivery to authenticated Google Workspace or Exchange domain.
                 </div>
               </div>
-              <span style={{ fontSize: '12px', fontWeight: 600, color: C.primaryTeal, backgroundColor: C.tealLight, padding: '4px 10px', borderRadius: '6px' }}>
+              <span className="workflow-badge" style={{ fontSize: '12px', fontWeight: 600, color: C.primaryTeal, backgroundColor: C.tealLight, padding: '4px 10px', borderRadius: '6px' }}>
                 Instant (0.1s)
               </span>
             </div>
 
             {/* Step 2 */}
-            <div className="dash-card" style={{ padding: '20px 24px', display: 'flex', alignItems: 'center', gap: '18px' }}>
+            <div className="dash-card workflow-step-card" style={{ padding: '20px 24px', display: 'flex', alignItems: 'center', gap: '18px' }}>
               <div
                 style={{
                   width: '42px',
@@ -1347,7 +1531,7 @@ export function DashboardPreviewPage() {
               >
                 02
               </div>
-              <div style={{ flex: 1 }}>
+              <div style={{ flex: 1, minWidth: 0 }}>
                 <div style={{ fontSize: '16px', fontWeight: 700, color: C.darkTeal, marginBottom: '2px' }}>
                   AI Analysis
                 </div>
@@ -1355,13 +1539,13 @@ export function DashboardPreviewPage() {
                   Semantic parsing extracts intent, verifies CRM contact status, and retrieves relevant enterprise rate sheets.
                 </div>
               </div>
-              <span style={{ fontSize: '12px', fontWeight: 600, color: C.primaryTeal, backgroundColor: C.tealLight, padding: '4px 10px', borderRadius: '6px' }}>
+              <span className="workflow-badge" style={{ fontSize: '12px', fontWeight: 600, color: C.primaryTeal, backgroundColor: C.tealLight, padding: '4px 10px', borderRadius: '6px' }}>
                 0.4s
               </span>
             </div>
 
             {/* Step 3 */}
-            <div className="dash-card" style={{ padding: '20px 24px', display: 'flex', alignItems: 'center', gap: '18px' }}>
+            <div className="dash-card workflow-step-card" style={{ padding: '20px 24px', display: 'flex', alignItems: 'center', gap: '18px' }}>
               <div
                 style={{
                   width: '42px',
@@ -1379,7 +1563,7 @@ export function DashboardPreviewPage() {
               >
                 03
               </div>
-              <div style={{ flex: 1 }}>
+              <div style={{ flex: 1, minWidth: 0 }}>
                 <div style={{ fontSize: '16px', fontWeight: 700, color: C.darkTeal, marginBottom: '2px' }}>
                   WhatsApp Notification
                 </div>
@@ -1387,13 +1571,13 @@ export function DashboardPreviewPage() {
                   High-priority brief generated and delivered directly to operations lead via private WhatsApp channel.
                 </div>
               </div>
-              <span style={{ fontSize: '12px', fontWeight: 600, color: C.orange, backgroundColor: C.orangeLight, padding: '4px 10px', borderRadius: '6px' }}>
+              <span className="workflow-badge" style={{ fontSize: '12px', fontWeight: 600, color: C.orange, backgroundColor: C.orangeLight, padding: '4px 10px', borderRadius: '6px' }}>
                 Instant Ping
               </span>
             </div>
 
             {/* Step 4 */}
-            <div className="dash-card" style={{ padding: '20px 24px', display: 'flex', alignItems: 'center', gap: '18px' }}>
+            <div className="dash-card workflow-step-card" style={{ padding: '20px 24px', display: 'flex', alignItems: 'center', gap: '18px' }}>
               <div
                 style={{
                   width: '42px',
@@ -1411,7 +1595,7 @@ export function DashboardPreviewPage() {
               >
                 04
               </div>
-              <div style={{ flex: 1 }}>
+              <div style={{ flex: 1, minWidth: 0 }}>
                 <div style={{ fontSize: '16px', fontWeight: 700, color: C.darkTeal, marginBottom: '2px' }}>
                   Human Approval
                 </div>
@@ -1419,13 +1603,13 @@ export function DashboardPreviewPage() {
                   One-tap button authorization ensures human-in-the-loop governance for all sensitive transactions.
                 </div>
               </div>
-              <span style={{ fontSize: '12px', fontWeight: 600, color: C.primaryTeal, backgroundColor: C.tealLight, padding: '4px 10px', borderRadius: '6px' }}>
+              <span className="workflow-badge" style={{ fontSize: '12px', fontWeight: 600, color: C.primaryTeal, backgroundColor: C.tealLight, padding: '4px 10px', borderRadius: '6px' }}>
                 One-Tap
               </span>
             </div>
 
             {/* Step 5 */}
-            <div className="dash-card" style={{ padding: '20px 24px', display: 'flex', alignItems: 'center', gap: '18px' }}>
+            <div className="dash-card workflow-step-card" style={{ padding: '20px 24px', display: 'flex', alignItems: 'center', gap: '18px' }}>
               <div
                 style={{
                   width: '42px',
@@ -1443,7 +1627,7 @@ export function DashboardPreviewPage() {
               >
                 05
               </div>
-              <div style={{ flex: 1 }}>
+              <div style={{ flex: 1, minWidth: 0 }}>
                 <div style={{ fontSize: '16px', fontWeight: 700, color: C.darkTeal, marginBottom: '2px' }}>
                   Response Sent
                 </div>
@@ -1451,7 +1635,7 @@ export function DashboardPreviewPage() {
                   Customized reply sent from executive's authentic email address and activity logged into HubSpot/Salesforce.
                 </div>
               </div>
-              <span style={{ fontSize: '12px', fontWeight: 700, color: '#0F9D58', backgroundColor: '#E6F4EA', padding: '4px 10px', borderRadius: '6px' }}>
+              <span className="workflow-badge" style={{ fontSize: '12px', fontWeight: 700, color: '#0F9D58', backgroundColor: '#E6F4EA', padding: '4px 10px', borderRadius: '6px' }}>
                 Completed
               </span>
             </div>
@@ -1508,6 +1692,7 @@ export function DashboardPreviewPage() {
         >
           {/* Calendar Header Bar */}
           <div
+            className="calendar-header"
             style={{
               backgroundColor: C.creamDark,
               padding: '16px 24px',
@@ -1531,7 +1716,7 @@ export function DashboardPreviewPage() {
           </div>
 
           {/* Appointments Grid */}
-          <div style={{ padding: '24px', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '18px' }}>
+          <div className="calendar-appt-grid" style={{ padding: '24px', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '18px' }}>
             {APPOINTMENTS.map((apt) => (
               <div
                 key={apt.id}
@@ -1883,6 +2068,7 @@ export function DashboardPreviewPage() {
           </p>
 
           <div
+            className="cta-btn-group"
             style={{
               display: 'flex',
               alignItems: 'center',

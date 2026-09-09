@@ -1,137 +1,233 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
+import ReactDOM from 'react-dom';
 import { NavLink, Link } from 'react-router-dom';
 import { Logo } from '../common/Logo';
 import { Button } from '../common/Button';
 import { publicNavLinks } from '../../data/navigation';
 import { Menu, X, ArrowRight } from 'lucide-react';
 
-export function Navbar() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
+// ─────────────────────────────────────────────────────────────────────────────
+// MOBILE MENU PORTAL
+// Rendered directly into document.body so NO parent stacking context
+// (PublicLayout, header, sections) can ever clip or layer above the menu.
+// ─────────────────────────────────────────────────────────────────────────────
+function MobileMenuPortal({ onClose }) {
+  const panelRef = useRef(null);
 
-  // ── Scroll shadow effect ───────────────────────────────────────────────────
+  // Lock body scroll
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 15);
+    const prev = document.body.style.cssText;
+    document.body.style.overflow  = 'hidden';
+    document.body.style.height    = '100%';
+    return () => {
+      document.body.style.cssText = prev;
     };
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // ── Body scroll lock when mobile menu is open ──────────────────────────────
+  // Close on Escape key
   useEffect(() => {
-    if (mobileMenuOpen) {
-      document.body.style.overflow = 'hidden';
-      document.body.style.touchAction = 'none';
-    } else {
-      document.body.style.overflow = '';
-      document.body.style.touchAction = '';
-    }
-    return () => {
-      document.body.style.overflow = '';
-      document.body.style.touchAction = '';
+    const onKey = (e) => {
+      if (e.key === 'Escape') onClose();
     };
-  }, [mobileMenuOpen]);
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [onClose]);
 
-  const closeMobileMenu = useCallback(() => setMobileMenuOpen(false), []);
+  // Focus trap — move focus into the panel when it opens
+  useEffect(() => {
+    if (panelRef.current) {
+      const firstBtn = panelRef.current.querySelector('button, a');
+      if (firstBtn) firstBtn.focus();
+    }
+  }, []);
 
-  return (
+  const portal = (
     <>
-      {/* ── Global Navbar CSS ─────────────────────────────────────────────── */}
+      {/* ── Backdrop ──────────────────────────────────────────────────────── */}
+      <div
+        onClick={onClose}
+        aria-hidden="true"
+        style={{
+          position:       'fixed',
+          inset:          0,
+          zIndex:         9998,
+          background:     'rgba(0, 0, 0, 0.50)',
+          backdropFilter: 'blur(3px)',
+          WebkitBackdropFilter: 'blur(3px)',
+          animation:      'fpNavBackdrop 0.25s ease-out both',
+        }}
+      />
+
+      {/* ── Slide-in Panel ────────────────────────────────────────────────── */}
+      <div
+        ref={panelRef}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Navigation Menu"
+        style={{
+          position:        'fixed',
+          top:             0,
+          left:            0,
+          right:           0,
+          bottom:          0,
+          zIndex:          9999,
+          display:         'flex',
+          flexDirection:   'column',
+          backgroundColor: '#FDF9F4',   /* SOLID — page never bleeds through */
+          overflowY:       'auto',
+          WebkitOverflowScrolling: 'touch',
+          animation:       'fpNavPanel 0.28s cubic-bezier(0.22, 1, 0.36, 1) both',
+        }}
+      >
+        {/* Panel Header */}
+        <div
+          style={{
+            display:        'flex',
+            alignItems:     'center',
+            justifyContent: 'space-between',
+            height:         '72px',
+            padding:        '0 24px',
+            borderBottom:   '1px solid rgba(111,121,119,0.20)',
+            flexShrink:     0,
+            backgroundColor: '#FDF9F4',
+          }}
+        >
+          <Logo size="md" />
+          <button
+            type="button"
+            onClick={onClose}
+            aria-label="Close Navigation Menu"
+            style={{
+              display:         'flex',
+              alignItems:      'center',
+              justifyContent:  'center',
+              width:           44,
+              height:          44,
+              borderRadius:    8,
+              background:      'none',
+              border:          'none',
+              cursor:          'pointer',
+              color:           '#1c1c19',
+            }}
+          >
+            <X size={22} />
+          </button>
+        </div>
+
+        {/* Nav Links */}
+        <nav
+          style={{
+            flex:            1,
+            padding:         '8px 24px',
+            display:         'flex',
+            flexDirection:   'column',
+            backgroundColor: '#FDF9F4',
+          }}
+        >
+          {publicNavLinks.map((link) => (
+            <NavLink
+              key={link.href}
+              to={link.href}
+              onClick={onClose}
+              style={({ isActive }) => ({
+                display:         'flex',
+                alignItems:      'center',
+                minHeight:       56,
+                fontSize:        '1.125rem',
+                fontFamily:      "'Plus Jakarta Sans', sans-serif",
+                fontWeight:      isActive ? 700 : 600,
+                color:           isActive ? '#01605A' : '#1c1c19',
+                padding:         '0 0',
+                borderBottom:    '1px solid rgba(111,121,119,0.18)',
+                textDecoration:  'none',
+              })}
+            >
+              {link.label}
+            </NavLink>
+          ))}
+        </nav>
+
+        {/* Bottom CTA */}
+        <div
+          style={{
+            padding:         '24px',
+            display:         'flex',
+            flexDirection:   'column',
+            gap:             12,
+            borderTop:       '1px solid rgba(111,121,119,0.20)',
+            flexShrink:      0,
+            backgroundColor: '#FDF9F4',
+          }}
+        >
+          <Button to="/login"      variant="outline"  size="lg" onClick={onClose}>
+            Sign In
+          </Button>
+          <Button to="/book-a-demo" variant="primary" size="lg" iconRight={ArrowRight} onClick={onClose}>
+            Book a Demo
+          </Button>
+        </div>
+      </div>
+
+      {/* ── Keyframe animations injected once ─────────────────────────────── */}
       <style>{`
-        .navbar-backdrop {
-          position: fixed;
-          inset: 0;
-          z-index: 9998;
-          background: rgba(0, 0, 0, 0.45);
-          backdrop-filter: blur(4px);
-          -webkit-backdrop-filter: blur(4px);
-          animation: navBackdropIn 0.2s ease both;
-        }
-        .navbar-mobile-panel {
-          position: fixed;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          z-index: 9999;
-          background-color: var(--color-bg-surface, #fdf9f4);
-          display: flex;
-          flex-direction: column;
-          transform: translateY(-4px);
-          opacity: 0;
-          animation: navPanelIn 0.22s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-          overflow-y: auto;
-          -webkit-overflow-scrolling: touch;
-        }
-        @keyframes navBackdropIn {
+        @keyframes fpNavBackdrop {
           from { opacity: 0; }
           to   { opacity: 1; }
         }
-        @keyframes navPanelIn {
-          from { opacity: 0; transform: translateY(-8px); }
-          to   { opacity: 1; transform: translateY(0);    }
+        @keyframes fpNavPanel {
+          from { opacity: 0; transform: translateX(100%); }
+          to   { opacity: 1; transform: translateX(0);    }
         }
         @media (prefers-reduced-motion: reduce) {
-          .navbar-backdrop,
-          .navbar-mobile-panel {
-            animation: none !important;
-            opacity: 1 !important;
-            transform: none !important;
-          }
-        }
-        .navbar-mobile-link {
-          display: flex;
-          align-items: center;
-          font-size: 1.125rem;
-          font-family: var(--font-display, 'Plus Jakarta Sans', sans-serif);
-          font-weight: 600;
-          color: var(--color-text-primary, #1c1c19);
-          padding: 16px 0;
-          border-bottom: 1px solid var(--color-border-subtle, rgba(190,201,198,0.3));
-          text-decoration: none;
-          min-height: 56px;
-          transition: color 0.15s ease;
-        }
-        .navbar-mobile-link:hover {
-          color: var(--color-teal, #004642);
-        }
-        .navbar-mobile-link:last-child {
-          border-bottom: none;
-        }
-        .navbar-hamburger {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          width: 44px;
-          height: 44px;
-          border-radius: 8px;
-          color: var(--color-text-primary, #1c1c19);
-          cursor: pointer;
-          background: none;
-          border: none;
-          transition: background-color 0.15s ease;
-        }
-        .navbar-hamburger:hover {
-          background-color: rgba(0, 70, 66, 0.06);
+          @keyframes fpNavBackdrop { from { opacity:1; } to { opacity:1; } }
+          @keyframes fpNavPanel    { from { opacity:1; transform:none; } to { opacity:1; transform:none; } }
         }
       `}</style>
+    </>
+  );
 
-      {/* ── Sticky Header Bar ───────────────────────────────────────────────── */}
+  // Mount into document.body — completely outside React's component tree
+  return ReactDOM.createPortal(portal, document.body);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// NAVBAR
+// ─────────────────────────────────────────────────────────────────────────────
+export function Navbar() {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isScrolled,     setIsScrolled]     = useState(false);
+
+  // Scroll shadow effect
+  useEffect(() => {
+    const onScroll = () => setIsScrolled(window.scrollY > 15);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  const openMenu  = useCallback(() => setMobileMenuOpen(true),  []);
+  const closeMenu = useCallback(() => setMobileMenuOpen(false), []);
+
+  return (
+    <>
+      {/* ── Sticky Header ─────────────────────────────────────────────────── */}
       <header
         style={{
-          position: 'sticky',
-          top: 0,
-          zIndex: 100,
-          width: '100%',
-          height: 'var(--header-height)',
-          backgroundColor: isScrolled ? 'rgba(253, 249, 244, 0.96)' : 'rgba(253, 249, 244, 0.82)',
-          backdropFilter: 'blur(16px)',
+          position:         'sticky',
+          top:              0,
+          zIndex:           100,
+          width:            '100%',
+          height:           '72px',
+          backgroundColor:  isScrolled
+            ? 'rgba(253, 249, 244, 0.96)'
+            : 'rgba(253, 249, 244, 0.82)',
+          backdropFilter:   'blur(16px)',
           WebkitBackdropFilter: 'blur(16px)',
-          borderBottom: isScrolled
+          borderBottom:     isScrolled
             ? '1px solid rgba(190, 201, 198, 0.55)'
-            : '1px solid var(--color-border-subtle)',
-          boxShadow: isScrolled ? '0 4px 20px -2px rgba(0, 70, 66, 0.08)' : 'none',
+            : '1px solid rgba(111, 121, 119, 0.20)',
+          boxShadow:        isScrolled
+            ? '0 4px 20px -2px rgba(0, 70, 66, 0.08)'
+            : 'none',
           transition:
             'background-color 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease',
         }}
@@ -139,10 +235,10 @@ export function Navbar() {
         <div
           className="container"
           style={{
-            height: '100%',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
+            height:          '100%',
+            display:         'flex',
+            alignItems:      'center',
+            justifyContent:  'space-between',
           }}
         >
           {/* Brand Logo */}
@@ -151,20 +247,18 @@ export function Navbar() {
           {/* Desktop Navigation */}
           <nav
             className="hidden-mobile"
-            style={{ alignItems: 'center', gap: 'var(--space-8)' }}
+            style={{ alignItems: 'center', gap: '32px' }}
           >
             {publicNavLinks.map((link) => (
               <NavLink
                 key={link.href}
                 to={link.href}
                 style={({ isActive }) => ({
-                  fontSize: '0.875rem',
-                  fontFamily: 'var(--font-display)',
+                  fontSize:   '0.875rem',
+                  fontFamily: "'Plus Jakarta Sans', sans-serif",
                   fontWeight: isActive ? 700 : 500,
-                  color: isActive
-                    ? 'var(--color-teal)'
-                    : 'var(--color-text-secondary)',
-                  transition: 'color var(--transition-fast)',
+                  color:      isActive ? '#01605A' : '#3f4947',
+                  transition: 'color 150ms ease',
                 })}
               >
                 {link.label}
@@ -172,32 +266,45 @@ export function Navbar() {
             ))}
           </nav>
 
-          {/* Desktop Actions */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-4)' }}>
+          {/* Desktop + Mobile Action Row */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
             <Link
               to="/login"
               className="hidden-mobile"
               style={{
-                fontSize: '0.875rem',
-                fontFamily: 'var(--font-display)',
+                fontSize:   '0.875rem',
+                fontFamily: "'Plus Jakarta Sans', sans-serif",
                 fontWeight: 600,
-                color: 'var(--color-text-secondary)',
-                padding: '0 var(--space-3)',
+                color:      '#3f4947',
+                padding:    '0 12px',
               }}
             >
               Sign In
             </Link>
+
             <Button to="/book-a-demo" variant="primary" size="sm" iconRight={ArrowRight}>
               Book a Demo
             </Button>
 
-            {/* Mobile Hamburger Toggle */}
+            {/* Hamburger — mobile only */}
             <button
               type="button"
-              className="visible-mobile-only navbar-hamburger"
-              onClick={() => setMobileMenuOpen(true)}
+              className="visible-mobile-only"
+              onClick={openMenu}
               aria-label="Open Navigation Menu"
               aria-expanded={mobileMenuOpen}
+              style={{
+                display:         'flex',
+                alignItems:      'center',
+                justifyContent:  'center',
+                width:           44,
+                height:          44,
+                borderRadius:    8,
+                background:      'none',
+                border:          'none',
+                cursor:          'pointer',
+                color:           '#1c1c19',
+              }}
             >
               <Menu size={22} />
             </button>
@@ -205,99 +312,8 @@ export function Navbar() {
         </div>
       </header>
 
-      {/* ── Mobile Menu: Backdrop + Full-Screen Panel ─────────────────────── */}
-      {mobileMenuOpen && (
-        <>
-          {/* Backdrop — clicking it closes menu */}
-          <div
-            className="navbar-backdrop visible-mobile-only"
-            aria-hidden="true"
-            onClick={closeMobileMenu}
-          />
-
-          {/* Full-screen slide-down panel */}
-          <div
-            className="navbar-mobile-panel visible-mobile-only"
-            role="dialog"
-            aria-modal="true"
-            aria-label="Navigation Menu"
-          >
-            {/* Panel Header — Logo + Close Button */}
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                padding: '0 var(--space-6)',
-                height: 'var(--header-height)',
-                borderBottom: '1px solid var(--color-border-subtle)',
-                flexShrink: 0,
-              }}
-            >
-              <Logo size="md" />
-              <button
-                type="button"
-                className="navbar-hamburger"
-                onClick={closeMobileMenu}
-                aria-label="Close Navigation Menu"
-              >
-                <X size={22} />
-              </button>
-            </div>
-
-            {/* Nav Links */}
-            <nav
-              style={{
-                flex: 1,
-                padding: '12px var(--space-6) 0',
-                display: 'flex',
-                flexDirection: 'column',
-              }}
-            >
-              {publicNavLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  to={link.href}
-                  className="navbar-mobile-link"
-                  onClick={closeMobileMenu}
-                >
-                  {link.label}
-                </Link>
-              ))}
-            </nav>
-
-            {/* Bottom CTA Buttons */}
-            <div
-              style={{
-                padding: 'var(--space-6)',
-                display: 'flex',
-                flexDirection: 'column',
-                gap: 'var(--space-3)',
-                borderTop: '1px solid var(--color-border-subtle)',
-                flexShrink: 0,
-              }}
-            >
-              <Button
-                to="/login"
-                variant="outline"
-                size="lg"
-                onClick={closeMobileMenu}
-              >
-                Sign In
-              </Button>
-              <Button
-                to="/book-a-demo"
-                variant="primary"
-                size="lg"
-                iconRight={ArrowRight}
-                onClick={closeMobileMenu}
-              >
-                Book a Demo
-              </Button>
-            </div>
-          </div>
-        </>
-      )}
+      {/* Portal-based mobile menu — renders into document.body */}
+      {mobileMenuOpen && <MobileMenuPortal onClose={closeMenu} />}
     </>
   );
 }
